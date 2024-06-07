@@ -1,0 +1,29 @@
+# theme: jekyll-theme-cayman
+# remote_theme: pmarsceill/just-the-docs
+# For GitHub:
+remote_theme: bcole/just-the-docs
+#  For local:
+# theme: "just-the-docs"
+
+title: Intuit API Docs
+description: Documentation for Intuit's APIs
+
+aux_links:
+  "These capabilities are part of a closed beta program and are not publicly available":
+    - "//help.developer.intuit.com"
+
+# Makes Aux links open in a new tab. Default is false
+aux_links_new_tab: true  
+
+permalink: pretty
+
+gh_edit_link: true
+gh_edit_link_text: "Edit this page on GitHub."
+gh_edit_repository: "https://github.com/IntuitDeveloper/intuit-api-docs"
+gh_edit_branch: "gh-pages"
+gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
+
+back_to_top: false
+back_to_top_text: "Back to top"
+
+footer_content: "&copy; 2021 Intuit Inc. All rights reserved. Intuit and QuickBooks are registered trademarks of Intuit Inc. Terms and conditions, features, support, pricing, and service options subject to change without notice."
