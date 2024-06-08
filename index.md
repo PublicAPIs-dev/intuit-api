@@ -14,7 +14,7 @@ The API offers several advantages over our existing [REST-based QuickBooks Onlin
 
 ## Get Started
 
-The below tracks can help you get started using Intuit's Ecosystem API:
+The below tracks can help you get started using Intuit's API:
 
 - [Set up and start developing](./docs/getting-started)
 - [Learn about about GraphQL](./docs/graphql-concepts)
