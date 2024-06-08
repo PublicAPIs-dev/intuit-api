@@ -15,18 +15,23 @@ Server responses are clean, specific, and easy to work with. This also boosts ap
 
 ## How to create queries
 
-For Intuit Ecosystem API, use queries to get data for accounts, transactions, and other resources. Specify the exact fields you want the server to return in the query body.
+For Intuit API, use queries to get data for projects, custome fields, and other resources. Specify the exact fields you want the server to return in the query body.
  
-Here's a simple query to get company information:
+Here's a simple query to read project by id:
 
 ```
-query getCompanyName {
-  company {
-    companyName
-    companyType
+query projectManagementProject($id: ID!) {
+  projectManagementProject(id: $id) {
+    name,
+    status
   }
 }
+
+Input variable:
+{
+    "id" : 123
+}
 ```
-The server will return values for the `companyName` and `companyType` fields. 
+The server will return values for the `name` and `status` fields of all the projects in a company. 
 
 Learn more about queries [from GraphQL.org](https://graphql.org/learn/queries/). 

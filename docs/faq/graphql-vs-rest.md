@@ -46,9 +46,7 @@ In REST, schema updates may be notified to end-users via webhooks or release not
 
 In the Accounting API, when you query for records, each record comes with an ID, which is unique only within that entity. So you may have an Invoice with ID 123 and a Payment with ID 123.
 
-  
-
-The Ecosystem API has global IDs. Each entity returned in response has an ID that is unique across all entities.
+The ID's returned by the Intuit API are interoperable with the Accounting Rest API.
 
 ### Error response
 
@@ -56,7 +54,7 @@ The Accounting API returns HTTP status codes like 4** or 5** to indicate differe
 
   
 
-The Ecosystem API handles errors differently. Errors related to the API gateway later will return status codes 4** or 5**, but API errors will return HTTP status code 200 and provide all of the necessary information within the response body. Refer to [this section](../../graphql-concepts/error-handling-best-practices) for more details.
+The GraphQL API handles errors differently. Errors related to the API gateway later will return status codes 4** or 5**, but API errors will return HTTP status code 200 and provide all of the necessary information within the response body. Refer to [this section](../../graphql-concepts/error-handling-best-practices) for more details.
 
 ### Operations
 
@@ -66,7 +64,7 @@ Let’s take a deeper dive into some common operations like create, read, update
 
   
 
-In all of the snippets below you will see that in the Accounting API (REST), the response will be the object with all of the fields. In the Ecosystem API GraphQL API, however, you can specify which fields you want and only those fields are a part of the response.
+In all of the snippets below you will see that in the Accounting API (REST), the response will be the object with all of the fields. In the GraphQL API, however, you can specify which fields you want and only those fields are a part of the response.
 
   
 
@@ -157,202 +155,5 @@ Response:
 }
 ```
 
-### Read an invoice and get the payment type of the linked payment
 
-### REST
-Request 1
-GET `/v3/company/<realmID>/invoice/101`
-```
-Response 1
-{
-	"Invoice": {
-		"Id": "101",
-		"DocNumber": "1069",
-		"LinkedTxn": {
-			"TxnType": "Payment",
-			"TxnId": "801"
-		}
-	... other fields ...
-}
-```
-
-Request 2
-GET `/v3/company/<realmID>/payment/801`
-
-Response 2
-```
-{
-	"Payment": {
-		"Id": "801",
-		"PaymentType": "CreditCard",
-	... other fields ...
-}
-```
-
-### GraphQL
-Request
-POST `<graphBaseURL>/v1`
-```
-query getPaymentInfo  {
-	invoices (id : 1) {
-		docNumber
-		payments {
-			paymentType
-    }
-}
-```
-Response
-```
-{
-	docNumber: "101",
-	payments{
-		paymentType: "Credit Card"
-	}
-}
-```
-### Update an existing invoice
-
-### REST
-Request
-POST `<baseUrl>/v3/company/<realmID>/invoice`
-```
-{
-  "SyncToken": "0", 
-  "Id": "101", 
-  "sparse": true, 
-  "DueDate": "2020-09-30"
-}
-```
-
-Response
-```
-{
-  "Invoice": {
-    "Id": "238", 
-    "SyncToken": "1", 
-    "DocNumber": "1069",
-    "DueDate": "2020-09-30",
-    "Line": [
-      {
-... other fields ... 
-      }
-    ], 
-	... other fields ... 
-}
-```
-### GraphQL
-Request
-POST `<graphBaseURL>/v1`
-```
-mutation Update($id: ID!) {
-  updateInvoice(id: $id, dueDate: "2020-09-30") {
-    id
-    dueDate
-  }
-}
-```
-Response:
-```
-{
-	id: 1,
-	dueDate: "2020-09-30"
-}
-```
-
-### Delete an invoice
-
-### REST
-Request
-POST `<baseUrl>/v3/company/<realmID>/invoice?operation=delete`
-```
-{ 
-  "Id": "239",
-  "SyncToken":"3"
-}
-```
-
-Response
-```
-{
- "Invoice": {
-  "domain": "QBO",
-  "status": "Deleted",
-  "Id": "239"
- }
-}
-```
-
-### GraphQL
-Request
-POST `<graphBaseURL>/v1`
-```
-mutation Delete($id: ID!) {
-  deleteInvoice(id: $id) {
-    status
-  }
-}
-```
-Response
-```
-{
-status: "void"
-}
-```
-### Query invoices
-A common operation is to query invoices based on certain filters. Let’s say we want to get all invoices created within a date range. 
-
-### REST
-Request
-`GET <baseUrl>/v3/company/<realmID>/query?query=select * from Invoice where 
-TxnDate>'2020-01-18' and TxnDate<'2020-01-18' `
-
-Response
-```
-{
-	"QueryResponse": {
-		"Invoice": [
-			{
-				"Id": "201",
-				... other fields ... 
-			},
-			{
-				"Id": "202",
-				... other fields ... 
-			},
-			... more records ... 
-		]
-	}
-}
-```
-
-### GraphQL
-Request
-```
-query getInvoices() {
-  invoice(filter: {txnDate: {between: ['2020-01-18' , '2020-01-18' ]}}) {
-    id
-    status
-    balance
-  }
-}
-```
-Response
-```
-{
-	"data": {
-		"invoice": [
-			{
-				"id": "101",
-				"status": "Paid",
-				"balance": 0
-			},
-			{
-				... more records ... 
-			},
-			... more records ... 
-		]
-	}
-}
-```
-
-The above are only illustrative examples. To get a full list of operations and resources available in the Ecosystem API, use the introspection query or our API reference docs here. You can also refer to our collections for Insomnia and Postman [here](https://github.com/IntuitDeveloper/HelloWorld_GlobalEcosystemAPI_Samples_Collections/tree/master/Collections). 
+The above are only illustrative examples. To get a full list of operations and resources available in the Grapqh API, use the API reference docs [here](). You can also refer to our collections for Insomnia and Postman [here](). 

@@ -28,13 +28,7 @@ Take the time to properly log your app development process. It saves time in the
 </tr>
 </table>
 
-### Rely on Global Object IDs for standardization
 
-GraphQL servers expose object IDs in a standardized way. These are knwon as [Global Object IDs](https://graphql.org/learn/global-object-identification/). This makes handling caching and refetching data easier. 
-
-Query the node field on the root query object (i.e. the field at the root of an object). The value of the `id` field in the server response is the Global Object ID. 
-
-**Note**: Global Object IDs aren't currently supported for the payslips.
 
 ### Use aliases to query the same field with different arguments
 
@@ -57,13 +51,12 @@ Instead of querying frequently used fields individually, [create and reuse fragm
 ## Intuit API best practices
 
 ### Learn about API throttling
-We're manually setting limits for partners during the beta phase. Currently, the limit is 500 requests/sec.
+
+**Note**: We'll have more details around throttling in the future.
+
+
 
 ### Keep up with the latest version of Intuit API
-
-The Intuit API base URL is versioned for schema updates. Meaning, the base URL updates each time the schema changes. 
-
-We'll release notes about updates when they become available. Update your apps to the latest version to get the latest enhancements with each new version.
 
 **Note**: We'll have more details around versioning in the future.
 

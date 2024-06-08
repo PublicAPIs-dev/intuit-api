@@ -17,14 +17,14 @@ Insomnia lets you keep collections of sample GraphQL queries you can use over an
  
 ## Step 1: Set up your app in the Intuit Developer Portal
 
-If you haven't already, [get a QuickBooks Online sandbox company](../authentication/) for testing, [create your app](../authentication/), and get your sandbox company's [**Client ID** and **Client Secret**](../authentication/).
+If you haven't already, [get a QuickBooks Online company](../authentication/) for testing, [create your app](../authentication/), and get your app's [**Client ID** and **Client Secret**](../authentication/).
 
 ## Step 2: Add the Insomnia redirect URI
 
 1. [Sign in](https://developer.intuit.com/app/developer/myapps) to your developer account.
 2. Select the **Dashboard** link on the toolbar. 
 3. Select and open your app. 
-4. In the **Development** section, select **Keys & OAuth**.
+4. In the **Production Settings** section, select **Keys & credentials**.
 5. In the **Redirect URIs** section, select **Add URI**. 
 5. Enter the insomnia redirect URI: **https://insomnia.rest**. 
  
@@ -41,7 +41,7 @@ If you haven't already, [get a QuickBooks Online sandbox company](../authenticat
 "ClientId": "[Your app's ClientID]",
 "ClientSecret": "[Your app's ClientSecret]",
 "RedirectUrl": "https://insomnia.rest",
-"url": "https://public.api.intuit.com/2020-04/graphql"
+"url": "https://qb.api.intuit.com/graphql"
 }
 ```
 This configures and connects Insomnia to your app and Intuit API. 
@@ -54,17 +54,9 @@ This configures and connects Insomnia to your app and Intuit API.
 5. Select **GraphQL query** as the query type.
 6. Select **Create**. 
 
-This opens a query window. Use this basic test query to get `company` data for your [sandbox test company](https://developer.intuit.com/app/developer/qbo/docs/develop/sandboxes/manage-your-sandboxes):
+This opens a query window. Use the sample queries from the [Schema Entities](../../schema-entities/) folder to test get data for your test company.
 
-```
-query company {
-  company {
-    id
-    legalName
-    industryType	
-  }
-}
-```
+
 
 ## Step 5: Configure authorization variables Insomnia
 In the query window, set the OAuth2.0 environment variables: 
@@ -84,6 +76,6 @@ In the query window, set the OAuth2.0 environment variables:
 
 Everything is ready to go. Select **Send** to send the test query. 
 
-The first time you send a query, Insomnia will ask you to sign in to your sandbox QuickBooks Online company. Follow the on-screen steps to connect them.
+The first time you send a query, Insomnia will ask you to sign in to your QuickBooks Online company. Follow the on-screen steps to connect them.
 
 You'll see access tokens in the **OAuth 2.0** tab. Use these to test code and queries in Insomnia.

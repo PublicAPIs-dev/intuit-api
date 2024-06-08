@@ -45,7 +45,7 @@ In the server response, review the following fields:
 * `code` - Tells you what went wrong
 * `detail` - Tells you what to fix
 
-Many gateway errors are self-explanatory. Some require a bit more digging. For 403 errors, you may need to [adjust code for user roles](../../use-cases/user-role/). For 401 errors, you may need to [update your app's access or refresh tokens](https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0). 
+Many gateway errors are self-explanatory. Some require a bit more digging. For 401 errors, you may need to [update your app's access or refresh tokens](https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0). 
 
 #### See all gateway errors
 ```
@@ -63,7 +63,7 @@ Status code - Error details
 
 ```
 
-### Fix ecosystem errors
+### Fix service errors
 Service errors are generated when requests hit our server's service layer.
 
 Service errors only apply to a subset of requests, not the entire request. Responses follow the standard GraphQL service format.
@@ -80,96 +80,29 @@ Here's an example of an HTTP status code 400:
 ```
 {
   "errors": [
-	{
-  	"message": "Syntax error. Unable to parse incoming request",
-  	"locations": [
-    	{
-      	"line": 4,
-      	"column": 1
-    	}
-  	],
-  	"extensions": {
-    	"code": "VAL-0100",
-    	"innerCode": "GRAPHQL_PARSE_FAILED",
-    	"innerMessage": "Syntax Error: Expected Name, found }",
-    	"classification": "VALIDATION_ERROR"
-  	}
-	}
-  ]
-}
-```
-
-Here's an example of an HTTP status code 200:
-
-```
-{
-  "errors": [
-	{
-  	"message": "Authorization error is detected for this request. Do you have sufficient scope?",
-  	"extensions": {
-    	"classification": "AUTHORIZATION",
-    	"innerMessage": "Access denied; Insufficient Scope",
-    	"code": "AHZ-0010"
-  	}
-	}
-  ]
-}
-```
-Here's an example validation error:
-```
-"errors": [
     {
-      "message":  "VAL-0001 Failed to fetch name for account with id#1",
-      "locations": [ { "line": 6, "column": 7 } ],
-     "path": [ "company", "account", 1, "name" ]
-    "extensions": {
-        "classification": "VALIDATION_ERROR"
+      "message": "cannot query field 'offset' on type 'Common_PageInfo!'",
+      "extensions": {
+        "type": "Common_PageInfo!",
+        "field": "offset",
+        "code": "INVALID_FIELD"
       }
     }
   ]
+}
+
+```
+
+
+Here's an example validation error:
+```
+
 ```
 Review the server response and use it as a guide. Each field gives clues for what failed, where, and how to fix it: 
 
 * **Message** — Description of the error.
-* **Locations** — Where the error happened in the request.
-* **Path** — How to get to the field that caused the error. It's possible to only have one path. Paths follow this format: root object, node, line num, exact field name within the node.
 * **Extensions** — Additional info and error codes:
-  * **Code** - Specific error code.
-  * **Classification** — Broad error category. 
+  * **code** - Specific error code.
+  * **field** — Field that has the error. 
+  * **type** — Entity that has the error. 
 
-Then take a closer look at the value of `code` of the `extensions` field. It follows the format **XXX-1234**. 
-
-The first 3 letters of the code indicate the error type. 
-
-|Code|Type|Description|
-|---|---|---|
-|Val|Validation Error|All syntactic (incorrect payload, format), semantic errors, missing data|
-|AHZ|Authorization Error|All syntactic (incorrect payload, format), semantic errors, missing dataUser-level, app-level and system level authorization and insufficient scope|
-|SYS|System Error|A known error produced by ecosystem components including authentication errors from downstream related to scopes|
-|OTH|Other Error|All other unexpected errors|
-
-The following 4 digits identify the source of the error from the underlying services.
-
-<table>
-<tr>
-<td><Strong>Note</strong>: You may also see additional Extensions.innerCode and Extensions.innerMessage fields. 
-<ul>
-<li>Extensions.innerCode — Internal unique identifier returned by downstream services (Example: PAY-000008 - payroll). </li>
-<li>Extensions.innerMessage — Original internal message from downstream services. </li>  
-</ul>
-</td>
-</tr>
-</table>
-
-## Get additional help 
-
-Need more support? You can [connect with other developers on our community forum](https://help.developer.intuit.com/s/). Or, you can [reach out to our team](https://help.developer.intuit.com/s/contactsupport) and we'll help you get back to developing.
-
-Please give the support team the following:
-
-* Company ID/Realm ID
-* GraphQL request and response
-* intuit_tid header value from the response header
-* extensions.code
-* extensions.innerCode
-* extensions.innerMessage

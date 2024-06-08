@@ -15,22 +15,12 @@ While it's possible to create and update data with queries in GraphQL, it's best
 
 ## How to use mutations 
 
-For Intuit Ecosystem API, you'll use mutations often for things like transactions and invoices. 
+For Intuit API, you'll use mutations often for things like timesheets, projects and custom fields. 
 
-Here's a simple mutation to create an employer deduction:
+Here's a simple mutation to create a project:
 
 ```
-mutation {
-  createEmployerDeduction (
-    deduction: {
-      name: "My plan deduction"
-      statutoryDeductionPolicy: "Annual max is 10k"
-    }
-  ) {
-    id
-    name
-  }
-}
+
 ```
 Mutations typically take input data and define fields based on the response the server returns. 
 

@@ -24,11 +24,10 @@ If you're new, check out these resources so you can develop with confidence:
 
 Go to the Intuit Developer Portal and [create a developer account](https://developer.intuit.com/app/developer/myapps). 
 
-## Step 3: Create a sandbox  company
+## Step 3: Set up your QuickBooks Online test company
 
-If you don't have one already, create a sandbox QuickBooks Online company to test code as you develop. 
- 
-Your test company may need specific features. Will your app use Payroll data? Or fetch payment info? Reach out to your Intuit point of contact so we can get you these features.
+If you don't have one already, reach out to your Intuit point of contact so we can provide you with a test company to test code as you develop. 
+Your test company may need specific features depending on the usecase that you are solving for.
 
 ## Step 4: Create your app on the Intuit Developer Portal
 
