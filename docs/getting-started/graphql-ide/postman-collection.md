@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Insomnia
+title: Postman Collection
 nav_order: 3
 parent: Testing
 grand_parent: Getting Started

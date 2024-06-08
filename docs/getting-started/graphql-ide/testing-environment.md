@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Insomnia
+title: Testing Environment
 nav_order: 2
 parent: Testing
 grand_parent: Getting Started
