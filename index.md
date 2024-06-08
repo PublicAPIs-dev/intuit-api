@@ -6,7 +6,7 @@ description: "Documentation for Intuit APIs"
 permalink: /
 ---
 
-# Welcome to Intuit Ecosystem API
+# Welcome to Intuit API
 
 Intuit API is our newest platform. It utilizes the [GraphQL framework](https://graphql.org/) and makes developing focused solutions around specific accounting problems easier than ever.
 
@@ -14,7 +14,7 @@ Intuit API offers several advantages over our existing [REST-based QuickBooks On
 
 ## Get Started
 
-The below tracks can help you get started using Intuit's Ecosystem API:
+The below tracks can help you get started using Intuit's API:
 
 - [Set up and start developing](./docs/getting-started)
 - [Learn about about GraphQL](./docs/graphql-concepts)

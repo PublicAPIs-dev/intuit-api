@@ -1,7 +1,7 @@
 # theme: jekyll-theme-cayman
 # remote_theme: pmarsceill/just-the-docs
 # For GitHub:
-remote_theme: bcole/just-the-docs
+remote_theme: sethu/just-the-docs
 #  For local:
 # theme: "just-the-docs"
 
@@ -9,7 +9,7 @@ title: Intuit API Docs
 description: Documentation for Intuit's APIs
 
 aux_links:
-  "These capabilities are part of a closed beta program and are not publicly available":
+  "These capabilities are part of a closed alpha program and are not publicly available":
     - "//help.developer.intuit.com"
 
 # Makes Aux links open in a new tab. Default is false
@@ -19,7 +19,7 @@ permalink: pretty
 
 gh_edit_link: true
 gh_edit_link_text: "Edit this page on GitHub."
-gh_edit_repository: "https://github.com/IntuitDeveloper/intuit-api-docs"
+gh_edit_repository: "https://github.com/IntuitDeveloper/intuit-api"
 gh_edit_branch: "gh-pages"
 gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
 
