@@ -72,7 +72,7 @@ Note: Use tokens generated using scopes mentioned above in the authorization hea
 
 
 #### Use Case 1: Read Custom Fields Definitions
-The output would list the custom fields that’s being set up in the company along with data types and the entities it’s for.
+Use GraphQL API to read Custom Fields Definitions. The output would list the custom fields that’s being set up in the company along with data types and the entities it’s for.
 
 
 ```
@@ -81,6 +81,7 @@ The output would list the custom fields that’s being set up in the company alo
 
 
 #### Use Case 2: Create Custom Fields Definitions
+Use GraphQL API to create Custom Fields Definitions. 
 
 
 ```
@@ -88,6 +89,7 @@ The output would list the custom fields that’s being set up in the company alo
 ```
 
 #### Use Case 3: Update Custom Fields Definitions
+Use GraphQL API to update Custom Fields Definitions. 
 
 
 ```
@@ -98,12 +100,12 @@ The output would list the custom fields that’s being set up in the company alo
 #### Use Case 4: Create transactions with custom fields
 
 
-##### Step 1: Create or read custom field definition.
+##### Step 1: Create or read custom field definition using GrapqhQL API
 ```
 
 ```
 
-##### Step 2: Create invoice with custom fields
+##### Step 2: V3 Accounting Rest API to create invoice with custom fields
 
 ```
 
@@ -112,12 +114,12 @@ The output would list the custom fields that’s being set up in the company alo
 #### Use Case 5: Create entity with custom fields
 
 
-##### Step 1: Create or read custom field definition.
+##### Step 1: Create or read custom field definition using GrapqhQL API
 ```
 
 ```
 
-##### Step 2: Create customer with custom fields
+##### Step 2: V3 Accounting Rest API to create customer with custom fields
 
 ```
 

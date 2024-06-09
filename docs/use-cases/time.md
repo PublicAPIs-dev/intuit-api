@@ -7,1426 +7,168 @@ parent: Use Cases
 
 ## Time
 
-The APIs related to the Time entity allow you to create and manage time entries.
-The Time API provides support for create, read, update, delete, and recover operations.
-You can also add transactions to your project by configuring the ID for the project while creating the transaction.
+The APIs related to the Time entity allow you to track time for employees and contractors inclusive of PayItems (Paytypes).
+The Time API provides support for create, read and update operations.
+You can also link the Time entries to a project within QuickBooks by configuring the ID for the project while creating the time entries.
 
 This page outlines - 
-- The Create/Read/Update/Delete/Recover operations for Time.
+- The Create operation for tracking time for an employee with PayType
+- The Create operation for tracking time for an employee with PayType and linking it to a Project
+- The Create operation for tracking time for a contractor
 
-Currently, we have added support to a few transactions so that you can configure a project ID. 
-This will allow you to read back information about the project to which this transaction belongs to (if any).
-These include a few transactions like - 
 
-- Supported sales Transactions for your customers -
-    - Invoice
-    - Invoice payment
-    - Estimate
-   
-- Supported purchase transactions for your vendors -     
-    - Bill
-    - Expense
-    - Purchase order
-    
-- Other transactions like - 
-    - Journal entry
-    - Bank deposit
-    - Delayed credit
-    - Delayed charge
+### Integration Diagram
 
-### Operations for Project entity
+![](/intuit-api/assets/images/Time.png)
+
+
+### Operations for Time entity
 
 - Read - Query (POST)
 - Create - Mutation (POST)
 - Update - Mutation (POST)
-- Delete - Mutation (POST)
-- Recover - Mutation (POST)
+
+
+### Scopes
+
+-   payroll.compensation.read : Allows access to read Pay types (i.e. compensation) [Compensation data can only be queried for customers using QuickBooks Payroll]
+-   project-management.project : Allows access to read and write projects data
+-   time-tracking.time-entry : Allows access to read and write timesheet data
+-   time-tracking.time-entry.read : Allows access to read timesheet data
+-   com.intuit.quickbooks.accounting: For V3 Accounting REST API access [For Read only use cases]
+
 
 ### Endpoints
 
--   For production apps:  https://qb.api.intuit.com/graphql
--   For sandbox environments and testing: NA
-
-### Sample query header
-
--   Content-type: **application/json**
--   Use the time scope **[time-tracking.time-entry]** for the authorization header for mutations for project.
-    This includes createProject, updateProject, deleteProject, recoverProject.
--   Use the accounting scope **[com.intuit.quickbooks.accounting]** in the authorization header for all other calls shown here.
- 
-### Sample query body
-
-Do an [introspection query](../../graphql-concepts/introspection) to see the current schema for the Time entity.
-Here's an example query using every possible field. Remember, with GraphQL you only need to query for the data you need:
-
-Sample query (Fetch all Time Entries):
-
-```
-query getTimeEntries {
-  timeTrackingTimeEntries(
-    after: null
-    filter: { dateRange: { beginDate: "2024-05-02", endDate: "2024-05-30" } }
-  ) {
-    edges {
-      node {
-        __typename
-        id
-        meta {
-          updatedAt
-        }
-        timeFor {
-          ... on WorkerManagement_Employee {
-            __typename
-            id
-          }
-          ... on Commerce_Vendor {
-            __typename
-            id
-          }
-        }
-        timeAgainst {
-          __typename
-          ... on CustomerLifeCycle_Customer {
-            id
-          }
-          ... on ProjectManagement_Project {
-            id
-          }
-        }
-        entryMethod
-        startDate
-        duration
-        timezone
-        notes
-        attachedFileCount {
-          attachmentCount
-          signatureCount
-        }
-        employeeCompensation {
-          id
-        }
-        billable
-        classValue {
-          __typename
-          id
-        }
-        serviceItem {
-          id
-        }
-        state
-        locked
-        lockedReasons
-      }
-    }
-    pageInfo {
-      endCursor
-    }
-  }
-}
-```
-
-Response:
-``` 
+-   GraphQL API:  https://qb.api.intuit.com/graphql 
+-   V3 Accounting REST API: https://quickbooks.api.intuit.com/v3/company/{{realmid}}/entityname/ 
 
 
-```
-
-### Filter support:
-
-Currently, the filters supported on projects include - 
-- `id` - ID for the project.
-- `customerId` - ID of the customer, for whom you are creating the project. 
-- `status` - Status of the project. Supported values include TODO, OPEN, IN_PROGRESS, COMPLETE, BLOCKED, CANCELLED, DELETED.
-- `and` - Combine multiple  filter fields listed above for a GraphQL AND filter.
-- `or` - Combine multiple filter fields listed above for a GraphQL OR filter.
-
-You can create a joint filter by including more than one filterable field.
-
-For ex, to read all the projects which have status = 'IN_PROGRESS' for the customer with customerId = 'djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1', you can execute the following query - 
-
-Sample query with filters:
-
-```
-query fetchProjects {
-  company {
-    projects (
-      filter : {
-        and : [{ 
-          customerId : {equals : "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1"}},
-          { status : {equals : IN_PROGRESS}
-        }]
-      }
-    ){
-      nodes {
-        id
-        name
-        status
-        active
-        customer {
-          id
-          firstName
-          lastName
-          displayName
-          phone
-        }
-        description
-        completedDate
-      }
-    }
-  }
-}
-``` 
-
-Response:
-
-```
-{
-  "data": {
-    "company": {
-      "projects": [
-        {
-          "nodes": [
-            {
-              "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27063631",
-              "name": "New project",
-              "status": "IN_PROGRESS",
-              "active": true,
-              "customer": {
-                "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-                "firstName": "Alisha",
-                "lastName": "Kamat",
-                "displayName": "Alisha Kamat",
-                "phone": "(123) 456-7890"
-              },
-              "description": "test description",
-              "completedDate": null
-            }
-          ]
-        }
-      ]
-    }
-  }
-}
-```
-
-Similarly, you can implement an OR filter.
-
-### Create mutation
- 
-Mutation:
- 
-```
-mutation createProject($input_0: CreateProjectInput!) {
-  createProject(project: $input_0) {
-    id
-    name
-    description
-    completedDate
-    status
-    customer {
-      id
-      displayName  
-      firstName
-      lastName
-    }
-  }
-}
-```
-
-Required fields:
-- name: Name for the project
-- description: Short description for the project's purpose
-- customer.id: ID for the customer for whom you are creating this project
-  
-Sample Variables: 
-``` 
-{
-	"input_0": {
-		"name": "MyProject",
-		"description": "My project to track progress for a customer",
-		"customer": {
-			"id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1"
-		}
-	}
-}
-```    
-
-Sample response:
-
-```
-{
-  "data": {
-    "createProject": {
-      "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27462404",
-      "name": "MyProject",
-      "description": "My project to track progress for a customer",
-      "completedDate": null,
-      "status": "IN_PROGRESS",
-      "customer": {
-        "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-        "displayName": "Alisha Kamat",
-        "firstName": "Alisha",
-        "lastName": "Kamat"
-      }
-    }
-  }
-}
-```
-
-### Update mutation
-
-Mutation:
-
-``` 
-mutation updateProject($input_0: UpdateProjectInput!) {
-  updateProject(project: $input_0) {
-    id
-    name
-    description
-    completedDate
-    status
-    active
-    customer {
-      id
-      displayName
-    }
-  }
-}
-```
-
-Required fields:
-- id: ID of an existing project
-
-Variables:
-
-```
-{
-	"input_0": {
-		"id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27011655",
-		"description": "completed Project",
-		"status": "COMPLETE"
-	}
-}
-```
-
-Response:
-
-```
-{
-  "data": {
-    "updateProject": {
-      "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27011655",
-      "name": "MyProject",
-      "description": "My project to track progress for a customer",
-      "completedDate": "2021-07-21T00:09:46.546Z",
-      "status": "COMPLETE",
-      "active": true,
-      "customer": {
-        "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-        "displayName": "Alisha Kamat"
-      }
-    }
-  }
-}
-```
-
-### Delete Mutation
-
-The deleteProjects mutation takes in the ID for the project, and returns the project with active = "false".
-
-Mutation:
-``` 
-mutation deleteProject($id: ID!) {
-  deleteProject(id: $id) {
-    id
-    name
-    description
-    completedDate
-    active
-    status
-    customer {
-      id
-      displayName    
-    }
-  } 
-}
-```
-
-Required fields:
-- id: ID of an existing project
-
-Variables:
-``` 
-{
-	"id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27462404"
-}
-```
-
-Response:
-
-```
-{
-  "data": {
-    "deleteProject": {
-      "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27462404",
-      "name":"MyProject",
-      "description": "My project to track progress for a customer",
-      "completedDate": null,
-      "active": false,
-      "status": "IN_PROGRESS",
-      "customer": {
-        "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-        "displayName": "Alisha Kamat"
-      }
-    }
-  }
-}
-```
-
-
-### Recover Mutation
-
-The recoverProject mutation takes in the ID for the project, and returns the project with active = "true".
-This mutation is helpful in recovering a project that was previously deleted.
-
-Mutation:
-``` 
-mutation recoverProject($id: ID!) {
-  recoverProject(id: $id) {
-    id
-    name
-    description
-    completedDate
-    active
-    status
-    customer {
-      id
-      displayName    
-    }
-  } 
-}
-```
-
-Required fields:
-- id: ID of an existing project
-
-Variables:
-``` 
-{
-  "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27462404"
-}
-```
-
-Response:
-
-```
-{
-  "data": {
-    "recoverProject": {
-      "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27462404",
-      "name":"MyProject",
-      "description": "My project to track progress for a customer",
-      "completedDate": null,
-      "active": true,
-      "status": "IN_PROGRESS",
-      "customer": {
-        "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-        "displayName": "Alisha Kamat"
-      }
-    }
-  }
-}
-```
-
-### Operations for Invoice
-- Create - Mutation (POST)
-    - Create an Invoice for a Project 
-- Read - Query (POST)
-    - Fetch an Invoice with the details of the Project associated with the Invoice
-- Update - Mutation (POST)
-    - Update an Invoice created for a Project
-- Delete - Mutation (POST)
-    - Delete an Invoice
-
-Note: This document shows limited fields from Invoice transaction. For the entire object, please refer to the [Invoice usecase document](./invoice.md)
-
-### Endpoints
-
--   For production apps:  https://public.api.intuit.com/2020-04/graphql
--   For sandbox environments and testing: https://public-e2e.api.intuit.com/2020-04/graphql
-
-### Sample header
+### Required headers
 
 -   Content-type: **application/json**
-
-### Create an Invoice (Mutation)
-
-Note: The create/update transaction can accept a project ID along with a customer ID.
-For a creating a transaction/line item for a project, the customer ID can be -
- - Left blank (ideal scenario)
- - Filled with the customer ID of the customer associated with the project.
+-   Authorization: **Bearer access_token**
+Note: Use tokens generated using scopes mentioned above in the authorization header for all other calls shown here.
  
-Sample mutation:
-```
-mutation createinvoice($input: CreateInvoiceInput!) {
-  createInvoice(invoice: $input) {
-    id
-    metadata {
-      entityVersion
-    }
-    amount
-    customer {
-      id
-      displayName
-    }
-    project {
-      id
-      name
-      active
-      completedDate
-      customer {
-        id
-        displayName
-      }
-      description
-      status
-    }    
-    itemLines {
-      sequence
-      description
-      amount
-      quantity
-      item {
-        id
-        name
-        sku
-        active            
-        salesDetails {
-          description
-          incomeAccount {
-            id
-            name
-            fullyQualifiedName
-          }
-          price
-        }
-      }  
-      unitPrice
-      account {
-        id
-        name
-        fullyQualifiedName
-      }
-    }
-  }
-}
-```
-Sample variables:
-```
-{
-  "input": {
-    "project": {
-	  "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27462404"
-	},		
-	"itemLines": [
-	  {	
-		"description": "some text",
-		"amount": 250,
-		"quantity": 5,
-		"class": null,
-		"item": {
-		  "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjExMmRlNzQ2OTk:4"
-		},
-		"serviceDate": "2021-09-09",
-		"unitPrice": 50,
-		"account": {
-		  "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjUxY2VkODUzNmM:5"
-		}
-	  }
-	]
-  }
-}
-```
+### Use Cases
 
-Sample response:
-```
-{
-  "data": {
-    "createInvoice": {
-      "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjgwMjcxZWRkOGE:31",
-      "metadata": {
-        "entityVersion": "0"
-      },
-      "amount": 250,       
-      "customer": {
-        "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-        "displayName": "Alisha Kamat"
-      },      
-      "project": {
-        "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27462404",
-        "name": "MyProject",
-        "active": true,
-        "completedDate": null,
-        "customer": {
-          "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-          "displayName": "Alisha Kamat"
-        },
-        "description": "My project to track progress for a customer",
-        "status": "IN_PROGRESS"
-      },      
-      "itemLines": [
-        {
-          "sequence": "1",
-          "description": "some text",
-          "amount": 250,
-          "quantity": 5,
-          "item": {
-            "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjExMmRlNzQ2OTk:4",
-            "name": "Test service",
-            "sku": "Some SKU",
-            "active": true,
-            "salesDetails": {
-              "description": null,
-              "incomeAccount": {
-                "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjUxY2VkODUzNmM:5",
-                "name": "Services",
-                "fullyQualifiedName": "Services"
-              },
-              "price": 50
-            }
-          },
-          "unitPrice": 50,
-          "account": {
-            "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjUxY2VkODUzNmM:5",
-            "name": "Services",
-            "fullyQualifiedName": null
-          }
-        }
-      ],
-    }
-  }
-}
-```
+Pre-check: 
+- Query the QuickBooks company preferences by using V3 Accounting REST Preferences API and check for Preferences->OtherPrefs->NameValue> to identify if projects are supported for the company. Check if NameValue `ProjectsEnabled` is true.
 
-### Read an Invoice (Query)
-Sample query:
-```
-query fetchInvoice($id: String!) {
-  company {
-    invoices(filter: {id: {equals: $id}}) {
-      nodes {
-        id
-        metadata {
-          entityVersion
-        }
-        amount
-        customer {
-          id
-          displayName         
-        }
-        project {
-          id
-          name
-          active
-          completedDate
-          customer {
-            id
-            displayName
-          }
-          description
-          status
-        }
-        itemLines {
-          sequence
-          description
-          amount
-          quantity
-          item {
-            id
-            name
-            sku
-            active            
-            salesDetails {
-              description
-              incomeAccount {
-                id
-                name
-                fullyQualifiedName
-              }
-              price
-            }
-          }
-          quantity
-          unitPrice
-          account {
-            id
-            name
-            fullyQualifiedName
-          }
-        }
-      }     
-    }
-  }
-}
-```
-Sample variables:
-```
-{
-	"id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjgwMjcxZWRkOGE:31"
-}
-```
 
-Sample response:
-```
-{
-  "data": {
-    "company": {
-      "invoices": {
-        "nodes": [
-          {
-            "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjgwMjcxZWRkOGE:31",
-            "metadata": {
-              "entityVersion": "0"
-            },
-            "amount": 250.00,            
-            "customer": {
-              "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-              "displayName": "Alisha Kamat"
-            },            
-            "project": {
-              "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27462404",
-              "name": "MyProject",
-              "active": true,
-              "completedDate": null,
-              "customer": {
-                "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-                "displayName": "Alisha Kamat"
-              },
-              "description": "My project to track progress for a customer",
-              "status": "IN_PROGRESS"
-            },               
-            "itemLines": [
-              {
-                "sequence": "1",
-                "description": "some text",
-                "amount": 250.00,
-                "quantity": 5,
-                "item": {
-                  "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjExMmRlNzQ2OTk:4",
-                  "name": "Test service",
-                  "sku": "Some SKU",
-                  "active": true,                  
-                  "salesDetails": {
-                    "description": null,
-                    "incomeAccount": {
-                      "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjUxY2VkODUzNmM:5",
-                      "name": "Services",
-                      "fullyQualifiedName": "Services"
-                    },
-                    "price": 50.00
-                  }
-                },                
-                "unitPrice": 50.00,
-                "account": {
-                  "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjUxY2VkODUzNmM:5",
-                  "name": "Services",
-                  "fullyQualifiedName": null
-                }
-              }
-            ]
-          }
-        ]
-      }
-    }
-  }
-}
-```
+#### Use Case 1: Create Timesheet with paytype and link it to a Project
+This usescase is applicable for customers who are enrolled to QuickBooks Payroll and have the Projects setting enabled in QuickBooks Online.
 
-### Update an Invoice (Mutation)
- 
-Sample query:
-```
-mutation updateinvoice($input: UpdateInvoiceInput!) {
-  updateInvoice(invoice: $input) {
-    id
-    metadata {
-      entityVersion
-    }
-    amount
-    customer {
-      id
-      displayName
-    }
-    project {
-      id
-      name
-      active
-      completedDate
-      customer {
-        id
-        displayName
-      }
-      description
-      status
-    }    
-    itemLines {
-      sequence
-      description
-      amount
-      quantity
-      item {
-        id
-        name
-        sku
-        active            
-        salesDetails {
-          description
-          incomeAccount {
-            id
-            name
-            fullyQualifiedName
-          }
-          price
-        }
-      }  
-      unitPrice
-      account {
-        id
-        name
-        fullyQualifiedName
-      }
-    }
-  }
-}
+##### Step 1: Use V3 Accounting Rest API to query employee and get the employee->id value. 
 
 ```
 
-Sample variables:
-```
-{
-  "input": {
-    "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjgwMjcxZWRkOGE:31",
-    "metadata": {
-      "entityVersion": "0"
-    }
-    "amount": "100",
-    "project": {
-	  "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27462404"
-	},		
-	"itemLines": [
-	  {	
-		"description": "some updated text",
-		"amount": 100,
-		"quantity": 2,
-		"item": {
-		  "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjExMmRlNzQ2OTk:4"
-		},
-		"unitPrice": 50,
-		"account": {
-		  "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjUxY2VkODUzNmM:5"
-		}
-	  }
-	]
-  }
-}
 ```
 
-Sample response:
-```
-{
-  "data": {
-    "updateinvoice": {
-      "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjgwMjcxZWRkOGE:31",
-      "metadata": {
-        "entityVersion": "1"
-      },
-      "amount": 100,       
-      "customer": {
-        "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-        "displayName": "Alisha Kamat"
-      },      
-      "project": {
-        "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27462404",
-        "name": "MyProject",
-        "active": true,
-        "completedDate": null,
-        "customer": {
-          "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-          "displayName": "Alisha Kamat"
-        },
-        "description": "My project to track progress for a customer",
-        "status": "IN_PROGRESS"
-      },      
-      "itemLines": [
-        {
-          "sequence": "1",
-		  "description": "some updated text",
-          "amount": 100,
-          "quantity": 2,
-          "item": {
-            "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjExMmRlNzQ2OTk:4",
-            "name": "Test service",
-            "sku": "Some SKU",
-            "active": true,
-            "salesDetails": {
-              "description": null,
-              "incomeAccount": {
-                "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjUxY2VkODUzNmM:5",
-                "name": "Services",
-                "fullyQualifiedName": "Services"
-              },
-              "price": 50
-            }
-          },
-          "unitPrice": 50,
-          "account": {
-            "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjUxY2VkODUzNmM:5",
-            "name": "Services",
-            "fullyQualifiedName": null
-          }
-        }
-      ],
-    }
-  }
-}
+##### Step 2: Use GraphQL API to query compensation data.
 ```
 
-### Delete an Invoice (Mutation)
-Sample mutation:
-```
-mutation deleteInvoice($input: ID!) {
-  deleteInvoice(id: $input){
-    id
-    success
-  }
-}
 ```
 
-Sample variables:
-```
-{
-	"input": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjgwMjcxZWRkOGE:31"
-}
+##### Step 3: Use GraphQL API to read projects.
 ```
 
-Sample response:
-```
-{
-  "data": {
-    "deleteInvoice": {
-      "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjgwMjcxZWRkOGE:31",
-      "success": true
-    }
-  }
-}
 ```
 
-### Operations for Bill
-- Create - Mutation (POST)
-    - Create a Bill for a Project 
-- Read - Query (POST)
-    - Fetch a Bill with the details of the Project associated with the Bil
-- Update - Mutation (POST)
-    - Update a Bill created for a Project
-- Delete - Mutation (POST)
-    - Delete a Bill
+##### Step 4: Use GraphQL API to create timesheet.
+Pre-steps:
+- Use V3 Accounting API to query item (optional) 
+- Use the compensation id from Step 2 to record paytype.
+- Use the project id from step 3 to set ProjectRef 
 
-Note: This document shows limited fields from Bill transaction. For the entire object, please refer to the [Bill usecase document](./bill.md)
 
-### Endpoints
-
--   For production apps:  https://public.api.intuit.com/2020-04/graphql
--   For sandbox environments and testing: https://public-e2e.api.intuit.com/2020-04/graphql
-
-### Sample header
-
--   Content-type: **application/json**
-
-### Create a Bill (Mutation)
-Sample mutation:
-``` 
-mutation createBill($input: CreateBillInput!) {
-  createBill(billDetails: $input) {
-    id
-    metadata {
-      entityVersion
-    }
-    term {
-      id
-      name
-      dueDays
-      type
-    }
-    vendor {
-      id
-      displayName
-    }
-    accountLines {
-      sequence
-      description
-      amount
-      account {
-        id
-        name
-      }
-      customer {
-        id
-        displayName
-      }
-      project {
-        id
-        name
-        active
-        completedDate
-        customer {
-          id
-          displayName
-        }
-        description
-        status
-      }
-    }
-    itemLines {
-      sequence
-      description
-      amount
-      quantity
-      item {
-        id
-        name
-        sku
-      }
-      unitPrice
-      customer {
-        id
-        displayName
-      }
-      project {
-        id
-        name
-        description
-        status
-        customer {
-          id
-          displayName
-        }
-      }
-    }
-  }
-}
 ```
 
-Sample variables:
-```
-{
-	"input": {
-		"billNumber": "SomeBillNumber",
-		"transactionDate": "2021-09-08",
-		"dueDate": "2021-09-08",
-        "term": {
-            "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjE0Yjg0YjBkZmE:2"
-        },
-		"vendor": {
-			"id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:23"
-		},	
-        "accountLines": [
-            {
-                "description": null,
-                "amount": 45.00,
-                "account": {
-                  "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjUxY2VkODUzNmM:75"
-                },
-                "project": {
-                  "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27462404"              
-                }
-              }
-            ],
-        "itemLines": []	
-	}
-}
-```
-Sample response:
-``` 
-{
- "data": {
-   "createBill": {
-     "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjgwMjcxZWRkOGE:53",
-     "metadata": {
-       "entityVersion": "0"
-     },
-     "term": {
-       "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjE0Yjg0YjBkZmE:2",
-       "name": "Net 15",
-       "dueDays": null,
-       "type": null
-     },
-     "transactionDate": "2021-09-08",
-     "dueDate": "2021-09-08",
-     "billNumber": "SomeBillNumber",
-     "vendor": {
-       "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:23",
-       "displayName": "Sheldon Cooper"
-     },
-     "accountLines": [
-       {
-         "sequence": "1",
-         "description": null,
-         "amount": 45.00,
-         "account": {
-           "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjUxY2VkODUzNmM:75",
-           "name": "Website ads"
-         },
-         "project": {
-           "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27462404",
-           "name": "MyProject",
-           "active": true,
-           "completedDate": null,
-           "customer": {
-             "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-             "displayName": "Alisha Kamat"
-           },
-           "description": "My project to track progress for a customer",
-           "status": "IN_PROGRESS"
-           }, 
-         "customer": {
-           "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-           "displayName": "Alisha Kamat"
-         }
-       }
-     ],
-     "itemLines": []
-   }
- }
-}
 ```
 
-### Read a Bill (Query)
- 
-Sample query:
-``` 
-query fetchBill($id: String!) {
-  company {
-    bills(filter: {id: {equals: $id}}) {
-      nodes {
-        id
-        metadata {
-          entityVersion
-        }
-        term {
-          id
-          name
-          dueDays
-          type 
-        }
-        transactionDate
-        dueDate
-        billNumber
-        vendor {
-          id
-          displayName
-        }
-        accountLines {
-          sequence
-          description
-          amount
-          account {
-            id
-            name
-          }
-          customer {
-            id
-            displayName
-          }
-        }
-        itemLines {
-          sequence
-          description
-          quantity
-          customer {
-            id
-            displayName
-          }
-          project {
-            id
-            name
-            active
-            completedDate
-            customer {
-              id
-              displayName
-            }
-            description
-            status
-          }
-          amount
-          unitPrice
-          class {
-            id
-            name
-          }
-        }
-      }
-    }
-  }
-}
+
+
+#### Use Case 2: Create Timesheet with paytype
+This usescase is applicable for customers who are enrolled to QuickBooks Payroll and do not have the Projects setting enabled in QuickBooks Online.
+
+##### Step 1: Use V3 Accounting Rest API to query employee and get the employee->id value. 
+
 ```
 
-Sample variables:
-``` 
-{
-    "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjgwMjcxZWRkOGE:53"
-}
 ```
 
-Sample response:
-``` 
-{
-  "data": {
-    "company": {
-      "bills": {
-        "nodes": [
-          {
-            "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjgwMjcxZWRkOGE:53",
-            "metadata": {
-              "entityVersion": "0"
-            },
-            "term": {
-              "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjE0Yjg0YjBkZmE:2",
-              "name": "Net 15",
-              "dueDays": null,
-              "type": null
-            },
-            "transactionDate": "2021-09-08",
-            "dueDate": "2021-09-08",
-            "billNumber": "SomeBillNumber",
-            "vendor": {
-              "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:23",
-              "displayName": "Sheldon Cooper"
-            },
-            "accountLines": [
-              {
-                "sequence": "1",
-                "description": null,
-                "amount": 45.00,
-                "account": {
-                  "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjUxY2VkODUzNmM:75",
-                  "name": "Website ads"
-                },
-                "project": {
-                  "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27462404",
-                  "name": "MyProject",
-                  "active": true,
-                  "completedDate": null,
-                  "customer": {
-                    "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-                    "displayName": "Alisha Kamat"
-                  },
-                  "description": "My project to track progress for a customer",
-                  "status": "IN_PROGRESS"
-                  }, 
-                "customer": {
-                  "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-                  "displayName": "Alisha Kamat"
-                }
-              }
-            ],
-            "itemLines": []
-          }
-        ]
-      }
-    }
-  }
-}
+##### Step 2: Use GraphQL API to query compensation data.
 ```
 
-### Update a Bill (Mutation)
-Sample mutation:
-``` 
-mutation updateBill($input: UpdateBillInput!) {
-  updateBill(billDetails: $input) {
-    id
-    metadata {
-      entityVersion
-    }
-    term {
-      id
-      name
-      dueDays
-      type
-    }
-    vendor {
-      id
-      displayName
-    }
-    accountLines {
-      sequence
-      description
-      amount
-      account {
-        id
-        name
-      }
-      customer {
-        id
-        displayName
-      }
-      project {
-        id
-        name
-        active
-        completedDate
-        customer {
-          id
-          displayName
-        }
-        description
-        status
-      }
-    }
-    itemLines {
-      sequence
-      description
-      amount
-      quantity
-      item {
-        id
-        name
-        sku
-      }
-      unitPrice
-      customer {
-        id
-        displayName
-      }
-      project {
-        id
-        name
-        description
-        status
-        customer {
-          id
-          displayName
-        }
-      }
-    }
-  }
-}
-```
-Sample variables:
-```
-{
-	"input": {
-		"id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjgwMjcxZWRkOGE:53",
-		"metadata": {
-			"entityVersion": "1"
-		},
-    "term": {
-      "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjE0Yjg0YjBkZmE:2"
-    },
-		"billNumber": "UpdatedBillNumber",
-		"transactionDate": "2021-08-08",
-		"dueDate": "2021-08-10",
-		"vendor": {
-			"id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:23"
-		},
-		"accountLines": [
-			{
-				"description": "update description",
-				"amount": 45,
-				"account": {
-					"id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjUxY2VkODUzNmM:75"
-				},
-				"project": {
-					"id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27462404"
-				}
-			}
-		],
-		"itemLines": []
-	}
-}
 ```
 
-Sample response:
-``` 
-{
- "data": {
-   "updateBill": {
-     "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjgwMjcxZWRkOGE:53",
-     "metadata": {
-       "entityVersion": "1"
-     },
-     "term": {
-       "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjE0Yjg0YjBkZmE:2",
-       "name": "Net 15",
-       "dueDays": null,
-       "type": null
-     },
-     "transactionDate": "2021-08-08",
-     "dueDate": "2021-08-10",
-     "billNumber": "UpdatedBillNumber",
-     "vendor": {
-       "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:23",
-       "displayName": "Sheldon Cooper"
-     },
-     "accountLines": [
-       {
-         "sequence": "1",
-         "description": "update description",
-         "amount": 45.00,
-         "account": {
-           "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjUxY2VkODUzNmM:75",
-           "name": "Website ads"
-         },
-         "project": {
-           "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjY4ZDAxMTQ3ZGQ:27462404",
-           "name": "MyProject",
-           "active": true,
-           "completedDate": null,
-           "customer": {
-             "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-             "displayName": "Alisha Kamat"
-           },
-           "description": "My project to track progress for a customer",
-           "status": "IN_PROGRESS"
-           }, 
-         "customer": {
-           "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjlkNjk5ZTk2MDg:1",
-           "displayName": "Alisha Kamat"
-         }
-       }
-     ],
-     "itemLines": []
-   }
- }
-}
+
+##### Step 3: Use GraphQL API to create timesheet.
+Pre-steps:
+- Use V3 Accounting API to query item (optional) 
+- Use the compensation id from Step 2 to record paytype.
+
+
 ```
 
-### Delete a Bill (Mutation)
-Sample mutation:
-```
-mutation deleteBill($input: ID!) {
-  deleteBill(id: $input){
-    id
-    success
-  }
-}
 ```
 
-Sample variables:
-```
-{
-	"input": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjgwMjcxZWRkOGE:53"
-}
+
+#### Use Case 3: Create Timesheet and link to projects
+This usescase is applicable for customers who are not enrolled to QuickBooks Payroll and have the Projects setting enabled in QuickBooks Online.
+
+##### Step 1: Use GraphQL API to read projects.
 ```
 
-Sample response:
 ```
-{
-  "data": {
-    "deleteBill": {
-      "id": "djQuMTo5MTMwMzU1MjAyMDI4NDY2OjgwMjcxZWRkOGE:53",
-      "success": true
-    }
-  }
-}
+
+
+##### Step 2: Use GraphQL API to create timesheet.
+Pre-steps:
+- Use V3 Accounting API to query employee, item (optional) 
+- Use the project id from step 1 to set ProjectRef 
+
+
 ```
+
+```
+
+
+#### Use Case 4: Create Timesheet for employee
+This usescase is applicable for customers who are not enrolled to QuickBooks Payroll and do not have the Projects setting enabled in QuickBooks Online.
+
+Pre-steps:
+- Use V3 Accounting API to query employee, item (optional) 
+
+```
+
+```
+
+#### Use Case 5: Create Timesheet for contractor
+This usescase is applicable to track time for contractors and for customers who do not have the Projects setting enabled in QuickBooks Online.
+
+Pre-steps:
+- Use V3 Accounting API to query vendor (1099flag), customer, Item (optional) 
+
+```
+
+```
+
+#### Use Case 5: Create Timesheet for contractor and link it to projects
+This usescase is applicable to track time for contractors and for customers who have the Projects setting enabled in QuickBooks Online.
+
+
+##### Step 1: Use GraphQL API to read projects.
+```
+
+```
+
+##### Step 2: Use GraphQL API to create timesheet.
+Pre-steps:
+- Use V3 Accounting API to query vendor and identify contractors by checking the `vendor->1099flag` is true. 
+- Use the project id from step 1 to set ProjectRef 
+
+```
+
+```
+
