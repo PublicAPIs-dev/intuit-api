@@ -12,9 +12,8 @@ The Project API provides support for create, read, update, and delete operations
 You can also add transactions to your project by configuring the ID for the project while creating the transaction.
 
 This page outlines - 
-- The Create/Read/Update/Delete/ operations for Projects.
-- The CRUD operations for Invoice (sales transaction) with Projects. 
-- The CRUD operations for Bill (purchase transaction) with Projects.
+- The Create/Read operations for Projects.
+- The Create operation for Invoice (sales transaction) with Projects. 
 
 Currently, we have added support to a few transactions so that you can configure a project ID. 
 These include a few transactions like - 
