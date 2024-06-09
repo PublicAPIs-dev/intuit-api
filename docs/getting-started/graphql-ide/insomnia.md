@@ -70,7 +70,7 @@ In the query window, set the OAuth2.0 environment variables:
 7. In the Redirect URL field, enter **RedirectUrl**.
 8. Select the **Enabled** checkbox. 
 
-![](/intuit-api-docs/assets/images/oauth2.png)
+![](/intuit-api/assets/images/oauth2.png)
 
 ## Step 6: Send the test query
 
