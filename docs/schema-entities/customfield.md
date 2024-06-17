@@ -5,10 +5,12 @@ nav_order: 1
 parent: Schema Entities
 ---
 
-## Time
+## Custom Field
 
-The APIs related to the Time entity allow you to manage Time so that you can track your Time entry for the project and employee.
-The Time API provides support for create, read, update and delete operations.
+The APIs related to the Custom Fields allow you to manage and sync custom fields into QuickBooks Online. The Custom Fields API provides support for create, read, update, and disable operations. You can also add custom fields to transactions and other entities by configuring the custom field definition ID while creating the transaction.
+
+Currently, custom fields are supported for the following transactions and entities.
+
 
 ### API Reference
 
