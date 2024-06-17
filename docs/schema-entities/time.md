@@ -41,15 +41,15 @@ The Time API provides support for create, read, update and delete operations.
 
 | #   | Input Name             | Fields                             | Type | Field Definition                                                         |
 |-----|------------------------|------------------------------------|------|--------------------------------------------------------------------------|
-| 2   | startDate              | Date                               |      | The date on which this time entry begins.                                |
+| 1   | startDate              | Date                               |      | The date on which this time entry begins.                                |
 | 2   | duration               | Int                                |      | The total number of seconds to record for this time entry.               |
-| 2   | timeFor                | TimeTracking_TrackTimeForInput!    |      | The ID and type whose time is recorded for on this time entry.           |
-| 2   | timeAgainst            | TimeTracking_TrackTimeAgainstInput |      | The ID and type of entity that this time entry is tracking time against. |
-| 2   | notes                  | String                             |      | Notes associated with this time entry (2048 character limit).            |
-| 2   | classId                | ID                                 |      | The ID of the class that this time entry is tracking time against.       |
-| 2   | employeeCompensationId | ID                                 |      | The ID of the Employee that this time entry is tracking time against.    |
-| 2   | serviceItemId          | ID                                 |      | The ID of the Service Item that applies to this time entry.              |
-| 2   | billable               | Boolean                            |      | Whether the time is billable.                                            |
+| 3   | timeFor                | TimeTracking_TrackTimeForInput!    |      | The ID and type whose time is recorded for on this time entry.           |
+| 4   | timeAgainst            | TimeTracking_TrackTimeAgainstInput |      | The ID and type of entity that this time entry is tracking time against. |
+| 5   | notes                  | String                             |      | Notes associated with this time entry (2048 character limit).            |
+| 6   | classId                | ID                                 |      | The ID of the class that this time entry is tracking time against.       |
+| 7   | employeeCompensationId | ID                                 |      | The ID of the Employee that this time entry is tracking time against.    |
+| 8   | serviceItemId          | ID                                 |      | The ID of the Service Item that applies to this time entry.              |
+| 9   | billable               | Boolean                            |      | Whether the time is billable.                                            |
 
 
 ### TimeTracking_UpdateTimeEntryByDurationInput ( all the inputs as CreateInput applies just with additional input Id)
