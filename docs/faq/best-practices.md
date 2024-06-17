@@ -28,7 +28,10 @@ Take the time to properly log your app development process. It saves time in the
 
 ### Learn about API throttling
 
-**Note**: We'll have more details around throttling in the future.
+- 500 requests per minute, per realm ID
+- 10 concurrent requests per realm ID and app.
+
+**Note**: The above throttling limits are subject to change in the future. 
 
 
 
