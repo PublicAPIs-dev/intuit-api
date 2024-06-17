@@ -19,8 +19,7 @@ The Time API provides support for create, read, update and delete operations.
 
 ### Endpoints
 
--   For production apps:  https://qb-e2e.api.intuit.com/graphql
--   For sandbox environments and testing: 
+-   For production apps:  https://qb.api.intuit.com/graphql
 
 ### Time Entry Fields
 
@@ -89,7 +88,7 @@ The Time API provides support for create, read, update and delete operations.
 ### Sample query header
 
 -   Content-type: **application/json**
--   Use the time scope **[time-tracking.time-entry (read & write) | time-tracking.time-entry.read (read only)]** for the authorization header 
+-   Use the time scope for the authorization header  **[time-tracking.time-entry (read & write)** | **time-tracking.time-entry.read (read only)]** 
 
 ### Sample query body
 
