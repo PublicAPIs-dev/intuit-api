@@ -75,14 +75,17 @@ Note: Use tokens generated using scopes mentioned above in the authorization hea
 Use GraphQL API to read Custom Fields Definitions. The output would list the custom fields that’s being set up in the company along with data types and the entities it’s for.
 
 
-* [Read Custom Fields ](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#read-custom-fields)
+```
+
+```
 
 
 #### Use Case 2: Create Custom Fields Definitions
 Use GraphQL API to create Custom Fields Definitions. 
 
-* [Create Custom Field Definition ](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#create-custom-field)
+```
 
+```
 
 
 #### Use Case 3: Create transactions with custom fields
@@ -94,9 +97,9 @@ Use GraphQL API to create Custom Fields Definitions.
 
 ##### Step 1: Create custom field definition using GrapqhQL API
 
-* [Create Custom Field Definition ](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#create-custom-field)
+```
 
-
+```
 ##### Step 2: V3 Accounting Rest API to create invoice with custom fields
 
 API Request:
