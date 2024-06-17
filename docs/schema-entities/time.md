@@ -24,7 +24,7 @@ The Time API provides support for create, read, update and delete operations.
 
 ### Time Entry Fields
 
-| # |  Field Name | Data Type | Required | Field Definition |
+| # |  Field Name | Data Type | Required | Field Definition                                                                        |
 | 1 | startDate | Date! | | The date on which this time entry begin |
 | 2 | duration | Int! | | The number of seconds recorded by this time entry |
 | 3 | timeFor | TimeTracking_TrackTimeForInput! | | The ID and type whose time is recorded for on this time entry |
@@ -37,24 +37,50 @@ The Time API provides support for create, read, update and delete operations.
 
 ### Input Variables:
 
+### TimeTracking_CreateTimeEntryByDurationInput 
+
+| # |  Input Name | Fields | Type | Field Definition                                                                                 |
+| 2 | startDate | Date | |  The date on which this time entry begins |
+| 2 | duration | Int | |  The total number of seconds to record for this time entry |
+| 2 | timeFor | TimeTracking_TrackTimeForInput! | |  The ID and type whose time is recorded for on this time entry. |
+| 2 | timeAgainst | TimeTracking_TrackTimeAgainstInput | |  The ID and type of entity that this time entry is tracking time against. |
+| 2 | notes | String | |  Notes associated with this time entry (2048 character limit) |
+| 2 | classId | ID | |  The ID of the class that this time entry is tracking time against. |
+| 2 | employeeCompensationId | ID | |   The ID of the Employee that this time entry is tracking time against. |
+| 2 | serviceItemId | ID | |  The ID of the Service Item that applies to this time entry |
+| 2 | billable | Boolean | |   Whether the time is billable |
+
+
+### TimeTracking_UpdateTimeEntryByDurationInput ( all the inputs as CreateInput applies just with additional input Id)
+
+| # |  Input Name | Fields | Type | Field Definition       |
+| 1 | id | ID! | | The ID of the time entry to be updated. |
+
+### TimeTracking_DeleteTimeEntryInput (just the ID)
+
+| # |  Input Name | Fields | Type | Field Definition       |
+| 1 | id | ID! | | The ID of the time entry to be updated. |
+
 ### TimeTracking_TrackTimeForInput!
 
-| # |  Input Name | Fields | Type | Field Definition |
+| # |  Input Name | Fields | Type | Field Definition                                       |
 | 1 | id | ID! | | The ID of the entity (e.g. Employee, Vendor) |
-| 2 | entityType | TimeTracking_TimeTrackForType | | TThe entity type that is being tracked |
+| 2 | entityType | TimeTracking_TimeTrackForType | | The entity type that is being tracked |
 
 ### TimeTracking_TimeTrackForType
+
 | # |  eNum | Field Definition |
 | 1 | EMPLOYEE | The ID references an Employee |
 | 2 | VENDOR | The ID references a Vendor |
 
 ### TimeTracking_TrackTimeAgainstInput
 
-| # |  Input Name | Fields | Type | Field Definition |
+| # |  Input Name | Fields | Type | Field Definition                                             |
 | 1 | id | ID! | | The ID of the entity (e.g. customer, project) |
 | 2 | entityType | TimeTracking_TrackTimeAgainstType! | | TThe entity type that is being tracked |
 
 ### TimeTracking_TrackTimeAgainstType
+
 | # |  eNum | Field Definition |
 | 1 | CUSTOMER | The ID references a Customer |
 | 2 | PROJECT | The ID references a Project |
@@ -63,7 +89,7 @@ The Time API provides support for create, read, update and delete operations.
 ### Sample query header
 
 -   Content-type: **application/json**
--   Use the bill scope **[com.intuit.quickbooks.accounting]** for the authorization header 
+-   Use the time scope **[time-tracking.time-entry (read & write) | time-tracking.time-entry.read (read only)]** for the authorization header 
 
 ### Sample query body
 
@@ -174,7 +200,7 @@ Response:
 
 ## Filter support:
 
-You can choose to **query by dateRange** (as shown above) or query for all bills by removing the filter.
+You can choose to **query by dateRange** by including dateRange in the filter.
 
 ```
 {
@@ -395,10 +421,6 @@ mutation timeTrackingDeleteTimesheet($input: TimeTracking_DeleteTimeEntryInput!)
             }
 
 ```
-
-Required fields:
-- id: ID of an existing bill
-- metadata: you need to provide the entity version returned from a previous create/update/read operation. 
 
 Variables:
 ``` 
