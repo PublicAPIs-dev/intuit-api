@@ -23,80 +23,81 @@ The Time API provides support for create, read, update and delete operations.
 
 ### Time Entry Fields
 
-| # |  Field Name | Data Type | Required | Field Definition                                                                          |
-| --- | --- | --- | --- |-------------------------------------------------------------------------------------------|
-| 1 | startDate | Date! | | The date on which this time entry begin                                                   |
-| 2 | duration | Int! | | The number of seconds recorded by this time entry                                         |
-| 3 | timeFor | TimeTracking_TrackTimeForInput! | | The ID and type whose time is recorded for on this time entry                             |
-| 4 | timeAgainst | TimeTracking_TrackTimeAgainstInput | | The ID and type of entity that this time entry is tracking time against                   |
-| 5 | notes | String | | Notes associated with this time entry (2048 character limit)                              |
-| 6 | classId | ID | | The ID of the class that this time entry is tracking time against.                        |
-| 7 | employeeCompensationId | ID | | The ID of the Payroll_EmployeeCompensation that this time entry is tracking time against. |
-| 8 | serviceItemId | ID | | The ID of the Service Item(Product/Services) that applies to this time entry              |
-| 9 | billable | Boolean | | Whether the time is billable                                                              |
+| #   | Field Name             | Data Type                          | Required | Field Definition                                                                          |
+|-----|------------------------|------------------------------------|----------|-------------------------------------------------------------------------------------------|
+| 1   | startDate              | Date!                              |          | The date on which this time entry begin.                                                  |
+| 2   | duration               | Int!                               |          | The number of seconds recorded by this time entry.                                        |
+| 3   | timeFor                | TimeTracking_TrackTimeForInput!    |          | The ID and type whose time is recorded for on this time entry.                            |
+| 4   | timeAgainst            | TimeTracking_TrackTimeAgainstInput |          | The ID and type of entity that this time entry is tracking time against.                  |
+| 5   | notes                  | String                             |          | Notes associated with this time entry (2048 character limit).                             |
+| 6   | classId                | ID                                 |          | The ID of the class that this time entry is tracking time against.                        |
+| 7   | employeeCompensationId | ID                                 |          | The ID of the Payroll_EmployeeCompensation that this time entry is tracking time against. |
+| 8   | serviceItemId          | ID                                 |          | The ID of the Service Item(Product/Services) that applies to this time entry.             |
+| 9   | billable               | Boolean                            |          | Whether the time is billable.                                                             |
 
 ### Input Variables:
 
 ### TimeTracking_CreateTimeEntryByDurationInput 
 
-| # |  Input Name | Fields | Type | Field Definition                                                                           |
-| --- | --- | --- | --- |--------------------------------------------------------------------------------------------|
-| 2 | startDate | Date | | The date on which this time entry begins                                                   |
-| 2 | duration | Int | | The total number of seconds to record for this time entry                                  |
-| 2 | timeFor | TimeTracking_TrackTimeForInput! | | The ID and type whose time is recorded for on this time entry.                             |
-| 2 | timeAgainst | TimeTracking_TrackTimeAgainstInput | | The ID and type of entity that this time entry is tracking time against.                   |
-| 2 | notes | String | | Notes associated with this time entry (2048 character limit)                               |
-| 2 | classId | ID | | The ID of the class that this time entry is tracking time against.                         |
-| 2 | employeeCompensationId | ID | | The ID of the Employee that this time entry is tracking time against.                      |
-| 2 | serviceItemId | ID | | The ID of the Service Item that applies to this time entry                                 |
-| 2 | billable | Boolean | | Whether the time is billable                                                               |
+| #   | Input Name             | Fields                             | Type | Field Definition                                                         |
+|-----|------------------------|------------------------------------|------|--------------------------------------------------------------------------|
+| 2   | startDate              | Date                               |      | The date on which this time entry begins.                                |
+| 2   | duration               | Int                                |      | The total number of seconds to record for this time entry.               |
+| 2   | timeFor                | TimeTracking_TrackTimeForInput!    |      | The ID and type whose time is recorded for on this time entry.           |
+| 2   | timeAgainst            | TimeTracking_TrackTimeAgainstInput |      | The ID and type of entity that this time entry is tracking time against. |
+| 2   | notes                  | String                             |      | Notes associated with this time entry (2048 character limit).            |
+| 2   | classId                | ID                                 |      | The ID of the class that this time entry is tracking time against.       |
+| 2   | employeeCompensationId | ID                                 |      | The ID of the Employee that this time entry is tracking time against.    |
+| 2   | serviceItemId          | ID                                 |      | The ID of the Service Item that applies to this time entry.              |
+| 2   | billable               | Boolean                            |      | Whether the time is billable.                                            |
 
 
 ### TimeTracking_UpdateTimeEntryByDurationInput ( all the inputs as CreateInput applies just with additional input Id)
 
-| # |  Input Name | Fields | Type | Field Definition       |
-| --- | --- | --- | --- | --- |
-| 1 | id | ID! | | The ID of the time entry to be updated. |
+| #   | Input Name | Fields | Type | Field Definition                        |
+|-----|------------|--------|------|-----------------------------------------|
+| 1   | id         | ID!    |      | The ID of the time entry to be updated. |
 
 ### TimeTracking_DeleteTimeEntryInput (just the ID)
 
-| # |  Input Name | Fields | Type | Field Definition       |
-| --- | --- | --- | --- | --- |
-| 1 | id | ID! | | The ID of the time entry to be updated. |
+| #   | Input Name | Fields | Type | Field Definition                        |
+|-----|------------|--------|------|-----------------------------------------|
+| 1   | id         | ID!    |      | The ID of the time entry to be updated. |
 
 ### TimeTracking_TrackTimeForInput!
 
-| # |  Input Name | Fields | Type | Field Definition                                       |
-| --- | --- | --- | --- | --- |
-| 1 | id | ID! | | The ID of the entity (e.g. Employee, Vendor) |
-| 2 | entityType | TimeTracking_TimeTrackForType | | The entity type that is being tracked |
+| #   | Input Name | Fields                        | Type | Field Definition                             |
+|-----|------------|-------------------------------|------|----------------------------------------------|
+| 1   | id         | ID!                           |      | The ID of the entity (e.g. Employee, Vendor) |
+| 2   | entityType | TimeTracking_TimeTrackForType |      | The entity type that is being tracked        |
 
 ### TimeTracking_TimeTrackForType
 
-| # |  eNum | Field Definition              |
-| --- | --- |-------------------------------|
-| 1 | EMPLOYEE | The ID references an Employee |
-| 2 | VENDOR | The ID references a Vendor    |
+| #   | eNum     | Field Definition              |
+|-----|----------|-------------------------------|
+| 1   | EMPLOYEE | The ID references an Employee |
+| 2   | VENDOR   | The ID references a Vendor    |
 
 ### TimeTracking_TrackTimeAgainstInput
 
-| # |  Input Name | Fields | Type | Field Definition                                             |
-| --- | --- | --- | --- | --- |
-| 1 | id | ID! | | The ID of the entity (e.g. customer, project) |
-| 2 | entityType | TimeTracking_TrackTimeAgainstType! | | TThe entity type that is being tracked |
+| #   | Input Name | Fields                             | Type | Field Definition                              |
+|-----|------------|------------------------------------|------|-----------------------------------------------|
+| 1   | id         | ID!                                |      | The ID of the entity (e.g. customer, project) |
+| 2   | entityType | TimeTracking_TrackTimeAgainstType! |      | TThe entity type that is being tracked        |
 
 ### TimeTracking_TrackTimeAgainstType
 
-| # |  eNum | Field Definition |
-| --- | --- |-------------------------------|
-| 1 | CUSTOMER | The ID references a Customer |
-| 2 | PROJECT | The ID references a Project |
+| #   | eNum     | Field Definition             |
+|-----|----------|------------------------------|
+| 1   | CUSTOMER | The ID references a Customer |
+| 2   | PROJECT  | The ID references a Project  |
 
 
 ### Sample query header
 
 -   Content-type: **application/json**
--   Use the time scope for the authorization header  **[time-tracking.time-entry (read & write)** | **time-tracking.time-entry.read (read only)]** 
+-   Use the time scope for the authorization header  
+**[time-tracking.time-entry (read & write)** | **time-tracking.time-entry.read (read only)]** 
 
 ### Sample query body
 
