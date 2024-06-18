@@ -28,6 +28,9 @@ This page outlines -
 - Create - Mutation (POST)
 - Update - Mutation (POST)
 
+### API schema for Time entity
+
+- [Time API schema](../../schema-entities/time/)
 
 ### Scopes
 
@@ -48,6 +51,7 @@ This page outlines -
 
 -   Content-type: **application/json**
 -   Authorization: **Bearer access_token**
+
 Note: Use tokens generated using scopes mentioned above in the authorization header for all other calls shown here.
  
 ### Use Cases
@@ -66,6 +70,10 @@ This usescase is applicable for customers who are enrolled to QuickBooks Payroll
 ```
 
 ##### Step 2: Use GraphQL API to query compensation data.
+Pre-steps:
+- Use V3 Accounting API to query employee id 
+- Use the compensation id from Step 2 to record paytype.
+
 ```
 
 ```
