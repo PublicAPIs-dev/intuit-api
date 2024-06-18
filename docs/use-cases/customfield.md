@@ -64,6 +64,7 @@ Currently, custom fields are supported for the following transactions and entiti
 
 -   Content-type: **application/json**
 -   Authorization: **Bearer access_token**
+
 Note: Use tokens generated using scopes mentioned above in the authorization header for all other calls shown here.
  
 ### Use Cases
