@@ -65,9 +65,10 @@ Developer docs for reference: https://developer.intuit.com/app/developer/qbo/doc
 ### Input Variables: 
 
 ### ProjectManagement_PersonaInput
-| Input Name | Fields | Type | Field Definition      |
-|------------|--------|------|-----------------------|
-| id         | ID!    |      | The id of the persona |
+
+| Field | Type | Required | Description                 |
+|-------|------|----------|-----------------------------|
+| id    | ID!  |          | The id of the persona(user) |
 
 ### ProjectManagement_Status
 ```
@@ -81,15 +82,16 @@ enum ProjectManagement_Status{
 }
 ```
 ### ProjectManagement_ClientInput
+
 | Field | Type | Required | Description                                                                                     |    
 |-------|------|----------|-------------------------------------------------------------------------------------------------|
 | id    | ID!  |          | The realm/companyId of the client for whom the project is created(only for accountant use-case) |
 
 ### ProjectManagement_CustomerInput 
 
-| Input Name | Fields | Type | Description                                     |
-|------------|--------|------|-------------------------------------------------|
-| id         | ID!    |      | The customer Id for whom the project is created |
+| Field | Type | Required | Description                                     |
+|-------|------|----------|-------------------------------------------------|
+| id    | ID!  |          | The customer Id for whom the project is created |
 
 ### ProjectManagement_CompanyInput
 
@@ -176,6 +178,7 @@ Sample query (Query list of projects):
      }
    }
  }
+ 
 ```
 Variables:
 
