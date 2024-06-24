@@ -7,7 +7,7 @@ parent: Schema Entities
 
 ## Time Entry
 
-The APIs related to the Time Entry allow you to manage Time so that you can track your Time entry for the project and employee.
+The APIs related to the Time Entry allow you to manage Time so that you can track your Time entry for Employee/Vendor Contractor(1099) against the customer/project.
 The Time API provides support for create, read, update and delete operations.
 
 ### Operations for Time Entry
@@ -105,7 +105,7 @@ Sample query (Query Time Entries):
 ```
 query readMinimalTimeSheet {
   timeTrackingTimeEntries(
-    filter: {ids:[projectId1,projectId2]}
+    filter: {ids:[timeentry1,timeentry2]}
   ) {
     edges {
       node {
@@ -202,7 +202,7 @@ Response:
 
 ## Filter support:
 
-Currently, the filters supported on projects include -
+Currently, the filters supported on time entry includes -
 
    - `ids` - A list of time entry IDs to filter by. Example: "ids": [123, 456, 789]
    - `dateRange` : TimeTracking_DatePeriod - Specify whether to limit your query on time entries with a date falling in a date range
