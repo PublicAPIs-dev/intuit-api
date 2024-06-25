@@ -227,7 +227,7 @@ Variables:
 ```
 
 Response:
-```<<>>```
+<<TODO>>
 
 ## Filter support:
 
@@ -249,6 +249,7 @@ The filters supported on project entry includes -
   -  `deleted`: Boolean - Filter the projects that deleted is passed false(default behaviour). If passed true will include all projects
 
 ### Sample filter
+
 ```
  "dueDate": {
       "between": {
@@ -352,8 +353,7 @@ Required Fields:
 <<TODO>>
 
 Sample response:
-
-```<<>>```
+<<TODO>>
 
 ### Update mutation
 
