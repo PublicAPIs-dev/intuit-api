@@ -40,27 +40,36 @@ Developer docs for reference: https://developer.intuit.com/app/developer/qbo/doc
 
 ### Project Fields
 
-| Field Name        | Type                                       | Required | 	Description                                                                                                  |
-|-------------------|--------------------------------------------|----------|---------------------------------------------------------------------------------------------------------------|
-| name              | String!                                    | yes	     | The name of the project                                                                                       |
-| description       | String                                     | No       | The description of the project                                                                                |
-| assignee          | ProjectManagement_PersonaInput             | No       | The assignee of the project                                                                                   |
-| type              | String                                     | No       | The type of the project that user can define to differentiate between different types of projects and filter on them |
-| status	         | ProjectManagement_Status                   | No       | The status of the project indicating the current state of the project                                         |
-| priority          | Int                                        | No       | The priority of the project in the range of 0-9 where 0 is the lowest and 9 is the highest priority and filter on them | 
-| client	         | ProjectManagement_ClientInput              | No       | The client for whom the project is created                                                                    |
-| customer          | ProjectManagement_CustomerInput            | Yes	     | The customer for whom the project is created                                                                  |
-| account           | ProjectManagement_CompanyInput             | Yes	     | The company for whom the project is created                                                                   |
-| dueDate           | DateTime                                   | No       | The due date of the project                                                                                   |
-| startDate         | DateTime                                   | No       | The start date of the project                                                                                 |
-| completedDate	 | DateTime                                   | No       | The completed date of the project                                                                             |
-| completedBy       | ProjectManagement_UserInput                | No       | The user completed the project                                                                                |
-| completionRate    | Decimal                                    | No       | The rate of completion of project                                                                             |
-| pinned            | Boolean                                    | No       | Pinned is used to tell if a project should be shown at the top of the projects list above those that are not pinned |
-| emailAddress      | [Qb_EmailAddressInput]                     | No       | The email address of the project                                                                              |
-| addresses         | [Qb_PostalAddressInput]                    | No       | The addresses of the project                                                                                  |
-| externalReferences| [ProjectManagement_ExternalReferenceInput] | No       | References to the project                                                                                     |
+| Field Name        | Type                                       | Required | 	Description                                                                                                            |
+|-------------------|--------------------------------------------|----------|-------------------------------------------------------------------------------------------------------------------------|
+| name              | String!                                    | Yes	     | The name of the project.                                                                                                |
+| description       | String                                     | No       | The description of the project.                                                                                         |
+| assignee          | ProjectManagement_PersonaInput             | No       | The assignee of the project.                                                                                            |
+| type              | String                                     | No       | The type of the project that user can define to differentiate between different types of projects and filter on them.   |
+| status	         | ProjectManagement_Status                   | No       | The status of the project indicating the current state of the project.                                                  |
+| priority          | Int                                        | No       | The priority of the project in the range of 0-9 where 0 is the lowest and 9 is the highest priority and filter on them. | 
+| client	         | ProjectManagement_ClientInput              | No       | The client for whom the project is created.                                                                             |
+| customer          | ProjectManagement_CustomerInput            | Yes	     | The customer for whom the project is created .                                                                          |
+| account           | ProjectManagement_CompanyInput             | Yes	     | The company for whom the project is created.                                                                            |
+| dueDate           | DateTime                                   | No       | The due date of the project.                                                                                            |
+| startDate         | DateTime                                   | No       | The start date of the project.                                                                                          |
+| completedDate	 | DateTime                                   | No       | The completed date of the project.                                                                                      |
+| completedBy       | ProjectManagement_UserInput                | No       | The user completed the project.                                                                                         |
+| completionRate    | Decimal                                    | No       | The rate of completion of project.                                                                                      |
+| pinned            | Boolean                                    | No       | Pinned is used to tell if a project should be shown at the top of the projects list above those that are not pinned.    |
+| emailAddress      | [Qb_EmailAddressInput]                     | No       | The email address of the project.                                                                                       |
+| addresses         | [Qb_PostalAddressInput]                    | No       | The addresses of the project.                                                                                           |
+| externalReferences| [ProjectManagement_ExternalReferenceInput] | No       | References to the project.                                                                                              |
 
+### ProjectManagement_Status
+The list of allowed status values of the project indicating the current state of the project
+
+ - OPEN
+ - IN_PROGRESS
+ - BLOCKED
+ - CANCELED
+ - COMPLETE
+ - OTHER
  
 ### Input Variables: 
 
@@ -70,17 +79,7 @@ Developer docs for reference: https://developer.intuit.com/app/developer/qbo/doc
 |-------|------|----------|-----------------------------|
 | id    | ID!  |          | The id of the persona(user) |
 
-### ProjectManagement_Status
-```
-enum ProjectManagement_Status{
-    OPEN
-    IN_PROGRESS
-    BLOCKED
-    CANCELED
-    COMPLETE
-    OTHER
-}
-```
+
 ### ProjectManagement_ClientInput
 
 | Field | Type | Required | Description                                                                                     |    
@@ -107,11 +106,43 @@ enum ProjectManagement_Status{
 
 
 ### Qb_EmailAddressInput
-<<TODO>> 
+
+| Field        | Type                         | Required | Description                                        |
+|--------------|------------------------------|----------|----------------------------------------------------|
+| email        | String!                      | Yes      | full email address (#@pattern(regex: ".+@.+\\..+") |
+| name         | String                       | No       | the name before @                                  |
+| domain       | String                       | No       | domain address, part after @                       |
+| variation    | Common_ContactVariationInput | No       | How this email address is used                     |
+| verification | Common_VerificationInput     | No       | email verification                                 |
+
 
 ### Qb_PostalAddressInput
+
+| Field              | Type                         | Required | Description                                                                                                                                            |
+|--------------------|------------------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| streetAddressLine1 | String!                      | Yes      | Contains primary address information - number, street                                                                                                  |
+| streetAddressLine2 | String                       | No       | Contains secondary address information - apartment, care of, attention, ...                                                                            |
+| streetAddressLine3 | String                       | No       | Contains spill over space for line 2                                                                                                                   |
+| postalCode         | String                       | No       | Postal codes or zip code used for mail sorting.                                                                                                        |
+| city               | String                       | No       | Any human settlement including cities, towns, villages, hamlets, localities, etc.                                                                      |
+| state              | String                       | No       | State, province, region abbreviation.  Reference https://pe.usps.com/text/pub28/28apb.htm                                                              |
+| country            | Common_CountryCode           | No       | Sovereign nations and their dependent territories, anything with an ISO-3166 3 letter code.  Reference https://www.iso.org/iso-3166-country-codes.html |
+| geoLocation        | Common_GeoLocationInput      | No       | Latitude/longitude associated to this address                                                                                                          |
+| verification       | Common_VerificationInput     | No       | Address verification information. This field is read only.                                                                                             |
+| variation          | Common_ContactVariationInput | No       | Capture the intention of this postal address                                                                                                           |
+
+
+### Common_ContactVariationInput
 <<TODO>>
 
+### Common_VerificationInput
+<<TODO>>
+
+### Common_CountryCode
+<<TODO>>
+
+### Common_GeoLocationInput
+<<TODO>>
 
 ### Sample query header
 
@@ -121,9 +152,6 @@ enum ProjectManagement_Status{
 **[project-management.project (read & write)** | **qb.project.write (backward compatible to support old scope)]** 
 
 ### Sample query body
-
-Do an [introspection query](../../graphql-concepts/introspection) to see the current schema for the Bill entity.
-Here's an example query using every possible field. Remember, with GraphQL you only need to query for the data you need:
 
 Sample query (Query list of projects):
 
@@ -199,12 +227,28 @@ Variables:
 ```
 
 Response:
-<<TODO>>
+```<<>>```
 
 ## Filter support:
 
 You can choose to **query by dateRange** by including dueDate or startDate in the filter.
 
+The filters supported on project entry includes -
+
+  - `id`: ProjectManagement_IdExpression (equals, in) - Filter the projects with given if of project
+  - `status`: ProjectManagement_StatusExpression (equals, in, nin) - Filter the projects with given status.Allowed values of status (OPEN,IN_PROGRESS,BLOCKED,CANCELED,COMPLETE,OTHER).
+              Only one status can be applied at a time and returns projects of all status if not passed
+  - `assignee`: ProjectManagement_PersonaExpression(equals, in) - Filter the projects with the given assigneeId
+  - `client`: ProjectManagement_ClientExpression(equals, in) - Filter the projects with the given clientId
+  - `customer`: ProjectManagement_CustomerExpression(equals, in) - Filter the projects with the given customerId
+  -  `type`: ProjectManagement_StringExpression(equals, in) - Filter the projects with the given type
+  -  `priority`: ProjectManagement_IntExpression(equals, in) - Filter the projects with the given priority
+  -  `dueDate`: ProjectManagement_DateExpression (between- minDate & maxDate) - Filter the projects with the given whose dueDate is prior to the given date
+  -  `startDate`: ProjectManagement_DateExpression (between- minDate & maxDate)- Filter the projects with the given whose startDate is after to the given date
+  -  `includeRecurringProjects`: Boolean - Filter the projects that are recurring projects. Default is false and will not return recurring projects
+  -  `deleted`: Boolean - Filter the projects that deleted is passed false(default behaviour). If passed true will include all projects
+
+### Sample filter
 ```
  "dueDate": {
       "between": {
@@ -303,12 +347,13 @@ Sample Variables:
        } 
    ] 
   }
-```    
+```
+Required Fields:
+<<TODO>>
 
 Sample response:
 
-<<TODO>>
-<<TODO>>
+```<<>>```
 
 ### Update mutation
 
