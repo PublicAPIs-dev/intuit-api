@@ -7,8 +7,8 @@ parent: Schema Entities
 
 ## Time Entry
 
-The APIs related to the Time Entry allow you to manage Time so that you can track your Time entry for Employee/Vendor Contractor(1099) against the customer/project.
-The Time API provides support for create, read, update and delete operations.
+The APIs related to the Time Entry allow you to track & manage time entries for Employee/Vendor Contractor(1099) against the customer/project.
+The Time Entry API supports  create, read, update and delete operations.
 
 ### Operations for Time Entry
 
@@ -17,7 +17,7 @@ The Time API provides support for create, read, update and delete operations.
 - Update - Mutation (POST)
 - Delete - Mutation (POST)
 
-### Endpoints
+### Endpoint
 
 -   For production apps:  https://qb.api.intuit.com/graphql
 
@@ -39,74 +39,152 @@ The Time API provides support for create, read, update and delete operations.
 
 ### TimeTracking_CreateTimeEntryByDurationInput 
 
-| Field                  | Type                               | Required | Description                                                              |
-|------------------------|------------------------------------|----------|--------------------------------------------------------------------------|
-| startDate              | Date!                              | yes      | The date on which this time entry begins.                                |
-| duration               | Int!                               | yes      | The total number of seconds to record for this time entry.               |
-| timeFor                | TimeTracking_TrackTimeForInput!    | yes      | The ID and type whose time is recorded for on this time entry.           |
-| timeAgainst            | TimeTracking_TrackTimeAgainstInput | no       | The ID and type of entity that this time entry is tracking time against. |
-| notes                  | String                             | no       | Notes associated with this time entry (2048 character limit).            |
-| classId                | ID                                 | no       | The ID of the class that this time entry is tracking time against.       |
-| employeeCompensationId | ID                                 | no       | The ID of the Employee that this time entry is tracking time against.    |
-| serviceItemId          | ID                                 | no       | The ID of the Service Item that applies to this time entry.              |
-| billable               | Boolean                            | no       | Whether the time is billable.                                            |
+```
 
+"""
+Input arguments for creating a duration based time entry
+"""
+input TimeTracking_CreateTimeEntryByDurationInput {
+    """
+    The date on which this time entry begins
+    """
+    startDate: Date!
 
-### TimeTracking_UpdateTimeEntryByDurationInput ( all the inputs as CreateInput applies just with additional input Id)
+    """
+    The number of seconds recorded by this time entry
+    """
+    duration: Int!
 
-| Field | Type | Required | Description                             |
-|-------|------|----------|-----------------------------------------|
-| id    | ID!  | yes      | The ID of the time entry to be updated. |
+    """
+    The ID and type whose time is recorded for on this time entry
+    """
+    timeFor: TimeTracking_TrackTimeForInput!
 
-### TimeTracking_DeleteTimeEntryInput (just the ID)
+    """
+    The ID and type of entity that this time entry is tracking time against.
+    """
+    timeAgainst: TimeTracking_TrackTimeAgainstInput
 
-| Field | Type | Required | Description                             |
-|-------|------|----------|-----------------------------------------|
-| id    | ID!  | yes      | The ID of the time entry to be updated. |
+    """
+    Notes associated with this time entry (2048 character limit)
+    """
+    notes: String
 
-### TimeTracking_TrackTimeForInput!
+    """
+    The ID of the AppFoundations_CustomDimensionValue that this time entry is tracking time against.
+    """
+    classId: ID
 
-| Field      | Type                          | Required | Description                                  |
-|------------|-------------------------------|----------|----------------------------------------------|
-| id         | ID!                           | yes      | The ID of the entity (e.g. Employee, Vendor) |
-| entityType | TimeTracking_TimeTrackForType | no       | The entity type that is being tracked        |
+    """
+    The ID of the Payroll_EmployeeCompensation that this time entry is tracking time against.
+    """
+    employeeCompensationId: ID
+
+    """
+    The ID of the Service Item Commerce_ProductVariant that applies to this time entry
+    """
+    serviceItemId: ID
+
+    """
+    Whether the time is billable
+    """
+    billable: Boolean
+}
+
+```
+
+### TimeTracking_TrackTimeForInput
+
+```
+"""
+Input arguments whose time is being tracked
+"""
+input TimeTracking_TrackTimeForInput  {
+    """
+    The ID of the entity
+    """
+    id: ID!
+
+    """
+    The entity type that is being tracked
+    """
+    entityType: TimeTracking_TimeTrackForType! = EMPLOYEE
+}
+```
 
 ### TimeTracking_TimeTrackForType
 
-| eNum     | Description                   |
-|----------|-------------------------------|
-| EMPLOYEE | The ID references an Employee |
-| VENDOR   | The ID references a Vendor    |
+```
+"""
+Indicates the type for which time is being tracked
+NOTE: This list may be extended in the future and is used as input only.
+"""
+enum TimeTracking_TimeTrackForType {
+    """
+    The ID references an WorkerManagement_Employee
+    """
+    EMPLOYEE
+
+    """
+    The ID references a Commerce_Vendor
+    """
+    VENDOR
+}
+```
 
 ### TimeTracking_TrackTimeAgainstInput
+```
+"""
+Input arguments for the entity that is being tracked against
+"""
+input TimeTracking_TrackTimeAgainstInput {
+    """
+    The ID of the entity (e.g. customer, project)
+    """
+    id: ID!
 
-| Field      | Type                               | Required | Description                                   |
-|------------|------------------------------------|----------|-----------------------------------------------|
-| id         | ID!                                | yes      | The ID of the entity (e.g. customer, project) |
-| entityType | TimeTracking_TrackTimeAgainstType! | yes      | TThe entity type that is being tracked        |
+    """
+    The entity type that is being tracked against
+    """
+    entityType: TimeTracking_TrackTimeAgainstType!
+}
+```
 
 ### TimeTracking_TrackTimeAgainstType
-
-| eNum     | Description                  |
-|----------|------------------------------|
-| CUSTOMER | The ID references a Customer |
-| PROJECT  | The ID references a Project  |
-
-
-### Sample query header
-
--   Content-type: **application/json**
--   Use the time scope for the authorization header  
-**[time-tracking.time-entry (read & write)** | **time-tracking.time-entry.read (read only)]** 
-
-### Sample query body
-
-Sample query (Query Time Entries):
 ```
-query readMinimalTimeSheet {
-  timeTrackingTimeEntries(
-    filter: {ids:[timeentry1,timeentry2]}
-  ) {
+"""
+Indicates the type of the entity being tracked against. (`[CUSTOMER, PROJECT]`).
+"""
+enum TimeTracking_TrackTimeAgainstType  {
+    """
+    The ID references a Customer
+    """
+    CUSTOMER
+
+    """
+    The ID references a Project
+    """
+    PROJECT
+}
+```
+
+### Query Time Entry
+
+Read Time Entries:
+```
+query readMinimalTimeSheet (
+ $after: String,
+  $first: Int,
+  $filter: TimeTracking_TimeEntryInputFilter,
+  $orderBy: [TimeTracking_TimeEntryOrderBy]
+)  {
+  timeTrackingTimeEntries( 
+    after: $after,
+    first: $first,
+    filter: $filter,
+    orderBy: $orderBy
+    )
+   {
     edges {
       node {
         id
@@ -140,8 +218,6 @@ query readMinimalTimeSheet {
     }
   }
 }
-
-
 ```
 
 Variables:
@@ -197,26 +273,79 @@ Response:
         }
     }
 }
-
 ```
 
-## Filter support:
+### Filter support:
 
-Currently, the filters supported on time entry includes -
+### TimeTracking_TimeEntryInputFilter
 
-   - `ids` - A list of time entry IDs to filter by. Example: "ids": [123, 456, 789]
-   - `dateRange` : TimeTracking_DatePeriod - Specify whether to limit your query on time entries with a date falling in a date range
-      - `beginDate` - beginning date of the time entry.
-      -  `endDate` -  ending date of the time entry.
-   - `states` : [TimeTracking_TimeEntryState] - Filters retrieved time entries by state. If not specified, will return all states except OPEN. Possible values
-      - `OPEN` - it means that the entity associated with the time entry is currently on the clock.
-      - `CLOSED` - the entity has clocked out of the time entry and thus it has both a start and an end time. Duration only time entries are always "CLOSED".
-      - `SUBMITTED` - the entity has submitted the time frame that encompasses this time entry.
-      - `APPROVED` - then a manager or admin has approved the time frame that encompasses this time entry.
+```
+"""
+Input filter arguments for a timeTrackingTimeEntries query
+"""
+input TimeTracking_TimeEntryInputFilter  {
+    """
+    A list of time entry IDs to filter by. Example: "ids": [123, 456, 789]
+    """
+    ids: [ID!]
 
-You can create a joint filter by including more than one filterable field. Sample filter **query by dateRange** & states in the filter. 
-For filtering by time entry Ids use [ eg: "ids":[664243412,664243674]]
+    """
+    Specify whether to limit your query on time entries with a date falling in a date range
+    """
+    dateRange: TimeTracking_DatePeriod
 
+    """
+    Filters retrieved time entries by state. If not specified, will return all states except OPEN.
+    """
+    states: [TimeTracking_TimeEntryState]
+
+}
+```
+
+### TimeTracking_DatePeriod
+
+```
+"""
+Period of time represented by two dates (e.g. 2015-03-05 through 2015-03-11)
+"""
+input TimeTracking_DatePeriod {
+    beginDate: Date!
+    endDate: Date!
+}
+```
+
+### TimeTracking_TimeEntryState
+
+```
+"""
+Indicates the current state of a time entry (`[OPEN, CLOSED, SUBMITTED, or APPROVED]`).
+NOTE: A time entry may only be in one of these four states at a time, they're mutually
+exclusive of one another.
+"""
+enum TimeTracking_TimeEntryState  {
+    """
+    If the state is `OPEN`, it means that the entity associated with the time entry is currently on the clock, thus the time entry is `OPEN`.
+    """
+    OPEN
+
+    """
+    If the state is `CLOSED`, then the entity has clocked out of the time entry and thus it has both a start and an end time. Duration only time entries are always `CLOSED`.
+    """
+    CLOSED
+
+    """
+    If the state is `SUBMITTED` then the entity has submitted the time frame that encompasses this time entry.
+    """
+    SUBMITTED
+
+    """
+    If the state is `APPROVED`, then a manager or admin has approved the time frame that encompasses this time entry.
+    """
+    APPROVED
+}
+```
+
+### Sample Filter
 ```
 {
 "after":null,
@@ -226,15 +355,52 @@ For filtering by time entry Ids use [ eg: "ids":[664243412,664243674]]
      },
      "states": ["OPEN", "CLOSED", "APPROVED"]
     },
-    "orderBy": ["START_ASC","START_DESC","END_ASC",
-    "END_DESC","DURATION_ASC","DURATION_DESC"
-    ] 
+    "orderBy": ["START_ASC"] 
  }
+```
 
+### TimeTracking_TimeEntryOrderBy
 
 ```
 
-### Create mutation
+"""
+Indicates the order of the timeTrackingTimeEntries query results
+"""
+enum TimeTracking_TimeEntryOrderBy {
+    """
+    Order query results by the start date/time of the time entry in ascending fashion
+    """
+    START_ASC
+
+    """
+    Order query results by the start date/time of the time entry in descending fashion
+    """
+    START_DESC
+
+    """
+    Order query results by the end date/time of the time entry in ascending fashion
+    """
+    END_ASC
+
+    """
+    Order query results by the end date/time of the time entry in descending fashion
+    """
+    END_DESC
+
+    """
+    Order query results by the time entry duration in ascending fashion
+    """
+    DURATION_ASC
+
+    """
+    Order query results by the time entry duration in descending fashion
+    """
+    DURATION_DESC
+}
+
+```
+
+### Create Time Entry
  
 Mutation:
  
@@ -348,7 +514,60 @@ Sample response:
 
 ```
 
-### Update mutation
+### TimeTracking_CreateTimeEntryByDurationInput
+
+```
+Input arguments for creating a duration based time entry
+"""
+input TimeTracking_CreateTimeEntryByDurationInput {
+    """
+    The date on which this time entry begins
+    """
+    startDate: Date!
+
+    """
+    The number of seconds recorded by this time entry
+    """
+    duration: Int!
+
+    """
+    The ID and type whose time is recorded for on this time entry
+    """
+    timeFor: TimeTracking_TrackTimeForInput!
+
+    """
+    The ID and type of entity that this time entry is tracking time against.
+    """
+    timeAgainst: TimeTracking_TrackTimeAgainstInput
+
+    """
+    Notes associated with this time entry (2048 character limit)
+    """
+    notes: String
+
+    """
+    The ID of the AppFoundations_CustomDimensionValue that this time entry is tracking time against.
+    """
+    classId: ID
+
+    """
+    The ID of the Payroll_EmployeeCompensation that this time entry is tracking time against.
+    """
+    employeeCompensationId: ID
+
+    """
+    The ID of the Service Item Commerce_ProductVariant that applies to this time entry
+    """
+    serviceItemId: ID
+
+    """
+    Whether the time is billable
+    """
+    billable: Boolean
+}
+```
+
+### Update Time Entry
 
 Mutation:
 
@@ -425,7 +644,61 @@ Response:
     }
 }
 ```
-### Delete Mutation
+
+### TimeTracking_UpdateTimeEntryByDurationInput
+
+```
+"""
+Input arguments for updating a duration based time entry
+"""
+input TimeTracking_UpdateTimeEntryByDurationInput {
+    """
+    The ID of the time entry to be updated.
+    """
+    id: ID!
+
+    """
+    The date on which this time entry begins
+    """
+    startDate: Date
+
+    """
+    The total number of seconds to record for this time entry
+    """
+    duration: Int
+
+    """
+    The ID and type of entity that this time entry is tracking time against.
+    """
+    timeAgainst: TimeTracking_TrackTimeAgainstInput
+
+    """
+    Notes associated with this time entry (2048 character limit)
+    """
+    notes: String
+
+    """
+    The ID of the AppFoundations_CustomDimensionValue that this time entry is tracking time against.
+    """
+    classId: ID
+
+    """
+    The ID of the Payroll_EmployeeCompensation that this time entry is tracking time against.
+    """
+    employeeCompensationId: ID
+
+    """
+    The ID of the Service Item Commerce_ProductVariant that applies to this time entry
+    """
+    serviceItemId: ID
+
+    """
+    Whether the time is billable
+    """
+    billable: Boolean
+}
+```
+### Delete Time Entry
 
 Mutation:
 
@@ -469,6 +742,20 @@ Response:
             }
         }
     }
+}
+```
+
+### TimeTracking_DeleteTimeEntryInput
+
+```
+"""
+Input arguments for deleting a time entry
+"""
+input TimeTracking_DeleteTimeEntryInput @tag(name: "qb") @tag(name: "qb-external") {
+    """
+    The ID of the time entry to be deleted.
+    """
+    id: ID!
 }
 
 ```
