@@ -37,62 +37,6 @@ The Time Entry API supports  create, read, update and delete operations.
 
 ### Input Variables:
 
-### TimeTracking_CreateTimeEntryByDurationInput 
-
-```
-
-"""
-Input arguments for creating a duration based time entry
-"""
-input TimeTracking_CreateTimeEntryByDurationInput {
-    """
-    The date on which this time entry begins
-    """
-    startDate: Date!
-
-    """
-    The number of seconds recorded by this time entry
-    """
-    duration: Int!
-
-    """
-    The ID and type whose time is recorded for on this time entry
-    """
-    timeFor: TimeTracking_TrackTimeForInput!
-
-    """
-    The ID and type of entity that this time entry is tracking time against.
-    """
-    timeAgainst: TimeTracking_TrackTimeAgainstInput
-
-    """
-    Notes associated with this time entry (2048 character limit)
-    """
-    notes: String
-
-    """
-    The ID of the AppFoundations_CustomDimensionValue that this time entry is tracking time against.
-    """
-    classId: ID
-
-    """
-    The ID of the Payroll_EmployeeCompensation that this time entry is tracking time against.
-    """
-    employeeCompensationId: ID
-
-    """
-    The ID of the Service Item Commerce_ProductVariant that applies to this time entry
-    """
-    serviceItemId: ID
-
-    """
-    Whether the time is billable
-    """
-    billable: Boolean
-}
-
-```
-
 ### TimeTracking_TrackTimeForInput
 
 ```
@@ -106,9 +50,9 @@ input TimeTracking_TrackTimeForInput  {
     id: ID!
 
     """
-    The entity type that is being tracked
+    The entity type that is being tracked. If not set defaults to Employee
     """
-    entityType: TimeTracking_TimeTrackForType! = EMPLOYEE
+    entityType: TimeTracking_TimeTrackForType! = EMPLOYEE 
 }
 ```
 
@@ -453,6 +397,61 @@ Required fields:
 - startDate - The date on which this time entry begins.
 - duration - The number of seconds recorded by this time entry
 - timeFor - The ID and type whose time is recorded for on this time entry [EMPLOYEE, VENDOR]
+
+### TimeTracking_CreateTimeEntryByDurationInput 
+
+```
+"""
+Input arguments for creating a duration based time entry
+"""
+input TimeTracking_CreateTimeEntryByDurationInput {
+    """
+    The date on which this time entry begins
+    """
+    startDate: Date!
+
+    """
+    The number of seconds recorded by this time entry
+    """
+    duration: Int!
+
+    """
+    The ID and type whose time is recorded for on this time entry
+    """
+    timeFor: TimeTracking_TrackTimeForInput!
+
+    """
+    The ID and type of entity that this time entry is tracking time against.
+    """
+    timeAgainst: TimeTracking_TrackTimeAgainstInput
+
+    """
+    Notes associated with this time entry (2048 character limit)
+    """
+    notes: String
+
+    """
+    The ID of the AppFoundations_CustomDimensionValue that this time entry is tracking time against.
+    """
+    classId: ID
+
+    """
+    The ID of the Payroll_EmployeeCompensation that this time entry is tracking time against.
+    """
+    employeeCompensationId: ID
+
+    """
+    The ID of the Service Item Commerce_ProductVariant that applies to this time entry
+    """
+    serviceItemId: ID
+
+    """
+    Whether the time is billable
+    """
+    billable: Boolean
+}
+
+```
  
 Sample Variables: 
 ``` 
@@ -512,59 +511,6 @@ Sample response:
     }
 }
 
-```
-
-### TimeTracking_CreateTimeEntryByDurationInput
-
-```
-Input arguments for creating a duration based time entry
-"""
-input TimeTracking_CreateTimeEntryByDurationInput {
-    """
-    The date on which this time entry begins
-    """
-    startDate: Date!
-
-    """
-    The number of seconds recorded by this time entry
-    """
-    duration: Int!
-
-    """
-    The ID and type whose time is recorded for on this time entry
-    """
-    timeFor: TimeTracking_TrackTimeForInput!
-
-    """
-    The ID and type of entity that this time entry is tracking time against.
-    """
-    timeAgainst: TimeTracking_TrackTimeAgainstInput
-
-    """
-    Notes associated with this time entry (2048 character limit)
-    """
-    notes: String
-
-    """
-    The ID of the AppFoundations_CustomDimensionValue that this time entry is tracking time against.
-    """
-    classId: ID
-
-    """
-    The ID of the Payroll_EmployeeCompensation that this time entry is tracking time against.
-    """
-    employeeCompensationId: ID
-
-    """
-    The ID of the Service Item Commerce_ProductVariant that applies to this time entry
-    """
-    serviceItemId: ID
-
-    """
-    Whether the time is billable
-    """
-    billable: Boolean
-}
 ```
 
 ### Update Time Entry
