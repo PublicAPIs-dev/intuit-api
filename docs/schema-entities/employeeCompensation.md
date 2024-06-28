@@ -34,45 +34,31 @@ This resource allows your app to view the types of compensations provided from t
 | 1   | employeeId             | String                             |      | The ID of the Employee. If passed in specific employeeId, the query will return all active compensations assigned/applicable to the employee |
 
 
+### Read EmployeeCompensationId 
 
+Query Employee Compensation:
 
-### Sample query header
-
--   Content-type: **application/json**
--   Use the time scope for the authorization header: **[payroll.compensation.read (read only)]** 
-
-### Sample query body
-
-Do an [introspection query](../../graphql-concepts/introspection) to see the current schema for the EmployeeCompensation entity.
-Here's an example query. Remember, with GraphQL you only need to query for the data you need:
-
-Sample query (Query Time Entries):
 ```
-query RequestEmployerInfo {
+query getEmployeeCompensationById {
   payrollEmployerInfo {
-    employerCompensations(filter: { employeeId: "1" }) {
-      edges {
-        node {
-          id
-          name
-          type {
-            key
-            value
-            description
-          }
-        }
-      }
-    }
+	employerCompensations (filter: {employeeId: "4"}){
+  	edges {
+    	node {
+      	id
+      	alternateIds {
+        	id
+      	}
+      	name
+      	type {
+        	key
+        	value
+        	description
+      	}
+    	}
+  	}
+	}
   }
 }
-
-
-
-```
-
-Variables:
-
-```
 
 ```
 
@@ -85,7 +71,12 @@ Response:
                 "edges": [
                     {
                         "node": {
-                            "id": "1000027777",
+                            "id": "1000029752",
+                            "alternateIds": [
+                                {
+                                    "id": "djQuMTo5MzQxNDUyMTk5MDE3Mzc1OjI4ZDA3MTdlOTY:1000029752"
+                                }
+                            ],
                             "name": "Overtime Pay",
                             "type": {
                                 "key": "OVERTIME",
@@ -96,7 +87,12 @@ Response:
                     },
                     {
                         "node": {
-                            "id": "1000027778",
+                            "id": "1000029753",
+                            "alternateIds": [
+                                {
+                                    "id": "djQuMTo5MzQxNDUyMTk5MDE3Mzc1OjI4ZDA3MTdlOTY:1000029753"
+                                }
+                            ],
                             "name": "Double Overtime Pay",
                             "type": {
                                 "key": "DOUBLE_OVERTIME",
@@ -107,7 +103,12 @@ Response:
                     },
                     {
                         "node": {
-                            "id": "1000027783",
+                            "id": "1000029758",
+                            "alternateIds": [
+                                {
+                                    "id": "djQuMTo5MzQxNDUyMTk5MDE3Mzc1OjI4ZDA3MTdlOTY:1000029758"
+                                }
+                            ],
                             "name": "Holiday Pay",
                             "type": {
                                 "key": "HOLIDAY_PAY",
@@ -118,29 +119,12 @@ Response:
                     },
                     {
                         "node": {
-                            "id": "1000027784",
-                            "name": "Bonus",
-                            "type": {
-                                "key": "BONUS",
-                                "value": "BONUS",
-                                "description": "BONUS"
-                            }
-                        }
-                    },
-                    {
-                        "node": {
-                            "id": "1000027785",
-                            "name": "Commission",
-                            "type": {
-                                "key": "COMMISSION",
-                                "value": "COMMISSION",
-                                "description": "COMMISSION"
-                            }
-                        }
-                    },
-                    {
-                        "node": {
-                            "id": "1000027786",
+                            "id": "1000029761",
+                            "alternateIds": [
+                                {
+                                    "id": "djQuMTo5MzQxNDUyMTk5MDE3Mzc1OjI4ZDA3MTdlOTY:1000029761"
+                                }
+                            ],
                             "name": "Salary",
                             "type": {
                                 "key": "SALARY",

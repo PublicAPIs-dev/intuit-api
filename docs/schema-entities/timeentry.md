@@ -12,10 +12,10 @@ The Time Entry API supports  create, read, update and delete operations.
 
 ### Operations for Time Entry
 
-- Read - Query (POST)
-- Create - Mutation (POST)
-- Update - Mutation (POST)
-- Delete - Mutation (POST)
+- [Read](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#query-time-entry) - Query (POST)
+- [Create](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#create-time-entry) - Mutation (POST)
+- [Update](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#update-time-entry) - Mutation (POST)
+- [Delete](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#delete-time-entry) - Mutation (POST)
 
 ### Endpoint
 
@@ -27,8 +27,8 @@ The Time Entry API supports  create, read, update and delete operations.
 |------------------------|------------------------------------|----------|-------------------------------------------------------------------------------------------|
 | startDate              | Date!                              | yes      | The date on which this time entry begin.                                                  |
 | duration               | Int!                               | yes      | The number of seconds recorded by this time entry.                                        |
-| timeFor                | TimeTracking_TrackTimeForInput!    | yes      | The ID and type whose time is recorded for on this time entry.                            |
-| timeAgainst            | TimeTracking_TrackTimeAgainstInput | no       | The ID and type of entity that this time entry is tracking time against.                  |
+| timeFor                | [TimeTracking_TrackTimeForInput](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#timetracking_tracktimeforinput)!    | yes      | The ID and type whose time is recorded for on this time entry.                            |
+| timeAgainst            | [TimeTracking_TrackTimeAgainstInput](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#timetracking_tracktimeagainstinput) | no       | The ID and type of entity that this time entry is tracking time against.                  |
 | notes                  | String                             | no       | Notes associated with this time entry (2048 character limit).                             |
 | classId                | ID                                 | no       | The ID of the class that this time entry is tracking time against.                        |
 | employeeCompensationId | ID                                 | no       | The ID of the Payroll_EmployeeCompensation that this time entry is tracking time against. |

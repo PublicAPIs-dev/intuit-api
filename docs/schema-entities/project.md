@@ -11,10 +11,10 @@ The APIs related to the Project entity allow you to manage and track projects. T
 
 ### Operations supported for Project                
                                               
-- Read - Query (POST)                         
-- Create - Mutation (POST)                    
-- Update - Mutation (POST)                    
-- Delete - Mutation (POST)                    
+- [Read](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#read-project) - Query (POST)                         
+- [Create](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#create-project) - Mutation (POST)                    
+- [Update](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#update-project) - Mutation (POST)                    
+- [Delete](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#delete-project) - Mutation (POST)                    
 
 We have also added support to the below transactions so  that you can configure a project ID. This will allow you to read back information about the project to which this transaction belongs to (if any). These include a few transactions like -
 To do this you can make use of the "ProjectRef" field in the V3 entity which is available starting with minorVersion=69)
