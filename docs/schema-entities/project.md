@@ -656,9 +656,9 @@ input ProjectManagement_ExternalReferenceInput {
 }
 ```
 
-### Query Project
+### Read Project
 
-Read Project:
+Query:
 ```
  query projectManagementProjects(
    $first: PositiveInt!,
