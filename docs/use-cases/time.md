@@ -76,29 +76,20 @@ Sample name value pair response for reference:
 
 This use case is applicable for the customers who are enrolled to **QuickBooks Payroll** and have the **Projects enabled** in QuickBooks Online.
 
-Pre-steps:
-- Use [V3 Accounting Query Item API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/item) to get `serviceItemId` (optional) 
+##### Use [Create Time Entry(Mutation)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#create-time-entry) GraphQL API to create time entry by 
 
-##### Step 1:Use the [V3 Accounting Query Employee](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/employee#query-an-employee) to get `employee -> Id`
-
-##### Step 2: Use the [Read EmployeeCompensation](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/employeeCompensation/#sample-query-body) GraphQL API to query the compensation data & use the `compensation ->id` from the response to record paytype.
-
-##### Step 3: Use the [Read Project](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#read-project) GraphQL API to read `project -> id`.
-
-##### Step 4: Use [create time entry](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#create-time-entry) GraphQL API to create time entry by 
- - Fetching id from step 2 & set it in `employeeCompensationId` time object and 
- - Fetching Project -> Id from Step 3 & set it in `timeAgainst->{id, entityType:"PROJECT""}` time object
-
+- Fetching required `employee->id` from [V3 Accounting Employee Query](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/employee#query-an-employee)  & set it in `timeFor -> { id, entityType:"EMPLOYEE""}` time entry object. 
+- Use the above `employee->id` to fetch required `compensation ->id` from [Read EmployeeCompensation(Query)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/employeeCompensation/#sample-query-body) GraphQL API & set it in `employeeCompensationId` in time entry object.
+- Fetching required `project -> Id` from [Read Project(Query)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#read-project) GraphQL API to read `project -> id` & set it in `timeAgainst->{id, entityType:"PROJECT""}` time entry object.
+- Fetching required `Item->id` from [V3 Accounting Query Item API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/item)& set it in `serviceItemId` time entry object
 
 ### Use Case 2: Create Time entry with paytype
 This use case is applicable for the customers who are enrolled to **QuickBooks Payroll** and **do not** have the **Projects** enabled in QuickBooks Online.
 
-##### Step 1: Use the [V3 Accounting Employee Query](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/employee#query-an-employee) to get `employee -> Id`
+##### Use [Create Time Entry(Mutation)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#create-time-entry) GraphQL API to create time entry by
 
-##### Step 2: Use the [Read EmployeeCompensation(Query)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/employeeCompensation/#sample-query-body) GraphQL API to query the compensation data & use the `compensation ->id` from the response to record paytype.
-
-##### Step 3: Use [Create Time Entry(Mutation)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#create-time-entry) GraphQL API to create time entry by 
- - Fetching id from step 2 & set it in `employeeCompensationId` time object
+- Fetching required `employee->id` from [V3 Accounting Employee Query](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/employee#query-an-employee)  & set it in `timeFor -> { id, entityType:"EMPLOYEE""}` time entry object. 
+- Fetching required `compensation ->id` from [Read EmployeeCompensation(Query)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/employeeCompensation/#sample-query-body) GraphQL API & set it in `employeeCompensationId` in time entry object.
 
 
 ### Use Case 3: Create Time Entry and link to projects
@@ -106,8 +97,8 @@ This use case is applicable for the customers who are **not** enrolled to **Quic
 
 ##### Use [Create Time Entry(Mutation)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#create-time-entry) GraphQL API to create time entry by 
 
-- Fetching required `employee->id` from [V3 Accounting Employee Query](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/employee#query-an-employee)  & set it in `timeFor -> { id, entityType:"EMPLOYEE""}` time entry object  
-- Fetching required `Item->id` from [V3 Accounting Query Item API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/item)  & set it in `serviceItemId` time entry object 
+- Fetching required `employee->id` from [V3 Accounting Employee Query](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/employee#query-an-employee)  & set it in `timeFor -> { id, entityType:"EMPLOYEE""}` time entry object.  
+- Fetching required `Item->id` from [V3 Accounting Query Item API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/item)  & set it in `serviceItemId` time entry object. 
 - Fetching required `project -> Id` from [Read Project(Query)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#read-project) GraphQL API to read `project -> id` & set it in `timeAgainst->{id, entityType:"PROJECT""}` time entry object.
 
 ### Use Case 4: Create Time Entry for employee

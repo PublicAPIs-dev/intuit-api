@@ -7,7 +7,17 @@ parent: Schema Entities
 
 ## Custom Field
 
-The APIs related to the Custom Fields allow you to manage and sync custom fields into QuickBooks Online. The Custom Fields API provides support for create, read, update, and disable operations. You can also add custom fields to transactions and other entities by configuring the custom field definition ID while creating the transaction.
+The APIs related to the Custom Fields allow you to manage and sync custom fields into QuickBooks Online. 
+The Custom Fields API provides support for create, read, update, and disable operations. 
+When creating a Custom Field, you can create associations with entities. 
+You can also add custom fields to transactions and other entities by configuring the custom field definition ID while creating the transaction.
+
+### Operations for Custom Fields entity
+
+- [Read](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#read-custom-fields) - Query (POST)
+- [Create](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#create-custom-field) - Mutation (POST)
+- [Update](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#update-custom-field) - Mutation (POST)
+- [Disable](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#disable-custom-field) -Mutation (POST)
 
 
 ### API Reference
