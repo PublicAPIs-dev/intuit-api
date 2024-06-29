@@ -40,10 +40,10 @@ These include a few transactions like -
 
 ### Operations for Project entity
 
-- Read - Query (POST)
-- Create - Mutation (POST)
-- Update - Mutation (POST)
-- Delete - Mutation (POST)
+- [Read](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#read-project) - Query (POST)                         
+- [Create](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#create-project) - Mutation (POST)                    
+- [Update](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#update-project) - Mutation (POST)                    
+- [Delete](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#delete-project) - Mutation (POST)   
 
 
 ### Scopes

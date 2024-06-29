@@ -7,8 +7,9 @@ parent: Use Cases
 
 ## Custom Fields
 
-The APIs related to the Custom Fields allow you to manage and sync custom fields into QuickBooks Online.
-The Custom Fields API provides support for create, read, update, and disable operations.
+The APIs related to the Custom Fields allow you to manage and sync custom fields into QuickBooks Online. 
+The Custom Fields API provides support for create, read, update, and disable operations. 
+When creating a Custom Field, you can create associations with entities. 
 You can also add custom fields to transactions and other entities by configuring the custom field definition ID while creating the transaction.
 
 This page outlines - 
@@ -32,8 +33,6 @@ Currently, custom fields are supported for the following transactions and entiti
     - Customer
     - Vendor
 
-  
-
 ### Integration Diagram
 
 ![](/intuit-api/assets/images/CustomField.png)
@@ -41,11 +40,10 @@ Currently, custom fields are supported for the following transactions and entiti
 
 ### Operations for Custom Fields entity
 
-- Read - Query (POST)
-- Create - Mutation (POST)
-- Update - Mutation (POST)
-- Disable - Mutation (POST)
-
+- [Read](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#read-custom-fields) - Query (POST)
+- [Create](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#create-custom-field) - Mutation (POST)
+- [Update](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#update-custom-field) - Mutation (POST)
+- [Disable](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#disable-custom-field) -Mutation (POST)
 
 ### Scopes
 
@@ -57,8 +55,7 @@ Currently, custom fields are supported for the following transactions and entiti
 ### Endpoints
 
 -   GraphQL API:  https://qb.api.intuit.com/graphql 
--   V3 Accounting REST API: https://quickbooks.api.intuit.com/v3/company/{{realmid}}/entityname/ 
-
+-   V3 Accounting REST API: https://quickbooks.api.intuit.com/v3/company/<realm_id>/<entityname>?minorversion=70&include=enhancedAllCustomFields
 
 ### Required headers
 
@@ -73,35 +70,19 @@ Note: Use tokens generated using scopes mentioned above in the authorization hea
 
 
 #### Use Case 1: Read Custom Fields Definitions
-Use GraphQL API to read Custom Fields Definitions. The output would list the custom fields that’s being set up in the company along with data types and the entities it’s for.
+Use [Read Custom Field](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#read-custom-fields) GraphQL API to read Custom Fields Definitions. The output would list the custom fields that’s being set up in the company along with data types and the entities it’s for.
 
-
-```
-
-```
-
-
-#### Use Case 2: Create Custom Fields Definitions
-Use GraphQL API to create Custom Fields Definitions. 
-
-```
-
-```
-
+#### Use Case 2: Create Custom Field Definitions
+Use GraphQL API to [Create Custom Field Definitions](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#create-custom-field). 
 
 #### Use Case 3: Create transactions with custom fields
 
--   Transactions that support custom fields: Estimate,Invoice,Sales Receipt, Credit Memo, Refund Receipt, Purchase Order, Expense, Bill, VendorCredit
--   Use Accounting V3 Rest API to create transaction and send CustomFieldDefinitionid with values from Step 1 below
+-   Transactions that support custom fields: `Estimate,Invoice,Sales Receipt, Credit Memo, Refund Receipt, Purchase Order, Expense, Bill, VendorCredit`
+-   Use Accounting V3 Rest API to create transaction and send CustomFieldDefinitionId with values from Step 1 below
 
+##### Step 1: Use [Create custom field definitions](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#create-custom-field)  GraphQL API
 
-
-##### Step 1: Create custom field definition using GrapqhQL API
-
-```
-
-```
-##### Step 2: V3 Accounting Rest API to create invoice with custom fields
+##### Step 2: [V3 Accounting Rest API Endpoint](https://intuitdeveloper.github.io/intuit-api/docs/use-cases/customfield/#endpoints) to create invoice with custom fields
 
 API Request:
 
@@ -238,24 +219,99 @@ API Response:
     "time": "2024-05-29T23:22:06.843-07:00"
 }
 
-
 ```
 
 #### Use Case 4: Create entity with custom fields
 
 -   Entities that support custom fields: Customer, Vendor
--   Use Accounting V3 Rest API to create a customer or vendor entity and send CustomFieldDefinitionid with values from Step 1 below
+-   Use Accounting V3 Rest API to create a customer or vendor entity and send CustomFieldDefinitionId with values from Step 1 below
+
+##### Step 1: Use [Create custom field definitions](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#create-custom-field) GraphQL API 
 
 
+##### Step 2: [V3 Accounting Rest API Endpoint](https://intuitdeveloper.github.io/intuit-api/docs/use-cases/customfield/#endpoints) to create customer with custom fields
 
-##### Step 1: Create or read custom field definition using GrapqhQL API
+Sample Customer with Custom Field definition:
+```
+{
+	"BillAddr": {
+    	"Line1": "1234 Main Street",
+    	"City": "Mountain View",
+    	"Country": "USA",
+    	"CountrySubDivisionCode": "CA",
+    	"PostalCode": "94042"
+	},
+	"Notes": "Notes: Customer-0617 with CF",
+	"DisplayName": "Customer-0617",
+	"PrimaryPhone": {
+    	"FreeFormNumber": "(408) 555-9999"
+	},
+   "CustomField": [
+	{
+    	"DefinitionId": "287160",
+    	"StringValue": "CF=CustomerType"
+	}
+	],
+	"PrimaryEmailAddr": {
+    	"Address": "cstomer0617@myemail.com"
+	}
+}
+
 ```
 
-```
-
-##### Step 2: V3 Accounting Rest API to create customer with custom fields
+Response:
 
 ```
+{
+	"Customer": {
+    	"Taxable": false,
+    	"BillAddr": {
+        	"Id": "8",
+        	"Line1": "1234 Main Street",
+        	"City": "Mountain View",
+        	"Country": "USA",
+        	"CountrySubDivisionCode": "CA",
+        	"PostalCode": "94042"
+    	},
+    	"Notes": "Notes: Customer-0617 with CF",
+    	"Job": false,
+    	"BillWithParent": false,
+    	"Balance": 0,
+    	"BalanceWithJobs": 0,
+    	"CurrencyRef": {
+        	"value": "USD",
+        	"name": "United States Dollar"
+    	},
+    	"PreferredDeliveryMethod": "None",
+    	"IsProject": false,
+    	"domain": "QBO",
+    	"sparse": false,
+    	"Id": "5",
+    	"SyncToken": "0",
+    	"MetaData": {
+        	"CreateTime": "2024-06-17T23:38:10-07:00",
+        	"LastUpdatedTime": "2024-06-17T23:38:10-07:00"
+    	},
+    	"CustomField": [
+          {
+            	"DefinitionId": "287160",
+            	"Name": "CF=customerType",
+            	"Type": "StringType",
+            	"StringValue": "CF=CustomerType"
+          }
+    	],
+    	"FullyQualifiedName": "Customer-0617",
+    	"DisplayName": "Customer-0617",
+    	"PrintOnCheckName": "Customer-0617",
+    	"Active": true,
+    	"PrimaryPhone": {
+        	"FreeFormNumber": "(408) 555-9999"
+    	},
+    	"PrimaryEmailAddr": {
+        	"Address": "cstomer0617@myemail.com"
+    	}
+	},
+	"time": "2024-06-17T23:38:09.415-07:00"
+}
 
 ```
-

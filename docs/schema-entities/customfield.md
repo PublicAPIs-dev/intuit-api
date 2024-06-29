@@ -10,7 +10,6 @@ parent: Schema Entities
 The APIs related to the Custom Fields allow you to manage and sync custom fields into QuickBooks Online. The Custom Fields API provides support for create, read, update, and disable operations. You can also add custom fields to transactions and other entities by configuring the custom field definition ID while creating the transaction.
 
 
-
 ### API Reference
 
 <table>
@@ -108,7 +107,6 @@ PURCHASE_CREDIT_CARD_CREDIT)
 
 ### Read Custom Fields
 
-
 Sample query (Query Time Entries):
 ```
 query {
@@ -116,7 +114,7 @@ query {
 	edges {
   	node {
     	id
-    	legacyID
+    	legacyIDV2
     	label
     	associations {
       	associatedEntity
@@ -133,7 +131,6 @@ query {
       	}
     	}
     	dataType
-    	createdSource
     	dropDownOptions {
       	id
       	value
@@ -149,38 +146,30 @@ query {
   }
 }
 
-
 ```
-
 
 Response:
 ``` 
 {
 	"data": {
     	"appFoundationsCustomFieldDefinitions": {
-        	"__typename": "AppFoundations_CustomFieldDefinitionsConnection",
         	"edges": [
             	{
-                	"__typename": "AppFoundations_CustomFieldDefinitionEdge",
                 	"node": {
-                    	"__typename": "AppFoundations_CustomFieldDefinition",
-                    	"id": "udcf_1000000001",
-                    	"legacyID": "djQ6OTM0MTQ1MjE3MjU1MzIyOTovY29tbW9uL0N1c3RvbUZpZWxkRGVmaW5pdGlvbjo:286432",
-                    	"label": "supergraph-create-0509",
+                    	"id": "udcf_5",
+                    	"legacyIDV2": "1149622",
+                    	"label": "cf-03",
                     	"associations": [
                         	{
-                            	"__typename": "AppFoundations_CustomExtensionAssociations",
                             	"associatedEntity": "/transactions/Transaction",
                             	"active": true,
                             	"validationOptions": {
-                                	"__typename":     "AppFoundations_CustomExtensionValidationOptions",
                                 	"required": false
                             	},
                             	"allowedOperations": [],
                             	"associationCondition": "INCLUDED",
                             	"subAssociations": [
                                 	{
-                                    	"__typename": "AppFoundations_CustomExtensionSubAssociation",
                                     	"associatedEntity": "SALE_INVOICE",
                                     	"active": true,
                                     	"allowedOperations": []
@@ -189,33 +178,29 @@ Response:
                         	}
                     	],
                     	"dataType": "STRING",
-                    	"createdSource": null,
                     	"dropDownOptions": [],
                     	"active": true,
                     	"customFieldDefinitionMetaModel": {
-                        	"__typename": "AppFoundations_CustomFieldDefinitionMetaModel",
                         	"suggested": null
                     	}
                 	}
             	}
-           ]
+        	]
     	}
-   }
+	}
 }
+
 
 ```
 
-
 ### Create Custom Field
- 
 Mutation:
  
 ```
-
 mutation AppFoundationsCreateCustomFieldDefinition($input: AppFoundations_CustomFieldDefinitionCreateInput!) {
   appFoundationsCreateCustomFieldDefinition(input: $input) {
-	id
 	label
+	active
 	associations {
   	associatedEntity
   	active
@@ -231,14 +216,11 @@ mutation AppFoundationsCreateCustomFieldDefinition($input: AppFoundations_Custom
   	}
 	}
 	dataType
-	createdSource
 	dropDownOptions {
-  	id
   	value
   	active
   	order
 	}
-	active
   }
 }
 
@@ -248,11 +230,11 @@ Input Variables:
 ``` 
 {
   "input": {
-	"label": "sample-custom-lablel-0509",
+	"label": "CF-customerType2",
 	"associations": [
   	{
-  "validationOptions": {
-  "required": false
+    	"validationOptions": {
+    	"required": false
     	},
     	"associatedEntity": "/transactions/Transaction" ,
     	"active": true,
@@ -264,8 +246,24 @@ Input Variables:
         	"active": true,
         	"allowedOperations": []
       	}
-    		]
-  		}
+    	]
+  	},
+  	{
+    	"associatedEntity": "/network/Contact",
+    	"active": true,
+    	"validationOptions": {
+        	"required": false
+    	},
+    	"allowedOperations": [],
+    	"associationCondition": "INCLUDED",
+    	"subAssociations": [
+        	{
+            	"associatedEntity": "CUSTOMER",
+            	"active": true,
+            	"allowedOperations": []
+        	}
+    	]
+	}  
 	],
 	"dataType": "STRING",
 	"active": true
@@ -279,8 +277,8 @@ Sample response:
 {
 	"data": {
     	"appFoundationsCreateCustomFieldDefinition": {
-        	"id": "udcf_1000000018",
-        	"label": "sample-custom-lablel-0509",
+        	"label": "CF-customerType2",
+        	"active": true,
         	"associations": [
             	{
                 	"associatedEntity": "/transactions/Transaction",
@@ -291,25 +289,39 @@ Sample response:
                 	"allowedOperations": [],
                 	"associationCondition": "INCLUDED",
                 	"subAssociations": [
-                     {
+                    	{
                         	"associatedEntity": "SALE_INVOICE",
                         	"active": true,
                         	"allowedOperations": []
-                    }
+                    	}
+                	]
+            	},
+            	{
+                	"associatedEntity": "/network/Contact",
+                	"active": true,
+                	"validationOptions": {
+                    	"required": false
+                	},
+                	"allowedOperations": [],
+                	"associationCondition": "INCLUDED",
+                	"subAssociations": [
+                    	{
+                        	"associatedEntity": "CUSTOMER",
+                        	"active": true,
+                        	"allowedOperations": []
+                    	}
                 	]
             	}
         	],
         	"dataType": "STRING",
-        	"createdSource": null,
-        	"dropDownOptions": [],
-        	"active": true
-    		}
+        	"dropDownOptions": []
+    	}
 	}
 }
 
 ```
 
-### Update Custome Field
+### Update Custom Field
 
 Mutation:
 
@@ -317,6 +329,7 @@ Mutation:
 mutation AppFoundationsUpdateCustomFieldDefinition($input: AppFoundations_CustomFieldDefinitionUpdateInput!) {
   appFoundationsUpdateCustomFieldDefinition(input: $input) {
 	id
+	legacyIDV2
 	label
 	associations {
   	associatedEntity
@@ -333,7 +346,6 @@ mutation AppFoundationsUpdateCustomFieldDefinition($input: AppFoundations_Custom
   	}
 	}
 	dataType
-	createdSource
 	dropDownOptions {
   	id
   	value
@@ -351,8 +363,123 @@ Variables:
 ```
 {
   "input": {
-    	"id": "djQ6OTM0MTQ1MjE3MjU1MzIyOTovY29tbW9uL0N1c3RvbUZpZWxkRGVmaW5pdGlvbjo:287780",
-    	"label": "customfield-0613",
+    	"id": "udcf_1",
+    	"legacyIDV2": "1149549",
+    	"label": "cf-01",
+    	"active": false,
+    	"associations": [
+  	{
+    	"validationOptions": {
+    	"required": true
+    	},
+    	"associatedEntity": "/transactions/Transaction" ,
+    	"active": true,
+    	"allowedOperations": [],
+    	"associationCondition": "INCLUDED",
+    	"subAssociations": [
+      	{
+        	"associatedEntity": "SALE_INVOICE",
+        	"active": true,
+        	"allowedOperations": []
+      	},
+      	{
+        	"associatedEntity": "SALE_ESTIMATE",
+        	"active": true,
+        	"allowedOperations": []
+      	}
+    	]
+  	}
+	]
+	}
+}
+
+```
+
+Response:
+```
+{
+	"data": {
+    	"appFoundationsUpdateCustomFieldDefinition": {
+        	"id": "udcf_1",
+        	"legacyIDV2": "1149549",
+        	"label": "cf-01",
+        	"associations": [
+            	{
+                	"associatedEntity": "/transactions/Transaction",
+                	"active": true,
+                	"validationOptions": {
+                    	"required": false
+                	},
+                	"allowedOperations": [],
+                	"associationCondition": "INCLUDED",
+                	"subAssociations": [
+                    	{
+                        	"associatedEntity": "SALE_INVOICE",
+                        	"active": true,
+                        	"allowedOperations": []
+                    	},
+                    	{
+                        	"associatedEntity": "SALE_ESTIMATE",
+                        	"active": true,
+                        	"allowedOperations": []
+                    	}
+                	]
+            	}
+        	],
+        	"dataType": "STRING",
+        	"dropDownOptions": [],
+        	"active": false
+    	}
+	}
+}
+
+```
+### Disable Custom Field
+
+Mutation:
+
+``` 
+mutation AppFoundationsUpdateCustomFieldDefinition($input: AppFoundations_CustomFieldDefinitionUpdateInput!) {
+  appFoundationsUpdateCustomFieldDefinition(input: $input) {
+	id
+	legacyIDV2
+	label
+	associations {
+  	associatedEntity
+  	active
+  	validationOptions {
+    	required
+  	}
+  	allowedOperations
+  	associationCondition
+  	subAssociations {
+    	associatedEntity
+    	active
+    	allowedOperations
+  	}
+	}
+	dataType
+	createdSource
+	dropDownOptions {
+  	id
+  	value
+  	active
+  	order
+	}
+	active
+  }
+}
+
+
+```
+
+Variables:
+``` 
+{
+  "input": {
+    	"id": "udcf_1",
+    	"legacyIDV2": "1149549",
+    	"label": "cf-01",
     	"active": false,
     	"associations": [
   	{
@@ -368,22 +495,29 @@ Variables:
         	"associatedEntity": "SALE_INVOICE",
         	"active": true,
         	"allowedOperations": []
+      	},
+      	{
+        	"associatedEntity": "SALE_ESTIMATE",
+        	"active": true,
+        	"allowedOperations": []
       	}
     	]
-     }
-    ]
-   }
+  	}
+	]
+	}
 }
 
 ```
 
 Response:
+
 ```
 {
 	"data": {
     	"appFoundationsUpdateCustomFieldDefinition": {
-        	"id": "udcf_12",
-        	"label": "customfield-0613",
+        	"id": "udcf_1",
+        	"legacyIDV2": "1149549",
+        	"label": "cf-01",
         	"associations": [
             	{
                 	"associatedEntity": "/transactions/Transaction",
@@ -398,6 +532,11 @@ Response:
                         	"associatedEntity": "SALE_INVOICE",
                         	"active": true,
                         	"allowedOperations": []
+                    	},
+                    	{
+                        	"associatedEntity": "SALE_ESTIMATE",
+                        	"active": true,
+                        	"allowedOperations": []
                     	}
                 	]
             	}
@@ -410,25 +549,5 @@ Response:
 	}
 }
 
-```
-### Delete Mutation
-
-Mutation:
-
-``` 
-
-```
-
-Required fields:
-- id: ID of an existing bill
-- metadata: you need to provide the entity version returned from a previous create/update/read operation. 
-
-Variables:
-``` 
-
-```
-
-Response:
-```
 
 ```
