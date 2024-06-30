@@ -44,21 +44,7 @@ Instead of querying frequently used fields individually, [create and reuse fragm
  
 ### Take advantage GraphQL's unique features to get more done
 
-[Introspection](../introspection/) is the quickest way to see the latest Intuit API schema.  Simply send an introspection query. The server response includes all possible queries, data types, fields, and operations. 
-
 [Pagination](../pagination/) lets you quickly navigate large datasets. If you expect a query to return lots of data, use pagination to fetch specific subsets. 
-
-## Intuit API best practices
-
-### Learn about API throttling
-
-**Note**: We'll have more details around throttling in the future.
-
-
-
-### Keep up with the latest version of Intuit API
-
-**Note**: We'll have more details around versioning in the future.
 
 
 ## Advantages of GraphQL
@@ -80,11 +66,11 @@ GraphQL is language-independent. You can use it with any backend framework or pr
 
 ### Validate queries as you work
 
-Since GraphQL is a type system, everything about it is part of its schema. You can validate queries as you create them with [testing tools like GraphiQL](../../getting-started/graphql-ide/) (which has a built-in parser) or [by making an introspection query](../introspection/). You can also let the server validate requests against the current schema version.
+Since GraphQL is a type system, everything about it is part of its schema. You can validate queries as you create them with [testing tools like GraphiQL](../../getting-started/graphql-ide/) (which has a built-in parser). You can also let the server validate requests against the current schema version.
 
 ### Everything is documented
 
-Accurate and up-to-date documentation is always available along with the schema. You can [make an introspection query](../introspection/) any time you want to see all possible fields and operations for the latest version.
+Accurate and up-to-date documentation is always available along with the schema. 
 
 ### Simple data hierarchies
 

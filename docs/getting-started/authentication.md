@@ -18,7 +18,7 @@ If you're new, check out these resources so you can develop with confidence:
 
 * [Learn about Intuit API](../../faq/graphql-vs-rest/)
 * [Learn about GraphQL](../../graphql-concepts/)
-* [Learn basic accounting concepts](https://developer.intuit.com/app/developer/qbo/docs/concepts)
+* [Learn about the project management usecases](./docs/use-cases)
 
 ## Step 2: Set up your developer account 
 
@@ -42,7 +42,7 @@ When you're done, reach out to your Intuit point of contact so we can onboard it
 
 Intuit API lets developers limit the scope of data. Instead of broad permissions, you set granular permissions so apps only focus on specific data-sets. This minimizes payloads and potentially improves performance. 
  
-[Review the current scopes](https://intuitdeveloper.github.io/intuit-api-docs/docs/getting-started/scopes/). Pick the ones that are relevant for your users. You'll set the scopes when you authorize your app.
+[Review the current scopes](https://intuitdeveloper.github.io/intuit-api/docs/getting-started/scopes/). Pick the ones that are relevant for your users. You'll set the scopes when you authorize your app.
 
 ## Step 6: Authorize your app
 All apps need access tokens to connect to our API servers. Intuit uses the [OAuth 2.0 protocol](https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0). 
@@ -65,7 +65,7 @@ Use the Client ID and Client Secret to [set up OAuth2.0](https://developer.intui
 
 ## Step 7: Get tools to test GraphQL queries
 
-We suggest using a [GraphQL Integrated Developer Environment (IDE)](https://intuitdeveloper.github.io/intuit-api-docs/docs/getting-started/graphql-ide/), like Insomnia or GraphiQL, to test queries during development.
+We suggest using a [GraphQL Integrated Developer Environment (IDE)](https://intuitdeveloper.github.io/intuit-api/docs/getting-started/graphql-ide/), like Insomnia or GraphiQL, to test queries during development.
 
 ## Step 8: Develop your app
 

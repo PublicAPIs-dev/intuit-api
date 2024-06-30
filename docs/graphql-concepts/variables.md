@@ -14,7 +14,7 @@ Instead of entering static values for every argument, define and use a variable.
 This simplifies code and makes it much easier to maintain. 
 
 ## How to define and enter variables 
-In GraphQL, variables are JSON objects. You can use variables for both [queries](https://intuitdeveloper.github.io/intuit-api-docs/docs/graphql-concepts/query/) and [mutations](https://intuitdeveloper.github.io/intuit-api-docs/docs/graphql-concepts/mutations/). 
+In GraphQL, variables are JSON objects. You can use variables for both [queries](https://intuitdeveloper.github.io/intuit-api/docs/graphql-concepts/query/) and [mutations](https://intuitdeveloper.github.io/intuit-api/docs/graphql-concepts/mutations/). 
 
 Here's an example. First, we'll replace the static value in the query with $**variable**. 
 

@@ -13,7 +13,7 @@ In GraphQL, you can use the **pageInfo** object and cursor-based pagination (`en
 
 ## How to use pagination
 
-Pagination can help when there's lots of comingled data. For example, you may only need data from specific subaccounts rather than everything on [the chart of accounts](https://developer.intuit.com/app/developer/qbo/docs/concepts).
+Pagination can help when there's lots of comingled data. For example, you may only need data from specific subaccounts rather than everything on [the chart of accounts](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/account).
 
 Here's an example query to get the number of records following the `cursorValue`.
 
@@ -33,6 +33,6 @@ query queryName {
 }
 ```
 
-In this case, the server will only count records following the `cursorValue`. **Tip**: You can [use introspection](./introspection/) to see which fields support pagination.
+In this case, the server will only count records following the `cursorValue`. 
 
 Learn more about [pagination from GraphQL.org](https://graphql.org/learn/pagination/).

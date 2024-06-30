@@ -20,6 +20,30 @@ For Intuit API, you'll use mutations often for things like timesheets, projects 
 Here's a simple mutation to create a project:
 
 ```
+mutation AppFoundationsCreateCustomFieldDefinition(
+  $input: AppFoundations_CustomFieldDefinitionCreateInput!
+) {
+  appFoundationsCreateCustomFieldDefinition(input: $input) {
+    label
+    active
+    associations {
+      associatedEntity
+      active
+      associationCondition
+      subAssociations {
+        associatedEntity
+        active
+        allowedOperations
+      }
+    }
+    dataType
+    dropDownOptions {
+      value
+      active
+      order
+    }
+  }
+}
 
 ```
 Mutations typically take input data and define fields based on the response the server returns. 
