@@ -16,18 +16,6 @@ For more tips, [visit GraphQL.org](https://graphql.org/learn/best-practices/).
 ### Only query for the data your app needs
 
 In GraphQL, less is more. Create queries that only request the specific fields and data required for your QuickBooks integration to be fully functional. You can change queries later and add more fields as needed. 
- 
-### Log frequently during development
-
-Take the time to properly log your app development process. It saves time in the long-run. Logging every execution may impact app performance, so prioritize what matters most.
-
-<table>
-<tr>
-<td><strong>Tip</strong>: Always <a href="../../faq/error-handling/">log the value of the <strong>intuit_tid</strong> field</a> in the server response. It will help our support team quickly find and address any reported issues.
-</td>
-</tr>
-</table>
-
 
 
 ### Use aliases to query the same field with different arguments
