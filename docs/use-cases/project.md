@@ -87,7 +87,7 @@ Refer to the [Read Project (Query)](https://intuitdeveloper.github.io/intuit-api
 ##### Step 1: Create or read project
 Refer to the sample [Create](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#create-project) / [Read](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#read-project) project:
 
-##### Step 2: Create transactions and add to projects
+##### Step 2: Create transactions using V3 accounting REST API and send ProjectRef with values from use-case 1 or 2 above.
 
 Refer to the [V3 developer docs](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/invoice) how to reference Project to a transaction.
          

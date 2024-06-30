@@ -48,7 +48,7 @@ Currently, custom fields are supported for the following transactions and entiti
 ### Scopes
 
 -   app-foundations.custom-field-definitions.read: Allows access to read Custom field definitions data
--   app-foundations.custom-field-definitions.write: Allows access to read and write Custom field definitions data
+-   app-foundations.custom-field-definitions: Allows access to read and write Custom field definitions data
 -   com.intuit.quickbooks.accounting: For V3 Accounting REST API access
 
 
@@ -234,27 +234,13 @@ API Response:
 Sample Customer with Custom Field definition:
 ```
 {
-	"BillAddr": {
-    	"Line1": "1234 Main Street",
-    	"City": "Mountain View",
-    	"Country": "USA",
-    	"CountrySubDivisionCode": "CA",
-    	"PostalCode": "94042"
-	},
-	"Notes": "Notes: Customer-0617 with CF",
-	"DisplayName": "Customer-0617",
-	"PrimaryPhone": {
-    	"FreeFormNumber": "(408) 555-9999"
-	},
-   "CustomField": [
-	{
-    	"DefinitionId": "287160",
-    	"StringValue": "CF=CustomerType"
-	}
-	],
-	"PrimaryEmailAddr": {
-    	"Address": "cstomer0617@myemail.com"
-	}
+  "DisplayName": "Customer-01",
+  "CustomField": [
+    {
+      "DefinitionId": "540344",
+      "StringValue": "CF-CustomerType"
+    }
+  ]
 }
 
 ```
@@ -263,55 +249,40 @@ Response:
 
 ```
 {
-	"Customer": {
-    	"Taxable": false,
-    	"BillAddr": {
-        	"Id": "8",
-        	"Line1": "1234 Main Street",
-        	"City": "Mountain View",
-        	"Country": "USA",
-        	"CountrySubDivisionCode": "CA",
-        	"PostalCode": "94042"
-    	},
-    	"Notes": "Notes: Customer-0617 with CF",
-    	"Job": false,
-    	"BillWithParent": false,
-    	"Balance": 0,
-    	"BalanceWithJobs": 0,
-    	"CurrencyRef": {
-        	"value": "USD",
-        	"name": "United States Dollar"
-    	},
-    	"PreferredDeliveryMethod": "None",
-    	"IsProject": false,
-    	"domain": "QBO",
-    	"sparse": false,
-    	"Id": "5",
-    	"SyncToken": "0",
-    	"MetaData": {
-        	"CreateTime": "2024-06-17T23:38:10-07:00",
-        	"LastUpdatedTime": "2024-06-17T23:38:10-07:00"
-    	},
-    	"CustomField": [
-          {
-            	"DefinitionId": "287160",
-            	"Name": "CF=customerType",
-            	"Type": "StringType",
-            	"StringValue": "CF=CustomerType"
-          }
-    	],
-    	"FullyQualifiedName": "Customer-0617",
-    	"DisplayName": "Customer-0617",
-    	"PrintOnCheckName": "Customer-0617",
-    	"Active": true,
-    	"PrimaryPhone": {
-        	"FreeFormNumber": "(408) 555-9999"
-    	},
-    	"PrimaryEmailAddr": {
-        	"Address": "cstomer0617@myemail.com"
-    	}
-	},
-	"time": "2024-06-17T23:38:09.415-07:00"
+    "Customer": {
+        "Taxable": false,
+        "Job": false,
+        "BillWithParent": false,
+        "Balance": 0,
+        "BalanceWithJobs": 0,
+        "CurrencyRef": {
+            "value": "USD",
+            "name": "United States Dollar"
+        },
+        "PreferredDeliveryMethod": "None",
+        "IsProject": false,
+        "domain": "QBO",
+        "sparse": false,
+        "Id": "4",
+        "SyncToken": "0",
+        "MetaData": {
+            "CreateTime": "2024-06-29T19:12:52-07:00",
+            "LastUpdatedTime": "2024-06-29T19:12:52-07:00"
+        },
+        "CustomField": [
+            {
+                "DefinitionId": "540344",
+                "Name": "cf-05",
+                "Type": "StringType",
+                "StringValue": "CF-CustomerType"
+            }
+        ],
+        "FullyQualifiedName": "Customer-01",
+        "DisplayName": "Customer-01",
+        "PrintOnCheckName": "Customer-01",
+        "Active": true
+    },
+    "time": "2024-06-29T19:12:51.593-07:00"
 }
 
 ```

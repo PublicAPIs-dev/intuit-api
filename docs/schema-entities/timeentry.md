@@ -29,7 +29,7 @@ The Time Entry API supports  create, read, update and delete operations.
 | duration               | Int!                               | yes      | The number of seconds recorded by this time entry.                                        |
 | timeFor                | [TimeTracking_TrackTimeForInput](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#timetracking_tracktimeforinput)!    | yes      | The ID and type whose time is recorded for on this time entry.                            |
 | timeAgainst            | [TimeTracking_TrackTimeAgainstInput](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#timetracking_tracktimeagainstinput) | no       | The ID and type of entity that this time entry is tracking time against.                  |
-| notes                  | String                             | no       | Notes associated with this time entry (2048 character limit).                             |
+| notes                  | String                             | Required when billable is true       | Notes associated with this time entry (2048 character limit).                             |
 | classId                | ID                                 | no       | The ID of the class that this time entry is tracking time against.                        |
 | employeeCompensationId | ID                                 | no       | The ID of the Payroll_EmployeeCompensation that this time entry is tracking time against. |
 | serviceItemId          | ID                                 | no       | The ID of the Service Item(Product/Services) that applies to this time entry.             |

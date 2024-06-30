@@ -22,7 +22,7 @@ Here are the current scopes for Intuit API.
 | project-management.project                             | Grants access to read and write project            | |
 | payroll.compensation.read                            | Grants access to read pay types            | |
 | app-foundations.custom-field-definitions.read                            | Grants access to read custom field definitions            | |
-| app-foundations.custom-field-definitions.write                            | Grants access to read and write ustom field definitions           | |
+| app-foundations.custom-field-definitions                            | Grants access to read and write ustom field definitions           | |
 
 
 
