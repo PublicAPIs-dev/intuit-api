@@ -11,7 +11,7 @@ This resource allows your app to view the types of compensations provided from t
 
 ### Operations for EmployeeCompensation entity
 
-- Read - Query (POST)
+- [Read](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/employeeCompensation/#read-employeecompensationid) - Query (POST)
 
 ### Endpoints
 

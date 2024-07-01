@@ -55,7 +55,7 @@ Currently, custom fields are supported for the following transactions and entiti
 ### Endpoints
 
 -   GraphQL API:  https://qb.api.intuit.com/graphql 
--   V3 Accounting REST API: https://quickbooks.api.intuit.com/v3/company/<realm_id>/<entityname>?minorversion=70&include=enhancedAllCustomFields
+-   V3 Accounting REST API: https://quickbooks.api.intuit.com/v3/company/{realmId}/{entityname}?minorversion=70&include=enhancedAllCustomFields
 
 ### Required headers
 
@@ -78,7 +78,7 @@ Use GraphQL API to [Create Custom Field Definitions](https://intuitdeveloper.git
 #### Use Case 3: Create transactions with custom fields
 
 -   Transactions that support custom fields: `Estimate,Invoice,Sales Receipt, Credit Memo, Refund Receipt, Purchase Order, Expense, Bill, VendorCredit`
--   Use Accounting V3 Rest API to create transaction and send CustomFieldDefinitionId with values from Step 1 below
+-   Use Accounting V3 Rest API to create transaction and send CustomField.DefinitionId with legacyIDV2 values obtained from Step 1 above
 
 ##### Step 1: Use [Create custom field definitions](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/customfield/#create-custom-field)  GraphQL API
 

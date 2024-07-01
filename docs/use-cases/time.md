@@ -45,8 +45,7 @@ This page outlines -
 ### Endpoints
 
 -   GraphQL API:  https://qb.api.intuit.com/graphql 
--   V3 Accounting REST API: https://quickbooks.api.intuit.com/v3/company/{{realmid}}/entityname/ 
-
+-   V3 Accounting REST API: https://quickbooks.api.intuit.com/v3/company/{realmid}/{entityname}?minorversion=70
 
 ### Required headers
 

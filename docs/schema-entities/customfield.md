@@ -22,98 +22,84 @@ You can also add custom fields to transactions and other entities by configuring
 
 ### API Reference
 
-<table>
-  <tr>
-   <td><strong>Field</strong>
-   </td>
-   <td><strong>DataType</strong>
-   </td>
-   <td><strong>Required</strong>
-   </td>
-   <td><strong>Description</strong>
-   </td>
-  </tr>
-  <tr>
-   <td>id
-   </td>
-   <td>String
-   </td>
-    <td>Required
-   </td>
-   <td>Id of the Custom Field definition.
-   </td>
-  </tr>
-   <tr>
-   <td>legacyIDV2
-   </td>
-   <td>String
-   </td>
-    <td>Required
-   </td>
-   <td>Unique numeric identifier of the Custom Field Definition used in QBO 3P REST APIs
-   </td>
-  </tr>
-   <tr>
-   <td>associations
-   </td>
-   <td>
-   </td>
-    <td>Required
-   </td>
-   <td>Custom Extension Associations: All the associations and their properties
-   </td>
-  </tr>
-  <tr>
-   <td>associations.associatedEntity
-   </td>
-   <td>String
-   </td>
-    <td>Required
-   </td>
-   <td>entity associated.For example: transaction (SALE,
-	SALE_INVOICE,
-	SALE_ESTIMATE,
-	SALE_CREDIT,
-	SALE_REFUND, PURCHASE_ORDER,
-	PURCHASE,
-	PURCHASE_BILL,
-PURCHASE_CHECK,
-PURCHASE_CREDIT,
-PURCHASE_CREDIT_CARD_CREDIT)
-   </td>
-  </tr>
-    <tr>
-   <td>dataType
-   </td>
-   <td>String
-   </td>
-    <td>Required
-   </td>
-   <td>Data type of the Custom Extension Definition. For example: String, Number
-   </td>
-  </tr>
-   <tr>
-   <td>dropDownOptions.id
-	</td>
-   <td>String
-   </td>
-    <td>Required
-   </td>
-   <td>Id of the option
-   </td>
-  </tr>
-  <tr>
-   <td>dropDownOptions.valu
-   </td>
-   <td>String
-   </td>
-    <td>Required
-   </td>
-   <td>Value of the option
-   </td>
-  </tr>
-</table>
+| Field                          | Type                                                 | Required | Description                                                                                                               |
+|--------------------------------|------------------------------------------------------|----------|---------------------------------------------------------------------------------------------------------------------------|
+| id                             | ID!                                                  | yes      | Id of the Custom Field Definition.                                                                                        |
+| legacyIDV2                     | ID!                                                  | yes      | Unique numeric identifier of the Custom Field Definition used in QBO 3P REST APIs.                                        |
+| label                          | String                                               | no       | Label of the Custom Field Definition.                                                                                     |
+| associations                   | [AppFoundations_CustomExtensionAssociations!]!       | yes      | All the associations and their properties.                                                                                |
+| dataType                       | AppFoundations_CustomExtensionDataType!              | yes      | Data type of the Custom Extension Definition. For example: String, Number.                                                |
+| dropDownOptions                | [AppFoundations_CustomFieldDefinitionDropDownOption] | no       | drop down options, applicable when dataType is a list.                                                                    |
+| active                         | Boolean                                              | no       | indicates whether this CF is still active.                                                                                |
+| customFieldDefinitionMetaModel | AppFoundations_CustomFieldDefinitionMetaModel        | no       | used during downgrade flow to indicate if a custom field needs to be inactivated due to missing support in the target sku |
 
+### Type AppFoundations_CustomExtensionAssociations
+
+| Field                | Type                                               | Required | Description                                                                                                                                                  |
+|----------------------|----------------------------------------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| associatedEntity     | String!                                            | yes      | entity associated.For example: transaction.                                                                                                                  |
+| active               | Boolean                                            | yes      | indicates whether this entity association is active.                                                                                                         |
+| validationOptions    | AppFoundations_CustomExtensionValidationOptions    | no       | indicates the validation options on this entity.                                                                                                             |
+| allowedOperations    | [AppFoundations_CustomExtensionAssociations!]!     | yes      | indicates what possible operations can be done. For example: Search, Print.                                                                                  |
+| associationCondition | AppFoundations_CustomExtensionAssociationCondition | yes      | indicates whether this entity is part of an inclusion list or exclusion list. For exmaple: dimension will have EXCLUDED list, and CF will have INCLUDED list |
+| subAssociations      | [AppFoundations_CustomExtensionSubAssociation!]    | yes      | all sub associations for this entity.                                                                                                                        |
+
+### Type AppFoundations_CustomExtensionSubAssociation
+
+| Field             | Type                                             | Required | Description                                                                 |
+|-------------------|--------------------------------------------------|----------|-----------------------------------------------------------------------------|
+| associatedEntity  | String!                                          | yes      | sub entity associated. For example: invoice.                                |
+| active            | Boolean                                          | no       | indicates whether this sub entity is active.                                |
+| validationOptions | AppFoundations_CustomExtensionValidationOptions  | no       | indicates the validation options on this entity.                            |
+| allowedOperations | [AppFoundations_CustomExtensionAllowedOperation] | no       | indicates what possible operations can be done. For example: Search, Print. |
+
+### AppFoundations_CustomExtensionDataType
+
+```
+enum AppFoundations_CustomExtensionDataType {
+    UNKNOWN
+    STRING
+    NUMBER
+    DATE
+    OBJECT_LIST
+    STRING_LIST
+}
+
+```
+
+### AppFoundations_CustomFieldDefinitionDropDownOption
+
+| Field  | Type    | Required | Description                                    |
+|--------|---------|----------|------------------------------------------------|
+| id     | ID!     | yes      | id of the option.                              |
+| value  | String! | yes      | value of the option.                           |
+| active | Boolean | no       | indicates whether this option is still active. |
+| order  | Int     | yes      | indicates the creation order of this option.   |
+
+
+### AppFoundations_CustomFieldDefinitionMetaModel
+
+| Field     | Type    | Required | Description                                                                                           |
+|-----------|---------|----------|-------------------------------------------------------------------------------------------------------|
+| suggested | Boolean | no       | this field being true indicates that the CF is unsupported in target sku and needs to be inactivated. |
+
+
+### AppFoundations_CustomExtensionValidationOptions
+
+| Field    | Type    | Required | Description                                |
+|----------|---------|----------|--------------------------------------------|
+| required | Boolean | no       | indicates whether this entity is required. |
+
+
+### AppFoundations_CustomExtensionAssociationCondition
+
+```
+enum AppFoundations_CustomExtensionAssociationCondition {
+    UNKNOWN
+    INCLUDED
+    EXCLUDED
+}
+```
 
 ### Read Custom Fields
 
