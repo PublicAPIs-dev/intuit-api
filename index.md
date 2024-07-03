@@ -18,6 +18,7 @@ The below tracks can help you get started using Intuit's API:
 
 - [Set up and start developing](./docs/getting-started)
 - [Learn about about GraphQL](./docs/graphql-concepts)
+- [Review the API schema](./docs/schema-entities)
 - [Build apps around specific use cases](./docs/use-cases)
 
-**Note**: Our GraphQL API is currently in alpha. Participation is by invite-only for select Intuit partners.
+**Note**: Our GraphQL API is currently in beta. Participation is by invite-only for select Intuit partners.
