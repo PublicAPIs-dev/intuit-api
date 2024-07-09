@@ -45,9 +45,6 @@ query getEmployeeCompensationById {
   	edges {
     	node {
       	id
-      	alternateIds {
-        	id
-      	}
       	name
       	type {
         	key
@@ -72,11 +69,6 @@ Response:
                     {
                         "node": {
                             "id": "1000029752",
-                            "alternateIds": [
-                                {
-                                    "id": "djQuMTo5MzQxNDUyMTk5MDE3Mzc1OjI4ZDA3MTdlOTY:1000029752"
-                                }
-                            ],
                             "name": "Overtime Pay",
                             "type": {
                                 "key": "OVERTIME",
@@ -88,11 +80,6 @@ Response:
                     {
                         "node": {
                             "id": "1000029753",
-                            "alternateIds": [
-                                {
-                                    "id": "djQuMTo5MzQxNDUyMTk5MDE3Mzc1OjI4ZDA3MTdlOTY:1000029753"
-                                }
-                            ],
                             "name": "Double Overtime Pay",
                             "type": {
                                 "key": "DOUBLE_OVERTIME",
@@ -104,11 +91,6 @@ Response:
                     {
                         "node": {
                             "id": "1000029758",
-                            "alternateIds": [
-                                {
-                                    "id": "djQuMTo5MzQxNDUyMTk5MDE3Mzc1OjI4ZDA3MTdlOTY:1000029758"
-                                }
-                            ],
                             "name": "Holiday Pay",
                             "type": {
                                 "key": "HOLIDAY_PAY",
@@ -120,11 +102,6 @@ Response:
                     {
                         "node": {
                             "id": "1000029761",
-                            "alternateIds": [
-                                {
-                                    "id": "djQuMTo5MzQxNDUyMTk5MDE3Mzc1OjI4ZDA3MTdlOTY:1000029761"
-                                }
-                            ],
                             "name": "Salary",
                             "type": {
                                 "key": "SALARY",
