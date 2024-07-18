@@ -259,18 +259,12 @@
 										"key": "Content-Type",
 										"value": "application/json;charset=UTF-8",
 										"type": "text"
-									},
-									{
-										"key": "intuit_tid",
-										"value": "test",
-										"type": "text",
-										"disabled": true
 									}
 								],
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query projectManagementProjects(\n  $first: PositiveInt!,\n  $after: String,\n  $filter: ProjectManagement_ProjectFilter!,\n  $orderBy: [ProjectManagement_OrderBy!]\n) {\n  projectManagementProjects(\n    first: $first,\n    after: $after,\n    filter: $filter,\n    orderBy: $orderBy\n  ) {\n    edges {\n      node {\n        id,\n        name,\n        description,\n        type,\n        status,\n        dueDate,\n        startDate,\n        completedDate,\n        dueDate,\n        assignee{\n            id\n        },\n        priority,\n        customer{\n            id\n        },\n        account{\n            id\n        }\n    addresses {\n            streetAddressLine1,\n            streetAddressLine2,\n            streetAddressLine3\n            state,\n            postalCode\n        }   \n      }\n    }\n     pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n  }\n}\n",
+										"query": "query projectManagementProjects(\n  $first: PositiveInt!,\n  $after: String,\n  $filter: ProjectManagement_ProjectFilter!,\n  $orderBy: [ProjectManagement_OrderBy!]\n) {\n  projectManagementProjects(\n    first: $first,\n    after: $after,\n    filter: $filter,\n    orderBy: $orderBy\n  ) {\n    edges {\n      node {\n        id,\n        name,\n        description,\n        startDate,\n        dueDate,\n        completedDate,\n        status,\n        customer{\n            id\n        },\n        account{\n            id\n        },\n        priority,\n        emailAddress {\n            email,\n            name\n        },\n        addresses {\n            streetAddressLine1,\n            streetAddressLine2,\n            streetAddressLine3\n            state,\n            postalCode\n        }   \n      }\n    }\n     pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n  }\n}\n",
 										"variables": "{\n  \"first\": 5,\n  \"after\": null,\n  \"filter\": {\n    \"dueDate\": {\n      \"between\": {\n        \"minDate\": \"2024-04-01T18:47:25.123456789-07:00\",\n        \"maxDate\": \"2024-12-05T18:47:25.123456789-07:00\"\n      }\n    }\n  },\n  \"orderBy\": [\"DUE_DATE_DESC\"]\n}\n"
 									}
 								},
@@ -292,18 +286,12 @@
 										"key": "Content-Type",
 										"value": "application/json;charset=UTF-8",
 										"type": "text"
-									},
-									{
-										"key": "intuit_tid",
-										"value": "c265e5e8-0278-44c2-8be7-05a8409566eb",
-										"type": "text"
 									}
-									
 								],
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query projectManagementProject($id: ID!) {\n  projectManagementProject(id: $id) {\n    name,\n    status,\n    description,\n    dueDate,\n    account {\n        id\n    }\n  }\n}\n",
+										"query": "query projectManagementProject($id: ID!) {\n  projectManagementProject(id: $id) {\n        id,\n        name,\n        description,\n        startDate,\n        dueDate,\n        completedDate,\n        status,\n        customer{\n            id\n        },\n        account{\n            id\n        },\n        priority,\n        pinned,\n        emailAddress {\n            email,\n            name\n        },\n        addresses {\n            streetAddressLine1,\n            streetAddressLine2,\n            streetAddressLine3\n            state,\n            postalCode\n        }   \n      }\n  }",
 										"variables": "{\n    \"id\" : 53363419\n}"
 									}
 								},
@@ -330,18 +318,13 @@
 										"key": "Content-Type",
 										"value": "application/json;charset=UTF-8",
 										"type": "text"
-									},
-									{
-										"key": "intuit_tid",
-										"value": "c265e5e8-0278-44c2-8be7-jake-test",
-										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation ProjectManagementCreateProject($name: String!, \n    $dueDate: DateTime!, \n    $startDate: DateTime,\n    $account: ProjectManagement_CompanyInput!, \n    $assignee: ProjectManagement_PersonaInput\n    $description: String,\n    $type: String,\n    $priority: Int,\n    $completionRate: Decimal,\n    $pinned: Boolean,\n    $emailAddress: [Qb_EmailAddressInput],\n    $addresses: [Qb_PostalAddressInput],\n    $status: ProjectManagement_Status,\n) {\n  projectManagementCreateProject(input:{\n    name: $name,\n    dueDate : $dueDate,\n    startDate : $startDate,\n    account: $account,\n    assignee: $assignee,\n    description: $description,\n    type: $type,\n    priority: $priority,\n    completionRate: $completionRate,\n    pinned: $pinned,\n    emailAddress: $emailAddress,\n    addresses: $addresses,\n    status: $status\n  }\n    )\n    {\n           ... on ProjectManagement_Project {\n        name, \n        dueDate,\n        id,\n        completionRate,\n        account {\n            id\n           }\n        emailAddress {\n            email\n        }\n        addresses {\n            streetAddressLine1,\n            postalCode,\n            city\n        }\n        }\n    }\n}\n",
-										"variables": "{\n  \"name\": \"Demo Project\",\n  \"description\": \"TestDemoProject\",\n  \"startDate:\": \"2024-07-05T00:00:00.000Z\",\n  \"dueDate\": \"2024-07-31T00:00:00.000Z\",\n   \"status\": \"OPEN\",\n  \"account\": {\n    \"id\": \"9341451497924167\"\n    },\n   \"type\": \"CONTACT\",\n   \"priority\": 1,\n   \"completionRate\": 99.00,\n   \"pinned\": false,\n   \"emailAddress\": [\n        {\n        \"email\":\"testproject@gmail.com\",\n        \"name\": \"Demo Client\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n        }\n    ],\n   \"addresses\": [\n       {\n        \"streetAddressLine1\": \"3000 17th street\",\n        \"postalCode\": \"94114\",\n        \"city\": \"San Francisco\",\n        \"state\": \"California\",\n        \"country\": \"USA\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n       }\n   ]\n  }"
+										"query": "mutation ProjectManagementCreateProject($name: String!, \n    $description: String,\n    $startDate: DateTime,\n    $dueDate: DateTime!, \n    $status: ProjectManagement_Status,\n    $customer: ProjectManagement_CustomerInput,\n    $account: ProjectManagement_CompanyInput!,\n    $priority: Int,\n    $pinned: Boolean,\n    $completionRate: Decimal,\n    $emailAddress: [Qb_EmailAddressInput],\n    $addresses: [Qb_PostalAddressInput]\n) {\n  projectManagementCreateProject(input:{\n    name: $name,\n    description: $description,\n    startDate : $startDate,\n    dueDate : $dueDate,\n    status: $status\n    customer: $customer, \n    account: $account,\n    priority: $priority,\n    pinned: $pinned,\n    completionRate: $completionRate,\n    emailAddress: $emailAddress,\n    addresses: $addresses,\n  }\n    )\n    {\n           ... on ProjectManagement_Project {\n        id,\n        name,\n        description,\n        startDate,\n        dueDate,\n        status,\n        priority,\n        customer{\n            id\n        },\n        account{\n            id\n        },\n        priority,\n        pinned,\n        emailAddress {\n            email,\n            name\n        }\n        addresses {\n            streetAddressLine1,\n            streetAddressLine2,\n            streetAddressLine3\n            state,\n            postalCode\n        }   \n      }\n        }\n    }\n",
+										"variables": "{\n  \"name\": \"Demo Project\",\n  \"description\": \"Test Demo Project\",\n  \"startDate:\": \"2024-07-05T00:00:00.000Z\",\n  \"dueDate\": \"2024-07-31T00:00:00.000Z\",\n   \"status\": \"OPEN\",\n   \"customer\": {\n        \"id\":1\n    },\n  \"account\": {\n    \"id\": \"9341451497924167\"\n    },\n   \"priority\": 1,\n   \"pinned\": false,\n   \"completionRate\": 99.00,\n   \"emailAddress\": [\n        {\n        \"email\":\"testproject@gmail.com\",\n        \"name\": \"Demo Client\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n        }\n    ],\n   \"addresses\": [\n       {\n        \"streetAddressLine1\": \"3000 17th street\",\n        \"postalCode\": \"94114\",\n        \"city\": \"San Francisco\",\n        \"state\": \"California\",\n        \"country\": \"USA\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n       }\n   ]\n  }"
 									}
 								},
 								"url": "https://qb.api.intuit.com/graphql"
@@ -367,18 +350,13 @@
 										"key": "Content-Type",
 										"value": "application/json;charset=UTF-8",
 										"type": "text"
-									},
-									{
-										"key": "intuit_tid",
-										"value": "c265e5e8-0278-44c2-8be7-05a8409566eb",
-										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation projectManagementUpdateProject($id: ID!, \n    $status: ProjectManagement_Status,\n    $type: String,\n    $name: String,\n    $priority: Int,\n    $pinned: Boolean,\n    $description: String,\n    $dueDate: DateTime,\n    $startDate: DateTime,\n    $completionRate: Decimal,\n    $emailAddress: [Qb_EmailAddressInput],\n    $addresses: [Qb_PostalAddressInput]!)\n{\n    projectManagementUpdateProject(input:{\n        id: $id,\n        status: $status,\n        type: $type,\n        name: $name,\n        priority: $priority,\n        completionRate: $completionRate,\n         pinned: $pinned,\n        description : $description,\n        dueDate: $dueDate,\n        startDate:$startDate,\n        emailAddress: $emailAddress,\n        addresses:$addresses\n    })\n\n    {\n    ... on ProjectManagement_Project {\n            id,\n            status,\n            name,\n            description,\n            dueDate,\n            startDate,\n            completionRate,\n            emailAddress {\n                email\n            }\n            addresses {\n                streetAddressLine1,\n                city,\n                state,\n                country\n            }\n        }\n    }\n}",
-										"variables": "{\n  \"id\": 53633723,\n  \"name\": \"Demo Project Update\",\n  \"description\": \"Project Description Updated\",\n  \"startDate:\": \"2024-06-27T00:00:00.000Z\",\n  \"dueDate\": \"2024-07-25T00:00:00.000Z\",\n  \"status\": \"IN_PROGRESS\",\n  \"account\": {\n    \"id\": \"9341452164365778\"\n    },\n   \"type\": \"CONTACT\",\n   \"priority\": 3,\n   \"completionRate\": 70.00,\n   \"pinned\": true,\n   \"emailAddress\": [\n        {\n        \"email\":\"jacobsolis123@gmail.com\",\n        \"name\": \"Jacob Solis\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n        }\n    ],\n   \"addresses\": [\n       {\n        \"streetAddressLine1\": \"3000 17th street\",\n        \"postalCode\": \"94114\",\n        \"city\": \"San Francisco\",\n        \"state\": \"California\",\n        \"country\": \"USA\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n       }\n   ]\n  }"
+										"query": "mutation projectManagementUpdateProject($id: ID!,\n    $name: String,\n    $description: String,\n    $status: ProjectManagement_Status,\n    $startDate: DateTime,\n    $dueDate: DateTime,\n    $customer: ProjectManagement_CustomerInput,\n    $account: ProjectManagement_CompanyInput,\n    $priority: Int,\n    $completionRate: Decimal,\n    $pinned: Boolean,\n)\n{\n    projectManagementUpdateProject(input:{\n        id: $id,\n        name: $name,\n        description : $description,\n        status: $status,\n        startDate:$startDate,\n        dueDate: $dueDate,\n        customer:$customer\n        account: $account,\n        priority: $priority,\n        completionRate: $completionRate,\n        pinned: $pinned\n    })\n\n    {\n    ... on ProjectManagement_Project {\n            id,\n            name,\n            description,\n             status,\n            startDate,\n            dueDate,\n            customer{\n                id\n            },\n            account{\n                id\n            },\n            priority,\n            completionRate,\n            pinned\n        }\n    }\n}",
+										"variables": "{\n  \"id\": 53633723,\n  \"name\": \"Demo Project Update\",\n  \"description\": \"Project Description Updated\",\n  \"status\": \"IN_PROGRESS\",\n  \"startDate:\": \"2024-06-27T00:00:00.000Z\",\n  \"dueDate\": \"2024-07-25T00:00:00.000Z\",\n   \"customer\": {\n        \"id\":1\n    },\n  \"account\": {\n    \"id\": \"9341452164365778\"\n    },\n   \"priority\": 3,\n   \"completionRate\": 70.00,\n   \"pinned\": true\n  }"
 									}
 								},
 								"url": "https://qb.api.intuit.com/graphql"
@@ -399,18 +377,13 @@
 										"key": "Content-Type",
 										"value": "application/json;charset=UTF-8",
 										"type": "text"
-									},
-									{
-										"key": "intuit_tid",
-										"value": "c265e5e8-0278-44c2-8be7-05a8409566eb",
-										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "graphql",
 									"graphql": {
 										"query": "mutation projectManagementDeleteProject($id: ID!\n    )\n{\n    projectManagementDeleteProject(input:{\n        id: $id,\n    })\n\n    {\n    ... on ProjectManagement_Project {\n            id,\n            deleted\n        }\n    }\n}",
-										"variables": "{\n  \"id\": 44,\n  \"name\": \"Test Project\",\n  \"description\": \"A sample project\",\n  \"startDate\": \"2024-07-01T00:00:00.000Z\",\n  \"dueDate\": \"2024-07-31T00:00:00.000Z\",\n  \"status\": \"OPEN\",\n  \"account\": {\n    \"id\": \"9130357863496756\"\n    },\n   \"customer\":{\n     \"id\":\"2\"\n   },\n   \"type\": \"CONTACT\",\n   \"priority\": 1,\n   \"completionRate\": 95.00,\n   \"pinned\": false,\n   \"emailAddress\": [\n        {\n        \"email\":\"testgmail@gmail.com\",\n        \"name\": \"Test Client\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n        }\n    ],\n   \"addresses\": [\n       {\n        \"streetAddressLine1\": \"3000 17th street\",\n        \"postalCode\": \"94114\",\n        \"city\": \"San Francisco\",\n        \"state\": \"California\",\n        \"country\": \"USA\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n       }\n   ]\n  }"
+										"variables": "{\n  \"id\": 53633723,\n  \"name\": \"Demo Project Update\",\n  \"description\": \"Project Description Updated\",\n  \"status\": \"IN_PROGRESS\",\n  \"startDate:\": \"2024-06-27T00:00:00.000Z\",\n  \"dueDate\": \"2024-07-25T00:00:00.000Z\",\n   \"customer\": {\n        \"id\":1\n    },\n  \"account\": {\n    \"id\": \"9341452164365778\"\n    },\n   \"priority\": 3,\n   \"completionRate\": 70.00,\n   \"pinned\": true\n  }"
 									}
 								},
 								"url": "https://qb.api.intuit.com/graphql"
@@ -454,11 +427,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "intuit_tid",
-										"value": "qbo-invice-test0024",
-										"disabled": true
 									}
 								],
 								"body": {
@@ -630,11 +598,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "intuit_tid",
-										"value": "qbo-bill-test0010",
-										"disabled": true
 									}
 								],
 								"body": {
@@ -942,6 +905,9 @@
 			"item": [
 				{
 					"name": "Create Custom Field Definition",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
 					"request": {
 						"method": "POST",
 						"header": [
@@ -965,7 +931,6 @@
 							"originalRequest": {
 								"method": "POST",
 								"header": [
-
 									{
 										"key": "Content-Type",
 										"value": "application/json"
@@ -1049,6 +1014,7 @@
 							"originalRequest": {
 								"method": "POST",
 								"header": [
+									
 									{
 										"key": "Content-Type",
 										"value": "application/json"
@@ -1132,6 +1098,7 @@
 							"originalRequest": {
 								"method": "POST",
 								"header": [
+									
 									{
 										"key": "Content-Type",
 										"value": "application/json"

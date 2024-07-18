@@ -42,26 +42,23 @@ Developer docs for reference: https://developer.intuit.com/app/developer/qbo/doc
 
 ### Project Fields
 
-| Field Name        | Type                                       | Required | 	Description                                                                                                            |
-|-------------------|--------------------------------------------|----------|-------------------------------------------------------------------------------------------------------------------------|
-| name              | String!                                    | Yes	     | The name of the project.                                                                                                |
-| description       | String                                     | No       | The description of the project.                                                                                         |
-| assignee          | ProjectManagement_PersonaInput             | No       | The assignee of the project.                                                                                            |
-| type              | String                                     | No       | The type of the project that user can define to differentiate between different types of projects and filter on them.   |
-| status	         | ProjectManagement_Status                   | No       | The status of the project indicating the current state of the project. Default status is "OTHER"                        |
-| priority          | Int                                        | No       | The priority of the project in the range of 0-9 where 0 is the lowest and 9 is the highest priority and filter on them. | 
-| client	         | ProjectManagement_ClientInput              | No       | The client for whom the project is created.                                                                             |
-| customer          | ProjectManagement_CustomerInput            | Yes	     | The customer for whom the project is created.                                                                           |
-| account           | ProjectManagement_CompanyInput             | Yes	     | The company for whom the project is created.                                                                            |
-| dueDate           | DateTime                                   | No       | The due date of the project.                                                                                            |
-| startDate         | DateTime                                   | No       | The start date of the project.                                                                                          |
-| completedDate	 | DateTime                                   | No       | The completed date of the project.                                                                                      |
-| completedBy       | ProjectManagement_UserInput                | No       | The user completed the project.                                                                                         |
-| completionRate    | Decimal                                    | No       | The rate of completion of project.                                                                                      |
-| pinned            | Boolean                                    | No       | Pinned is used to tell if a project should be shown at the top of the projects list above those that are not pinned.    |
-| emailAddress      | [Qb_EmailAddressInput]                     | No       | The email address of the project.                                                                                       |
-| addresses         | [Qb_PostalAddressInput]                    | No       | The addresses of the project.                                                                                           |
-| externalReferences| [ProjectManagement_ExternalReferenceInput] | No       | References to the project.                                                                                              |
+| Field Name        | Type                                       | Required      | 	Description                                                                                                                            |
+|-------------------|--------------------------------------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| name              | String!                                    | Yes	          | The name of the project.                                                                                                                |
+| description       | String                                     | No            | The description of the project.                                                                                                         |
+| type              | String                                     | No  (Optional) | The type of the project that user can define to differentiate between different types of projects and filter on them.                   |
+| status	         | ProjectManagement_Status                   | No            | The status of the project indicating the current state of the project. Default status is "OTHER"                                        |
+| priority          | Int                                        | No (Optional) | The priority of the project in the range of 0-9 where 0 is the lowest and 9 is the highest priority and filter on them.                 |
+| customer          | ProjectManagement_CustomerInput            | Yes	          | The customer for whom the project is created.                                                                                           |
+| account           | ProjectManagement_CompanyInput             | Yes	          | The company for whom the project is created.                                                                                            |
+| dueDate           | DateTime                                   | No            | The due date of the project.                                                                                                            |
+| startDate         | DateTime                                   | No            | The start date of the project.                                                                                                          |
+| completedDate	 | DateTime                                   | No            | The completed date of the project.                                                                                                      |
+| completedBy       | ProjectManagement_UserInput                | No            | The user completed the project.                                                                                                         |
+| completionRate    | Decimal                                    | No            | The rate of completion of project.                                                                                                      |
+| pinned            | Boolean                                    | No            | Pinned is used to tell if a project should be shown at the top of the projects list above those that are not pinned.                    |
+| emailAddress      | [Qb_EmailAddressInput]                     | No            | The email address of the project.                                                                                                       |
+| addresses         | [Qb_PostalAddressInput]                    | No            | The addresses of the project.                                                                                                           |
 
 ### ProjectManagement_Status
 ```
@@ -78,25 +75,6 @@ enum ProjectManagement_Status {
 ```
  
 ### Input Variables: 
-
-### ProjectManagement_PersonaInput
-
-```
-input ProjectManagement_PersonaInput  {
-    """
-    The assignee of the project.
-    id: ID!
-}
-```
-
-### ProjectManagement_ClientInput
-
-```
-input ProjectManagement_ClientInput  {
-    """
-    The client for whom the project is created.
-    id: ID!
-}
 
 ```
 ### ProjectManagement_CustomerInput 
@@ -644,18 +622,6 @@ input Common_GeoLocationInput  {
 }
 ```
 
-### ProjectManagement_ExternalReferenceInput
-```
-input ProjectManagement_ExternalReferenceInput {
-   """ Identifies the external reference """
-    externalReferenceId: ID
-     """ A constant key the external reference can be identified with. For custom field values externalKey = QBO_CUSTOM_FIELDS """
-    externalKey: String
-    """ Any additional information related to the external reference. Will contain the custom field values in json format if externalKey = QBO_CUSTOM_FIELDS """
-    externalBlob: JSON
-}
-```
-
 ### Read Project
 
 Query:
@@ -866,10 +832,6 @@ input ProjectManagement_ProjectFilter  {
     """ Filter the projects with given status.Allowed values of status (OPEN,IN_PROGRESS,BLOCKED,CANCELED,COMPLETE,OTHER).
     Only one status can be applied at a time and returns projects of all status if not passed"""
     status: ProjectManagement_StatusExpression
-    """ Filter the projects with the given assigneeId """
-    assignee: ProjectManagement_PersonaExpression
-    """ Filter the projects with the given clientId """
-    client: ProjectManagement_ClientExpression
     """ Filter the projects with the given customerId """
     customer: ProjectManagement_CustomerExpression
     """ Filter the projects with the given type """
@@ -886,21 +848,7 @@ input ProjectManagement_ProjectFilter  {
     deleted: Boolean
 }
 ```
-### ProjectManagement_PersonaExpression
-```
-input ProjectManagement_PersonaExpression  {
-    equals: ProjectManagement_PersonaInput
-    in: [ProjectManagement_PersonaInput!]
-}
-```
 
-### ProjectManagement_ClientExpression
-```
-input ProjectManagement_ClientExpression  {
-    equals: ProjectManagement_ClientInput
-    in: [ProjectManagement_ClientInput!]
-}
-```
 ### ProjectManagement_CustomerExpression
 ```
 input ProjectManagement_CustomerExpression  {
@@ -971,62 +919,62 @@ Mutation:
 ```
 mutation ProjectManagementCreateProject($name: String!, 
     $description: String,
-    $type: String,
-    $status: ProjectManagement_Status,
-    $priority: Int,
     $startDate: DateTime,
     $dueDate: DateTime!, 
-    $account: ProjectManagement_CompanyInput!, 
-    $customer: ProjectManagement_CustomerInput, 
-    $completionRate: Decimal,
+    $status: ProjectManagement_Status,
+    $customer: ProjectManagement_CustomerInput,
+    $account: ProjectManagement_CompanyInput!,
+    $priority: Int,
     $pinned: Boolean,
+    $completionRate: Decimal,
     $emailAddress: [Qb_EmailAddressInput],
-    $addresses: [Qb_PostalAddressInput],
-    
+    $addresses: [Qb_PostalAddressInput]
 ) {
   projectManagementCreateProject(input:{
     name: $name,
     description: $description,
-    type: $type,
-    status: $status,
-    priority: $priority,
-    dueDate : $dueDate,
     startDate : $startDate,
+    dueDate : $dueDate,
+    status: $status
+    customer: $customer, 
     account: $account,
-    customer: $customer
-    completionRate: $completionRate,
+    priority: $priority,
     pinned: $pinned,
+    completionRate: $completionRate,
     emailAddress: $emailAddress,
-    addresses: $addresses
+    addresses: $addresses,
   }
     )
     {
            ... on ProjectManagement_Project {
-        name, 
+        id,
+        name,
         description,
+        startDate,
+        dueDate,
         status,
         priority,
-        dueDate,
-        startDate,
-        id,
-        account {
+        customer{
             id
-           }
-           customer {
+        },
+        account{
             id
-           },
-        completionRate
+        },
+        priority,
+        pinned,
+        completionRate,
         emailAddress {
             email,
             name
         }
         addresses {
             streetAddressLine1,
-            postalCode,
-            city,
+            streetAddressLine2,
+            streetAddressLine3
             state,
-            country
-        }
+            postalCode
+        }   
+      }
         }
     }
 }
@@ -1038,22 +986,22 @@ Sample Variables:
 {
   "name": "Demo Project",
   "description": "Test Demo Project",
-  "status": "OPEN",
-  "priority": 1,
-  "startDate:": "2024-06-01T00:00:00.000Z",
-  "dueDate": "2024-08-23T00:00:00.000Z",
+  "startDate:": "2024-07-05T00:00:00.000Z",
+  "dueDate": "2024-07-31T00:00:00.000Z",
+   "status": "OPEN",
+   "customer": {
+        "id":1
+    },
   "account": {
-    "id": "9341452164365778"
+    "id": "9341451497924167"
     },
-    "customer" : {
-        "id" : "8"
-    },
-   "completionRate": 70.00,
+   "priority": 1,
    "pinned": false,
+   "completionRate": 99.00,
    "emailAddress": [
         {
         "email":"testproject@gmail.com",
-        "name": "Test Client1",
+        "name": "Demo Client",
         "variation": {
             "purpose": "BILLING",
             "usage": "HOME",
@@ -1089,20 +1037,21 @@ Sample response:
 {
     "data": {
         "projectManagementCreateProject": {
+            "id": "409291028",
             "name": "Demo Project",
-            "description": "Test Demo Project",
+            "description": "TestDemoProject",
+             "startDate:": "2024-07-23T00:00:00.000Z",
+            "dueDate": "2024-07-31T00:00:00.000Z",
             "status": "OPEN",
             "priority": 1,
-            "dueDate": "2024-08-23T00:00:00.000Z",
-            "startDate": null,
-            "id": "53633723",
-            "account": {
-                "id": "9341452164365778"
-            },
             "customer": {
-                "id": "8"
+                "id": "1"
             },
-            "completionRate": 70.0,
+            "account": {
+                "id": "9341452075221168"
+            },
+            "pinned": false,
+            "completionRate": 99.0,
             "emailAddress": [
                 {
                     "email": "testproject@gmail.com",
@@ -1112,10 +1061,10 @@ Sample response:
             "addresses": [
                 {
                     "streetAddressLine1": "3000 17th street",
-                    "postalCode": "94114",
-                    "city": "San Francisco",
+                    "streetAddressLine2": null,
+                    "streetAddressLine3": null,
                     "state": "California",
-                    "country": "USA"
+                    "postalCode": "94114"
                 }
             ]
         }
@@ -1129,52 +1078,50 @@ Sample response:
 Mutation:
 ### projectManagementUpdateProject                                    
 ``` 
-mutation projectManagementUpdateProject($id: ID!, 
-    $status: ProjectManagement_Status,
-    $type: String,
+mutation projectManagementUpdateProject($id: ID!,
     $name: String,
-    $priority: Int,
-    $pinned: Boolean,
     $description: String,
-    $dueDate: DateTime,
+    $status: ProjectManagement_Status,
     $startDate: DateTime,
+    $dueDate: DateTime,
+    $customer: ProjectManagement_CustomerInput,
+    $account: ProjectManagement_CompanyInput,
+    $priority: Int,
     $completionRate: Decimal,
-    $emailAddress: [Qb_EmailAddressInput],
-    $addresses: [Qb_PostalAddressInput]!)
+    $pinned: Boolean,
+)
 {
     projectManagementUpdateProject(input:{
         id: $id,
-        status: $status,
-        type: $type,
         name: $name,
+        description : $description,
+        status: $status,
+        startDate:$startDate,
+        dueDate: $dueDate,
+        customer:$customer
+        account: $account,
         priority: $priority,
         completionRate: $completionRate,
-         pinned: $pinned,
-        description : $description,
-        dueDate: $dueDate,
-        startDate:$startDate,
-        emailAddress: $emailAddress,
-        addresses:$addresses
+        pinned: $pinned
     })
 
     {
     ... on ProjectManagement_Project {
             id,
-            status,
             name,
             description,
-            dueDate,
+             status,
             startDate,
+            dueDate,
+            customer{
+                id
+            },
+            account{
+                id
+            },
+            priority,
             completionRate,
-            emailAddress {
-                email
-            }
-            addresses {
-                streetAddressLine1,
-                city,
-                state,
-                country
-            }
+            pinned
         }
     }
 }
@@ -1185,44 +1132,22 @@ You can pass the required fields that needs to be updated. Sample below has almo
 
 ```
 {
-  "id": 53633723,
-  "name": "Demo Project Updated",
-  "description": "Project Description Updated",
-  "startDate:": "2024-06-27T00:00:00.000Z",
-  "dueDate": "2024-07-25T00:00:00.000Z",
-  "status": "IN_PROGRESS", // OPEN to "IN_PROGRESS"
+"id": 409291370,
+  "name": "Demo Project New Update",
+  "description": "Test DemoProject New Update",
+  "startDate:": "2024-07-17T00:00:00.000Z",
+  "dueDate": "2024-07-31T00:00:00.000Z",
+   "status": "OPEN",
   "account": {
-    "id": "9341452164365778"
+    "id": "9341452075221168"
     },
-   "type": "CONTACT",
-   "priority": 3,
-   "completionRate": 70.00,
-   "pinned": true,
-   "emailAddress": [
-        {
-        "email":"jacobsolis123@gmail.com",
-        "name": "Jacob Solis",
-        "variation": {
-            "purpose": "BILLING",
-            "usage": "HOME",
-            "Common_Ordinal": "PRIMARY"
-        }
-        }
-    ],
-   "addresses": [
-       {
-        "streetAddressLine1": "3000 17th street",
-        "postalCode": "94114",
-        "city": "San Francisco",
-        "state": "California",
-        "country": "USA",
-        "variation": {
-            "purpose": "BILLING",
-            "usage": "HOME",
-            "Common_Ordinal": "PRIMARY"
-        }
-       }
-   ]
+    "customer": {
+        "id":1
+    },
+
+   "priority": 1,
+   "completionRate": 99.00,
+   "pinned": false
   }
 ```
 
@@ -1230,29 +1155,22 @@ Response:
 ```
 {
     "data": {
-        "projectManagementProject": {
-            "id": "53633723",
-            "name": "Demo Project Update",
-            "description": "Project Description Updated",
-            "assignee": null,
-            "type": "CONTACT",
-            "status": "IN_PROGRESS",
-            "priority": 3,
-            "client": null,
+        "projectManagementUpdateProject": {
+            "id": "409291370",
+            "name": "Demo Project New Update",
+            "description": "Test DemoProject New Update",
+            "status": "OPEN",
+            "startDate": null,
+            "dueDate": "2024-07-31T00:00:00.000Z",
             "customer": {
-                "id": "8"
+                "id": "1"
             },
             "account": {
-                "id": "9341452164365778"
+                "id": "9341452075221168"
             },
-            "dueDate": "2024-07-25T00:00:00.000Z",
-            "startDate": null,
-            "completedDate": null,
-            "completedBy": null,
-            "completionRate": 70.0,
-            "pinned": true,
-            "emailAddress": [],
-            "addresses": []
+            "priority": 1,
+            "completionRate": 99.0,
+            "pinned": false
         }
     }
 }
