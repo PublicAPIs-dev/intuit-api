@@ -76,7 +76,6 @@ enum ProjectManagement_Status {
  
 ### Input Variables: 
 
-```
 ### ProjectManagement_CustomerInput 
 
 ```
@@ -1024,6 +1023,7 @@ Sample Variables:
        }
    ]
   }
+  
 ```
 Required Fields:
 
@@ -1104,7 +1104,6 @@ mutation projectManagementUpdateProject($id: ID!,
         completionRate: $completionRate,
         pinned: $pinned
     })
-
     {
     ... on ProjectManagement_Project {
             id,
@@ -1188,7 +1187,6 @@ You can also use separate updateMutation that exists to update individual fields
          id: $id,
          name: $name,
      })
- 
      {
      ... on ProjectManagement_Project {
              name, 
@@ -1208,7 +1206,6 @@ mutation projectManagementUpdateStatus($id: ID!,
         id: $id,
         status: $status,
     })
-
     {
     ... on ProjectManagement_Project {
             name, 
@@ -1228,7 +1225,6 @@ mutation projectManagementUpdateDescription($id: ID!,
         id: $id,
         description: $description,
     })
-
     {
     ... on ProjectManagement_Project {
             name, 
@@ -1249,7 +1245,6 @@ mutation projectManagementUpdateDueDate($id: ID!,
         id: $id,
         dueDate: $dueDate,
     })
-
     {
     ... on ProjectManagement_Project {
             id,
@@ -1268,7 +1263,6 @@ mutation projectManagementUpdateStartDate($id: ID!,
         id: $id,
         startDate: $startDate,
     })
-
     {
     ... on ProjectManagement_Project {
             id,
@@ -1287,7 +1281,6 @@ mutation projectManagementUpdateCustomer($id: ID!,
         id: $id,
         customer: $customer,
     })
-
     {
     ... on ProjectManagement_Project {
             id
@@ -1306,7 +1299,6 @@ mutation projectManagementUpdateCompletionRate($id: ID!,
         id: $id,
         completionRate: $completionRate,
     })
-
     {
     ... on ProjectManagement_Project {
             id,
@@ -1327,7 +1319,6 @@ mutation projectManagementUpdateEmailAddress($id: ID!,
         id: $id,
         emailAddress: $emailAddress,
     })
-
     {
     ... on ProjectManagement_Project {
             id,
@@ -1347,7 +1338,6 @@ mutation projectManagementUpdateAddresses($id: ID!,
         id: $id,
         addresses: $addresses,
     })
-
     {
     ... on ProjectManagement_Project {
             id
@@ -1365,8 +1355,7 @@ mutation projectManagementDeleteProject($id: ID!)
 {                                                                                                                                             
     projectManagementDeleteProject(input:{                                                                                                    
         id: $id,                                                                                                                              
-    })                                                                                                                                        
-                                                                                                                                              
+    })
     {                                                                                                                                         
     ... on ProjectManagement_Project {                                                                                                        
             id,                                                                                                                               
