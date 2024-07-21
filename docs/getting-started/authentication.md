@@ -16,9 +16,8 @@ Already familiar with Intuit API and GraphQL? Feel free to skip this section.
 
 If you're new, check out these resources so you can develop with confidence:
 
-* [Learn about Intuit API](../../faq/graphql-vs-rest/)
 * [Learn about GraphQL](../../graphql-concepts/)
-* [Learn about the project management usecases](./docs/use-cases)
+* [Learn about the project management usecases](./../use-cases)
 
 ## Step 2: Set up your developer account 
 
