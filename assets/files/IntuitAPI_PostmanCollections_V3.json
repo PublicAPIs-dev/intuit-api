@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "2739848d-3317-4454-8f28-8cf7e0a14063",
 		"name": "Alpha API -Collections",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "35091101"
 	},
 	"item": [
@@ -18,8 +18,7 @@
 								"exec": [
 									""
 								],
-								"type": "text/javascript",
-								"packages": {}
+								"type": "text/javascript"
 							}
 						},
 						{
@@ -28,8 +27,7 @@
 								"exec": [
 									""
 								],
-								"type": "text/javascript",
-								"packages": {}
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -42,11 +40,23 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query readTimeByDateRange (\n $after: String,\n  $first: Int,\n  $filter: TimeTracking_TimeEntryInputFilter,\n  $orderBy: [TimeTracking_TimeEntryOrderBy] ) {\n  timeTrackingTimeEntries( \n    after: $after,\n    first: $first,\n    filter: $filter,\n    orderBy: $orderBy\n    )\n  {\n    edges {\n      node {\n        id\n        meta {\n          updatedAt\n        }\n        timeFor {\n          ... on WorkerManagement_Employee {\n            id\n          }\n        }\n        serviceItem {\n          id\n        }\n  \n        entryMethod\n        startDate\n        entryMethod\n        startTime\n        endTime\n        duration\n        timezone\n        notes\n        attachedFileCount {\n          attachmentCount\n          signatureCount\n        }\n        employeeCompensation {\n          id\n        }\n        billable\n        state\n        locked\n        lockedReasons\n      }\n    }\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n  }\n}",
-								"variables": "{\n\"after\":null,\n\"first\":1,\n    \"filter\": {\n     \"dateRange\": {\"beginDate\": \"2024-06-01\", \"endDate\": \"2024-06-30\"\n     },\n     \"states\": [\"OPEN\", \"CLOSED\", \"APPROVED\"]\n    },\n    \"orderBy\": [\"START_ASC\",\"START_DESC\",\"END_ASC\",\n    \"END_DESC\",\"DURATION_ASC\",\"DURATION_DESC\"\n    ] \n }\n"
+								"query": "query readTimeByDateRange (\n $after: String,\n  $first: Int,\n  $filter: TimeTracking_TimeEntryInputFilter,\n  $orderBy: [TimeTracking_TimeEntryOrderBy] ) {\n  timeTrackingTimeEntries( \n    after: $after,\n    first: $first,\n    filter: $filter,\n    orderBy: $orderBy\n    )\n  {\n    edges {\n      node {\n        id\n        meta {\n          updatedAt\n        }\n        timeFor {\n          ... on WorkerManagement_Employee {\n            id\n          }\n        }\n        serviceItem {\n          id\n        }\n        entryMethod\n        startDate\n        entryMethod\n        startTime\n        endTime\n        duration\n        notes\n        employeeCompensation {\n          id\n        }\n        billable\n      }\n    }\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n  }\n}",
+								"variables": "{\n\"after\":null,\n\"first\":1,\n    \"filter\": {\n     \"dateRange\": {\"beginDate\": \"2024-06-01\", \"endDate\": \"2024-06-30\"\n     }\n    },\n    \"orderBy\": [\"START_ASC\",\"START_DESC\",\"END_ASC\",\n    \"END_DESC\",\"DURATION_ASC\",\"DURATION_DESC\"\n    ] \n }\n"
 							}
 						},
-						"url": "https://qb.api.intuit.com/graphql",
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						},
 						"description": "### Request Description\n\nThis endpoint is a POST request to [https://qb.api.intuit.com/graphql](https://qb.api.intuit.com/graphql). The request payload has an undefined request body type.\n\n### Response\n\nThe response is in JSON format and returns a status of 200. Below is the JSON schema for the response:\n\n``` json\n{\n  \"data\": {\n    \"timeTrackingTimeEntries\": {\n      \"edges\": [\n        {\n          \"cursor\": \"\",\n          \"node\": {\n            \"id\": \"\",\n            \"meta\": {\n              \"updatedAt\": \"\"\n            },\n            \"timeFor\": {\n              \"__typename\": \"\",\n              \"id\": \"\"\n            },\n            \"timeAgainst\": {\n              \"__typename\": \"\",\n              \"id\": \"\"\n            },\n            \"entryMethod\": \"\",\n            \"startDate\": \"\",\n            \"startTime\": null,\n            \"endTime\": null,\n            \"duration\": 0,\n            \"timezone\": \"\",\n            \"notes\": \"\",\n            \"attachedFileCount\": {\n              \"attachmentCount\": 0,\n              \"signatureCount\": 0\n            },\n            \"employeeCompensation\": null,\n            \"billable\": true,\n            \"state\": \"\",\n            \"locked\": true,\n            \"lockedReasons\": []\n          }\n        }\n      ],\n      \"pageInfo\": {\n        \"hasNextPage\": true,\n        \"hasPreviousPage\": true,\n        \"startCursor\": \"\",\n        \"endCursor\": \"\"\n      }\n    }\n  }\n}\n\n ```"
 					},
 					"response": []
@@ -60,8 +70,7 @@
 								"exec": [
 									""
 								],
-								"type": "text/javascript",
-								"packages": {}
+								"type": "text/javascript"
 							}
 						},
 						{
@@ -70,8 +79,7 @@
 								"exec": [
 									""
 								],
-								"type": "text/javascript",
-								"packages": {}
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -84,11 +92,23 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query readMinimalTimeSheet (\n $after: String,\n  $first: Int,\n  $filter: TimeTracking_TimeEntryInputFilter,\n  $orderBy: [TimeTracking_TimeEntryOrderBy]\n)  {\n  timeTrackingTimeEntries( \n    after: $after,\n    first: $first,\n    filter: $filter,\n    orderBy: $orderBy\n    )\n   {\n    edges {\n      node {\n        id\n        duration\n        entryMethod\n        startDate\n        entryMethod\n        startTime\n        endTime\n        duration\n        timezone\n        notes\n        attachedFileCount {\n          attachmentCount\n          signatureCount\n        }\n        employeeCompensation {\n          id\n        }\n        billable\n        state\n        locked\n        lockedReasons\n      }\n    }\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n  }\n}\n",
-								"variables": "{\n\"after\":null,\n\"first\":1,\n    \"filter\": {\n     \"ids\":[111],\n     \"states\": [\"OPEN\", \"CLOSED\", \"APPROVED\"]\n    },\n    \"orderBy\": [\"START_ASC\",\"START_DESC\",\"END_ASC\",\n    \"END_DESC\",\"DURATION_ASC\",\"DURATION_DESC\"\n    ] \n }\n"
+								"query": "query readMinimalTimeSheet (\n $after: String,\n  $first: Int,\n  $filter: TimeTracking_TimeEntryInputFilter,\n  $orderBy: [TimeTracking_TimeEntryOrderBy]\n)  {\n  timeTrackingTimeEntries( \n    after: $after,\n    first: $first,\n    filter: $filter,\n    orderBy: $orderBy\n    )\n   {\n    edges {\n      node {\n        id\n        duration\n        entryMethod\n        startDate\n        entryMethod\n        startTime\n        endTime\n        duration\n        notes\n        employeeCompensation {\n          id\n        }\n        billable\n      }\n    }\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n  }\n}\n",
+								"variables": "{\n\"after\":null,\n\"first\":1,\n    \"filter\": {\n     \"ids\":[111]\n    },\n    \"orderBy\": [\"START_ASC\",\"START_DESC\",\"END_ASC\",\n    \"END_DESC\",\"DURATION_ASC\",\"DURATION_DESC\"\n    ] \n }\n"
 							}
 						},
-						"url": "https://qb.api.intuit.com/graphql",
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						},
 						"description": "### Request Description\n\nThis endpoint is a POST request to [https://qb.api.intuit.com/graphql](https://qb.api.intuit.com/graphql). The request payload has an undefined request body type.\n\n### Response\n\nThe response is in JSON format and returns a status of 200. Below is the JSON schema for the response:\n\n``` json\n{\n  \"data\": {\n    \"timeTrackingTimeEntries\": {\n      \"edges\": [\n        {\n          \"cursor\": \"\",\n          \"node\": {\n            \"id\": \"\",\n            \"meta\": {\n              \"updatedAt\": \"\"\n            },\n            \"timeFor\": {\n              \"__typename\": \"\",\n              \"id\": \"\"\n            },\n            \"timeAgainst\": {\n              \"__typename\": \"\",\n              \"id\": \"\"\n            },\n            \"entryMethod\": \"\",\n            \"startDate\": \"\",\n            \"startTime\": null,\n            \"endTime\": null,\n            \"duration\": 0,\n            \"timezone\": \"\",\n            \"notes\": \"\",\n            \"attachedFileCount\": {\n              \"attachmentCount\": 0,\n              \"signatureCount\": 0\n            },\n            \"employeeCompensation\": null,\n            \"billable\": true,\n            \"state\": \"\",\n            \"locked\": true,\n            \"lockedReasons\": []\n          }\n        }\n      ],\n      \"pageInfo\": {\n        \"hasNextPage\": true,\n        \"hasPreviousPage\": true,\n        \"startCursor\": \"\",\n        \"endCursor\": \"\"\n      }\n    }\n  }\n}\n\n ```"
 					},
 					"response": []
@@ -102,8 +122,7 @@
 								"exec": [
 									""
 								],
-								"type": "text/javascript",
-								"packages": {}
+								"type": "text/javascript"
 							}
 						},
 						{
@@ -112,8 +131,7 @@
 								"exec": [
 									""
 								],
-								"type": "text/javascript",
-								"packages": {}
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -126,11 +144,23 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createTimeEntryByDuration ($input: TimeTracking_CreateTimeEntryByDurationInput!) {\n  timeTrackingCreateTimeEntryByDuration(input: $input) {\n    ... on TimeTracking_CreateTimeEntryByDurationPayload {\n      successCode\n      timeEntry {\n        id\n        meta {\n          updatedAt\n        }\n        timeFor {\n          ... on WorkerManagement_Employee {\n            id\n          }\n        }\n        entryMethod\n        startDate\n        startTime\n        endTime\n        notes\n        serviceItem {\n          id\n        }\n        attachedFileCount {\n          attachmentCount\n          signatureCount\n        }\n        employeeCompensation {\n          id\n        }\n        billable\n        state\n        locked\n        lockedReasons\n      }\n    }\n    ... on TimeTracking_CreateTimeEntryByDurationError {\n      errorCode\n    }\n  }\n}",
+								"query": "mutation createTimeEntryByDuration ($input: TimeTracking_CreateTimeEntryByDurationInput!) {\n  timeTrackingCreateTimeEntryByDuration(input: $input) {\n    ... on TimeTracking_CreateTimeEntryByDurationPayload {\n      successCode\n      timeEntry {\n        id\n        meta {\n          updatedAt\n        }\n        timeFor {\n          ... on WorkerManagement_Employee {\n            id\n          }\n        }\n        entryMethod\n        startDate\n        startTime\n        endTime\n        notes\n        serviceItem {\n          id\n        }\n        employeeCompensation {\n          id\n        }\n        billable\n      }\n    }\n    ... on TimeTracking_CreateTimeEntryByDurationError {\n      errorCode\n    }\n  }\n}",
 								"variables": " {\n \"input\": {\n      \"timeFor\": { \"id\": 3, \n      \"entityType\": \"EMPLOYEE\" \n       } ,\n      \"startDate\": \"2024-06-27\",\n      \"duration\": 30,\n      \"timeAgainst\": { \n        \"id\": 51579212,\n   \t     \"entityType\": \"PROJECT\"\n       },\n      \"employeeCompensationId\": \"23348984\", // Regular\n      \"serviceItemId\": 1,\n      \"billable\": true,\n      \"notes\": \"test note employee timeentry with regular timeoff\"\n    }\n }"
 							}
 						},
-						"url": "https://qb.api.intuit.com/graphql"
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
 					},
 					"response": []
 				},
@@ -171,7 +201,19 @@
 								"variables": " {\n  \"input\": {\n    \"id\": 666350208,\n     \"duration\": 40, \n    \"serviceItemId\": 1,\n    \"employeeCompensationId\": null,\n    \"timeAgainst\": {\n        \"id\": 1, \n        \"entityType\": \"CUSTOMER\"\n        } ,\n     \"billable\": true, \n     \"notes\": \"update mutation testing\"\n  }\n}\n "
 							}
 						},
-						"url": "https://qb.api.intuit.com/graphql"
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
 					},
 					"response": []
 				},
@@ -184,8 +226,7 @@
 								"exec": [
 									""
 								],
-								"type": "text/javascript",
-								"packages": {}
+								"type": "text/javascript"
 							}
 						},
 						{
@@ -194,8 +235,7 @@
 								"exec": [
 									""
 								],
-								"type": "text/javascript",
-								"packages": {}
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -208,11 +248,23 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation timeTrackingDeleteTimesheet($input: TimeTracking_DeleteTimeEntryInput!) {\n                timeTrackingDeleteTimeEntry (input: $input) {\n                    ...on TimeTracking_DeleteTimeEntryPayload {\n                        successCode\n                        timeEntry {\n                            id\n                        }\n                    }\n                    ... on TimeTracking_DeleteTimeEntryError {\n                      errorCode\n                    }\n                }\n            }",
+								"query": "mutation timeTrackingDeleteTimesheet($input: TimeTracking_DeleteTimeEntryInput!) {\n                timeTrackingDeleteTimeEntry (input: $input) {\n                    ...on TimeTracking_DeleteTimeEntryPayload {\n                        successCode\n                        deletedTimeEntryId\n                    }\n                    ... on TimeTracking_DeleteTimeEntryError {\n                      errorCode\n                    }\n                }\n            }",
 								"variables": "{\n  \"input\": {\n    \"id\": 96495048\n  }\n}"
 							}
 						},
-						"url": "https://qb.api.intuit.com/graphql"
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
 					},
 					"response": []
 				}
@@ -229,11 +281,23 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query getEmployeeCompensationById {\n  payrollEmployerInfo {\n\temployerCompensations (filter: {employeeId: \"5\"}){\n  \tedges {\n    \tnode {\n      \tid\n      \talternateIds {\n        \tid\n      \t}\n      \tname\n    \t}\n  \t}\n\t}\n  }\n}\n",
-								"variables": ""
+								"query": "query getEmployeeCompensations($filter: Payroll_EmployeeCompensationsFilter!) {\n  payrollEmployeeCompensations(filter: $filter ){\n  \tedges {\n    \tnode {\n      \t  id\n          active\n      \t  employerCompensation {\n           id\n           name\n           type {\n            key\n            description\n            value\n           }\n    \t  }\n  \t    }\n      }\n    }\n  }",
+								"variables": "{\n     \"filter\": {\n        \"employeeId\": \"1\", \n        \"active\": true\n    }\n }"
 							}
 						},
-						"url": "https://qb.api.intuit.com/graphql"
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
 					},
 					"response": []
 				}
@@ -268,7 +332,19 @@
 										"variables": "{\n  \"first\": 5,\n  \"after\": null,\n  \"filter\": {\n    \"dueDate\": {\n      \"between\": {\n        \"minDate\": \"2024-04-01T18:47:25.123456789-07:00\",\n        \"maxDate\": \"2024-12-05T18:47:25.123456789-07:00\"\n      }\n    }\n  },\n  \"orderBy\": [\"DUE_DATE_DESC\"]\n}\n"
 									}
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"response": []
 						},
@@ -295,7 +371,19 @@
 										"variables": "{\n    \"id\" : 53363419\n}"
 									}
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"response": []
 						}
@@ -323,11 +411,23 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation ProjectManagementCreateProject($name: String!, \n    $description: String,\n    $startDate: DateTime,\n    $dueDate: DateTime!, \n    $status: ProjectManagement_Status,\n    $customer: ProjectManagement_CustomerInput,\n    $account: ProjectManagement_CompanyInput!,\n    $priority: Int,\n    $pinned: Boolean,\n    $completionRate: Decimal,\n    $emailAddress: [Qb_EmailAddressInput],\n    $addresses: [Qb_PostalAddressInput]\n) {\n  projectManagementCreateProject(input:{\n    name: $name,\n    description: $description,\n    startDate : $startDate,\n    dueDate : $dueDate,\n    status: $status\n    customer: $customer, \n    account: $account,\n    priority: $priority,\n    pinned: $pinned,\n    completionRate: $completionRate,\n    emailAddress: $emailAddress,\n    addresses: $addresses,\n  }\n    )\n    {\n           ... on ProjectManagement_Project {\n        id,\n        name,\n        description,\n        startDate,\n        dueDate,\n        status,\n        priority,\n        customer{\n            id\n        },\n        account{\n            id\n        },\n        priority,\n        pinned,\n        emailAddress {\n            email,\n            name\n        }\n        addresses {\n            streetAddressLine1,\n            streetAddressLine2,\n            streetAddressLine3\n            state,\n            postalCode\n        }   \n      }\n        }\n    }\n",
-										"variables": "{\n  \"name\": \"Demo Project\",\n  \"description\": \"Test Demo Project\",\n  \"startDate\": \"2024-07-05T00:00:00.000Z\",\n  \"dueDate\": \"2024-07-31T00:00:00.000Z\",\n   \"status\": \"OPEN\",\n   \"customer\": {\n        \"id\":1\n    },\n  \"account\": {\n    \"id\": \"9341451497924167\"\n    },\n   \"priority\": 1,\n   \"pinned\": false,\n   \"completionRate\": 99.00,\n   \"emailAddress\": [\n        {\n        \"email\":\"testproject@gmail.com\",\n        \"name\": \"Demo Client\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n        }\n    ],\n   \"addresses\": [\n       {\n        \"streetAddressLine1\": \"3000 17th street\",\n        \"postalCode\": \"94114\",\n        \"city\": \"San Francisco\",\n        \"state\": \"California\",\n        \"country\": \"USA\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n       }\n   ]\n  }"
+										"query": "mutation ProjectManagementCreateProject($name: String!, \n    $description: String,\n    $startDate: DateTime,\n    $dueDate: DateTime!, \n    $status: ProjectManagement_Status,\n    $customer: ProjectManagement_CustomerInput,\n    $account: ProjectManagement_CompanyInput!,\n    $priority: Int,\n    $pinned: Boolean,\n    $completionRate: Decimal,\n    $emailAddress: [Qb_EmailAddressInput],\n    $addresses: [Qb_PostalAddressInput]\n) {\n  projectManagementCreateProject(input:{\n    name: $name,\n    description: $description,\n    startDate : $startDate,\n    dueDate : $dueDate,\n    status: $status\n    customer: $customer, \n    account: $account,\n    priority: $priority,\n    pinned: $pinned,\n    completionRate: $completionRate,\n    emailAddress: $emailAddress,\n    addresses: $addresses,\n  }\n    )\n    {\n           ... on ProjectManagement_Project {\n        id,\n        name,\n        description,\n        startDate,\n        dueDate,\n        status,\n        priority,\n        customer{\n            id\n        },\n        account{\n            id\n        },\n        priority,\n        pinned,\n        emailAddress {\n            email,\n            name\n        }\n        addresses {\n            streetAddressLine1,\n            streetAddressLine2,\n            streetAddressLine3\n            state,\n            postalCode\n        }   \n      }\n        }\n    }",
+										"variables": "{\n  \"name\": \"Demo Project\",\n  \"description\": \"Test Demo Project\",\n  \"startDate:\": \"2024-07-05T00:00:00.000Z\",\n  \"dueDate\": \"2024-07-31T00:00:00.000Z\",\n   \"status\": \"OPEN\",\n   \"customer\": {\n        \"id\":1\n    },\n  \"account\": {\n    \"id\": \"9341451497924167\"\n    },\n   \"priority\": 1,\n   \"pinned\": false,\n   \"completionRate\": 99.00,\n   \"emailAddress\": [\n        {\n        \"email\":\"testproject@gmail.com\",\n        \"name\": \"Demo Client\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n        }\n    ],\n   \"addresses\": [\n       {\n        \"streetAddressLine1\": \"3000 17th street\",\n        \"postalCode\": \"94114\",\n        \"city\": \"San Francisco\",\n        \"state\": \"California\",\n        \"country\": \"USA\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n       }\n   ]\n  }"
 									}
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"response": []
 						}
@@ -356,10 +456,22 @@
 									"mode": "graphql",
 									"graphql": {
 										"query": "mutation projectManagementUpdateProject($id: ID!,\n    $name: String,\n    $description: String,\n    $status: ProjectManagement_Status,\n    $startDate: DateTime,\n    $dueDate: DateTime,\n    $customer: ProjectManagement_CustomerInput,\n    $account: ProjectManagement_CompanyInput,\n    $priority: Int,\n    $completionRate: Decimal,\n    $pinned: Boolean,\n)\n{\n    projectManagementUpdateProject(input:{\n        id: $id,\n        name: $name,\n        description : $description,\n        status: $status,\n        startDate:$startDate,\n        dueDate: $dueDate,\n        customer:$customer\n        account: $account,\n        priority: $priority,\n        completionRate: $completionRate,\n        pinned: $pinned\n    })\n\n    {\n    ... on ProjectManagement_Project {\n            id,\n            name,\n            description,\n             status,\n            startDate,\n            dueDate,\n            customer{\n                id\n            },\n            account{\n                id\n            },\n            priority,\n            completionRate,\n            pinned\n        }\n    }\n}",
-										"variables": "{\n  \"id\": 53633723,\n  \"name\": \"Demo Project Update\",\n  \"description\": \"Project Description Updated\",\n  \"status\": \"IN_PROGRESS\",\n  \"startDate\": \"2024-06-27T00:00:00.000Z\",\n  \"dueDate\": \"2024-07-25T00:00:00.000Z\",\n   \"customer\": {\n        \"id\":1\n    },\n  \"account\": {\n    \"id\": \"9341452164365778\"\n    },\n   \"priority\": 3,\n   \"completionRate\": 70.00,\n   \"pinned\": true\n  }"
+										"variables": "{\n  \"id\": 53633723,\n  \"name\": \"Demo Project Update\",\n  \"description\": \"Project Description Updated\",\n  \"status\": \"IN_PROGRESS\",\n  \"startDate:\": \"2024-06-27T00:00:00.000Z\",\n  \"dueDate\": \"2024-07-25T00:00:00.000Z\",\n   \"customer\": {\n        \"id\":1\n    },\n  \"account\": {\n    \"id\": \"9341452164365778\"\n    },\n   \"priority\": 3,\n   \"completionRate\": 70.00,\n   \"pinned\": true\n  }"
 									}
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"response": []
 						},
@@ -383,10 +495,22 @@
 									"mode": "graphql",
 									"graphql": {
 										"query": "mutation projectManagementDeleteProject($id: ID!\n    )\n{\n    projectManagementDeleteProject(input:{\n        id: $id,\n    })\n\n    {\n    ... on ProjectManagement_Project {\n            id,\n            deleted\n        }\n    }\n}",
-										"variables": "{\n  \"id\": 53633723,\n  \"name\": \"Demo Project Update\",\n  \"description\": \"Project Description Updated\",\n  \"status\": \"IN_PROGRESS\",\n  \"startDate\": \"2024-06-27T00:00:00.000Z\",\n  \"dueDate\": \"2024-07-25T00:00:00.000Z\",\n   \"customer\": {\n        \"id\":1\n    },\n  \"account\": {\n    \"id\": \"9341452164365778\"\n    },\n   \"priority\": 3,\n   \"completionRate\": 70.00,\n   \"pinned\": true\n  }"
+										"variables": "{\n  \"id\": 53633723,\n  \"name\": \"Demo Project Update\",\n  \"description\": \"Project Description Updated\",\n  \"status\": \"IN_PROGRESS\",\n  \"startDate:\": \"2024-06-27T00:00:00.000Z\",\n  \"dueDate\": \"2024-07-25T00:00:00.000Z\",\n   \"customer\": {\n        \"id\":1\n    },\n  \"account\": {\n    \"id\": \"9341452164365778\"\n    },\n   \"priority\": 3,\n   \"completionRate\": 70.00,\n   \"pinned\": true\n  }"
 									}
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"response": []
 						}
@@ -400,23 +524,83 @@
 							"request": {
 								"auth": {
 									"type": "oauth2",
-									"oauth2": {
-										"state": "",
-										"scope": "",
-										"clientSecret": "",
-										"clientId": "",
-										"accessTokenUrl": "",
-										"authUrl": "",
-										"refreshRequestParams": [],
-										"tokenRequestParams": [],
-										"authRequestParams": [],
-										"challengeAlgorithm": "S256",
-										"useBrowser": true,
-										"grant_type": "authorization_code",
-										"addTokenTo": "header",
-										"client_authentication": "header",
-										"tokenType": "bearer"
-									}
+									"oauth2": [
+										{
+											"key": "state",
+											"value": "{{$guid}}",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "{{scope}}",
+											"type": "string"
+										},
+										{
+											"key": "clientSecret",
+											"value": "{{clientsecret-stage}}",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "{{clientId-teststage}}",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": "{{stage_token_endpoint}}",
+											"type": "string"
+										},
+										{
+											"key": "authUrl",
+											"value": "{{stage_auth_endpoint}}",
+											"type": "string"
+										},
+										{
+											"key": "refreshRequestParams",
+											"value": [],
+											"type": "any"
+										},
+										{
+											"key": "tokenRequestParams",
+											"value": [],
+											"type": "any"
+										},
+										{
+											"key": "authRequestParams",
+											"value": [],
+											"type": "any"
+										},
+										{
+											"key": "challengeAlgorithm",
+											"value": "S256",
+											"type": "string"
+										},
+										{
+											"key": "useBrowser",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "tokenType",
+											"value": "bearer",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
 								"header": [
@@ -761,7 +945,20 @@
 										"value": "application/json"
 									}
 								],
-								"url": "https://{{baseurl}}/v3/company/{{companyId}}/purchase/11",
+								"url": {
+									"raw": "https://{{baseurl}}/v3/company/{{companyId}}/purchase/11",
+									"protocol": "https",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"v3",
+										"company",
+										"{{companyId}}",
+										"purchase",
+										"11"
+									]
+								},
 								"description": "Read a puchase object by Id\nMethod : POST\n"
 							},
 							"response": []
@@ -858,22 +1055,78 @@
 					],
 					"auth": {
 						"type": "oauth2",
-						"oauth2": {
-							"scope": "",
-							"clientSecret": "",
-							"clientId": "",
-							"accessTokenUrl": "",
-							"authUrl": "",
-							"refreshRequestParams": [],
-							"tokenRequestParams": [],
-							"authRequestParams": [],
-							"challengeAlgorithm": "S256",
-							"useBrowser": true,
-							"state": "{{$guid}}",
-							"grant_type": "authorization_code",
-							"addTokenTo": "header",
-							"client_authentication": "header"
-						}
+						"oauth2": [
+							{
+								"key": "scope",
+								"value": "{{Scope_AllAphaScope}}",
+								"type": "string"
+							},
+							{
+								"key": "clientSecret",
+								"value": "{{ClientSecret-prd-alpha}}",
+								"type": "string"
+							},
+							{
+								"key": "clientId",
+								"value": "{{ClientId-prd-alpha}}",
+								"type": "string"
+							},
+							{
+								"key": "accessTokenUrl",
+								"value": "{{token_endpoint}}",
+								"type": "string"
+							},
+							{
+								"key": "authUrl",
+								"value": "{{auth_endpoint}}",
+								"type": "string"
+							},
+							{
+								"key": "refreshRequestParams",
+								"value": [],
+								"type": "any"
+							},
+							{
+								"key": "tokenRequestParams",
+								"value": [],
+								"type": "any"
+							},
+							{
+								"key": "authRequestParams",
+								"value": [],
+								"type": "any"
+							},
+							{
+								"key": "challengeAlgorithm",
+								"value": "S256",
+								"type": "string"
+							},
+							{
+								"key": "useBrowser",
+								"value": true,
+								"type": "boolean"
+							},
+							{
+								"key": "state",
+								"value": "{{$guid}}",
+								"type": "string"
+							},
+							{
+								"key": "grant_type",
+								"value": "authorization_code",
+								"type": "string"
+							},
+							{
+								"key": "addTokenTo",
+								"value": "header",
+								"type": "string"
+							},
+							{
+								"key": "client_authentication",
+								"value": "header",
+								"type": "string"
+							}
+						]
 					},
 					"event": [
 						{
@@ -923,7 +1176,19 @@
 								"variables": "{\n  \"input\": {\n    \"label\": \"cf-02\",\n    \"associations\": [\n      {\n        \"validationOptions\": {\n        \"required\": false \n        },\n        \"associatedEntity\": \"/transactions/Transaction\" ,\n        \"active\": true,\n        \"allowedOperations\": [],\n        \"associationCondition\": \"INCLUDED\",\n        \"subAssociations\": [\n          {\n            \"associatedEntity\": \"SALE_INVOICE\",\n            \"active\": true,\n            \"allowedOperations\": []\n          }\n        ]\n      }\n    ],\n    \"dataType\": \"STRING\",\n    \"active\": true\n  }\n}"
 							}
 						},
-						"url": "https://qb.api.intuit.com/graphql"
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
 					},
 					"response": [
 						{
@@ -939,7 +1204,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -1014,7 +1291,6 @@
 							"originalRequest": {
 								"method": "POST",
 								"header": [
-									
 									{
 										"key": "Content-Type",
 										"value": "application/json"
@@ -1023,7 +1299,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -1098,7 +1386,6 @@
 							"originalRequest": {
 								"method": "POST",
 								"header": [
-									
 									{
 										"key": "Content-Type",
 										"value": "application/json"
@@ -1107,7 +1394,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -1196,7 +1495,19 @@
 								"variables": "{\n  \"input\": {\n    \"label\": \"CF-VendorType\",\n    \"associations\": [\n      {\n        \"validationOptions\": {\n        \"required\": false \n        },\n        \"associatedEntity\": \"/transactions/Transaction\" ,\n        \"active\": true,\n        \"allowedOperations\": [],\n        \"associationCondition\": \"INCLUDED\",\n        \"subAssociations\": [\n          {\n            \"associatedEntity\": \"SALE_INVOICE\",\n            \"active\": true,\n            \"allowedOperations\": []\n          }\n        ]\n      },\n      {\n        \"associatedEntity\": \"/network/Contact\",\n        \"active\": true,\n        \"validationOptions\": {\n            \"required\": false\n        },\n        \"allowedOperations\": [],\n        \"associationCondition\": \"INCLUDED\",\n        \"subAssociations\": [\n            {\n                \"associatedEntity\": \"VENDOR\",\n                \"active\": true,\n                \"allowedOperations\": []\n            }\n        ]\n    }  \n    ],\n    \"dataType\": \"STRING\",\n    \"active\": true\n  }\n}"
 							}
 						},
-						"url": "https://qb.api.intuit.com/graphql"
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
 					},
 					"response": [
 						{
@@ -1212,7 +1523,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -1301,7 +1624,19 @@
 								"variables": "{\n  \"input\": {\n    \"label\": \"CF-customerType2\",\n    \"associations\": [\n      {\n        \"validationOptions\": {\n        \"required\": false \n        },\n        \"associatedEntity\": \"/transactions/Transaction\" ,\n        \"active\": true,\n        \"allowedOperations\": [],\n        \"associationCondition\": \"INCLUDED\",\n        \"subAssociations\": [\n          {\n            \"associatedEntity\": \"SALE_INVOICE\",\n            \"active\": true,\n            \"allowedOperations\": []\n          }\n        ]\n      },\n      {\n        \"associatedEntity\": \"/network/Contact\",\n        \"active\": true,\n        \"validationOptions\": {\n            \"required\": false\n        },\n        \"allowedOperations\": [],\n        \"associationCondition\": \"INCLUDED\",\n        \"subAssociations\": [\n            {\n                \"associatedEntity\": \"CUSTOMER\",\n                \"active\": true,\n                \"allowedOperations\": []\n            }\n        ]\n    }  \n    ],\n    \"dataType\": \"STRING\",\n    \"active\": true\n  }\n}"
 							}
 						},
-						"url": "https://qb.api.intuit.com/graphql"
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
 					},
 					"response": [
 						{
@@ -1317,7 +1652,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -1400,7 +1747,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -1489,7 +1848,19 @@
 								"variables": ""
 							}
 						},
-						"url": "https://qb.api.intuit.com/graphql"
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
 					},
 					"response": [
 						{
@@ -1505,7 +1876,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -1588,7 +1971,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -1671,7 +2066,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -1754,7 +2161,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -1837,7 +2256,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -1920,7 +2351,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -2009,7 +2452,19 @@
 								"variables": "{\n  \"input\": {\n        \"id\": \"udcf_1\",\n        \"legacyIDV2\": \"1149549\",\n        \"label\": \"cf-01\",\n        \"active\": true,\n        \"associations\": [\n      {\n        \"validationOptions\": {\n        \"required\": true \n        },\n        \"associatedEntity\": \"/transactions/Transaction\" ,\n        \"active\": true,\n        \"allowedOperations\": [],\n        \"associationCondition\": \"INCLUDED\",\n        \"subAssociations\": [\n          {\n            \"associatedEntity\": \"SALE_INVOICE\",\n            \"active\": true,\n            \"allowedOperations\": []\n          },\n          {\n            \"associatedEntity\": \"SALE_ESTIMATE\",\n            \"active\": true,\n            \"allowedOperations\": []\n          }\n        ]\n      }\n    ]\n    }\n}"
 							}
 						},
-						"url": "https://qb.api.intuit.com/graphql"
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
 					},
 					"response": [
 						{
@@ -2025,7 +2480,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -2108,7 +2575,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -2191,7 +2670,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -2274,7 +2765,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -2357,7 +2860,19 @@
 								"body": {
 									"mode": "graphql"
 								},
-								"url": "https://qb.api.intuit.com/graphql"
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -2434,16 +2949,48 @@
 	],
 	"auth": {
 		"type": "oauth2",
-		"oauth2": {
-			"state": "",
-			"scope": "",
-			"clientSecret": "",
-			"clientId": "",
-			"accessTokenUrl": "",
-			"authUrl": "",
-			"useBrowser": true,
-			"addTokenTo": "header"
-		}
+		"oauth2": [
+			{
+				"key": "state",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "scope",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "useBrowser",
+				"value": true,
+				"type": "boolean"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
 	},
 	"event": [
 		{

@@ -139,19 +139,11 @@ query readMinimalTimeSheet (
         startTime
         endTime
         duration
-        timezone
         notes
-        attachedFileCount {
-          attachmentCount
-          signatureCount
-        }
         employeeCompensation {
           id
         }
         billable
-        state
-        locked
-        lockedReasons
       }
     }
     pageInfo {
@@ -171,13 +163,11 @@ Variables:
 "after":null,
 "first":1,
     "filter": {
-     "ids":[664243412,664243674],
-     "states": ["OPEN", "CLOSED", "APPROVED"]
+     "ids":[119043230]
     },
-    "orderBy": ["START_ASC","START_DESC","END_ASC",
-    "END_DESC","DURATION_ASC","DURATION_DESC"
-    ] 
+    "orderBy": ["START_ASC"] 
  }
+
 ```
 
 Response:
@@ -188,31 +178,25 @@ Response:
             "edges": [
                 {
                     "node": {
-                        "id": "664243412",
-                        "duration": 30,
+                        "id": "119043230",
+                        "duration": 28800,
                         "entryMethod": "DURATION",
-                        "startDate": "2024-06-11",
+                        "startDate": "2024-07-22",
                         "startTime": null,
                         "endTime": null,
-                        "timezone": "",
-                        "notes": "test note employee",
-                        "attachedFileCount": {
-                            "attachmentCount": 0,
-                            "signatureCount": 0
+                        "notes": "",
+                        "employeeCompensation": {
+                            "id": "623972114"
                         },
-                        "employeeCompensation": null,
-                        "billable": true,
-                        "state": "CLOSED",
-                        "locked": false,
-                        "lockedReasons": []
+                        "billable": true
                     }
                 }
             ],
             "pageInfo": {
-                "hasNextPage": true,
+                "hasNextPage": false,
                 "hasPreviousPage": false,
-                "startCursor": "djI6OjE6OjE6OnsiaWRzIjpbIjY2NDI0MzQxMiIsIjY2NDI0MzY3NCJdLCJzdGF0ZXMiOlsiT1BFTiIsIkNMT1NFRCIsIkFQUFJPVkVEIl19OjpbWyJzdGFydCIsIkFTQyJdLFsic3RhcnQiLCJERVNDIl0sWyJlbmQiLCJBU0MiXSxbImVuZCIsIkRFU0MiXSxbImR1cmF0aW9uIiwiQVNDIl0sWyJkdXJhdGlvbiIsIkRFU0MiXV0=",
-                "endCursor": "djI6OjE6OjE6OnsiaWRzIjpbIjY2NDI0MzQxMiIsIjY2NDI0MzY3NCJdLCJzdGF0ZXMiOlsiT1BFTiIsIkNMT1NFRCIsIkFQUFJPVkVEIl19OjpbWyJzdGFydCIsIkFTQyJdLFsic3RhcnQiLCJERVNDIl0sWyJlbmQiLCJBU0MiXSxbImVuZCIsIkRFU0MiXSxbImR1cmF0aW9uIiwiQVNDIl0sWyJkdXJhdGlvbiIsIkRFU0MiXV0="
+                "startCursor": "djI6OjE6OjE6OnsiaWRzIjpbIjExOTA0MzIzMCJdfTo6W1sic3RhcnQiLCJBU0MiXSxbInN0YXJ0IiwiREVTQyJdLFsiZW5kIiwiQVNDIl0sWyJlbmQiLCJERVNDIl0sWyJkdXJhdGlvbiIsIkFTQyJdLFsiZHVyYXRpb24iLCJERVNDIl1d",
+                "endCursor": "djI6OjE6OjE6OnsiaWRzIjpbIjExOTA0MzIzMCJdfTo6W1sic3RhcnQiLCJBU0MiXSxbInN0YXJ0IiwiREVTQyJdLFsiZW5kIiwiQVNDIl0sWyJlbmQiLCJERVNDIl0sWyJkdXJhdGlvbiIsIkFTQyJdLFsiZHVyYXRpb24iLCJERVNDIl1d"
             }
         }
     }
@@ -227,23 +211,41 @@ Response:
 """
 Input filter arguments for a timeTrackingTimeEntries query
 """
-input TimeTracking_TimeEntryInputFilter  {
+input TimeTracking_TimeEntryInputFilter @tag(name: "qb") @tag(name: "qb-external") {
     """
     A list of time entry IDs to filter by. Example: "ids": [123, 456, 789]
     """
     ids: [ID!]
 
     """
+    The time against entities to filter by
+    """
+    timeAgainst: TimeTracking_TimeAgainstFilter
+
+    """
     Specify whether to limit your query on time entries with a date falling in a date range
     """
     dateRange: TimeTracking_DatePeriod
-
-    """
-    Filters retrieved time entries by state. If not specified, will return all states except OPEN.
-    """
-    states: [TimeTracking_TimeEntryState]
-
 }
+```
+
+### TimeTracking_TimeAgainstFilter
+```
+"""
+Input filter arguments for the timeTrackingTimeEntries query to filter by the time against entities
+"""
+input TimeTracking_TimeAgainstFilter @tag(name: "qb") @tag(name: "qb-external") {
+    """
+    A list of project IDs to filter by. Example: "ids": [123, 456, 789]
+    """
+    projectIds: [ID!]
+
+    """
+    A list of customer IDs to filter by. Example: "ids": [123, 456, 789]
+    """
+    customerIds: [ID!]
+}
+
 ```
 
 ### TimeTracking_DatePeriod
@@ -258,37 +260,6 @@ input TimeTracking_DatePeriod {
 }
 ```
 
-### TimeTracking_TimeEntryState
-
-```
-"""
-Indicates the current state of a time entry (`[OPEN, CLOSED, SUBMITTED, or APPROVED]`).
-NOTE: A time entry may only be in one of these four states at a time, they're mutually
-exclusive of one another.
-"""
-enum TimeTracking_TimeEntryState  {
-    """
-    If the state is `OPEN`, it means that the entity associated with the time entry is currently on the clock, thus the time entry is `OPEN`.
-    """
-    OPEN
-
-    """
-    If the state is `CLOSED`, then the entity has clocked out of the time entry and thus it has both a start and an end time. Duration only time entries are always `CLOSED`.
-    """
-    CLOSED
-
-    """
-    If the state is `SUBMITTED` then the entity has submitted the time frame that encompasses this time entry.
-    """
-    SUBMITTED
-
-    """
-    If the state is `APPROVED`, then a manager or admin has approved the time frame that encompasses this time entry.
-    """
-    APPROVED
-}
-```
-
 ### Sample Filter
 ```
 {
@@ -296,8 +267,7 @@ enum TimeTracking_TimeEntryState  {
 "first":1,
     "filter": {
      "dateRange": {"beginDate": "2024-06-01", "endDate": "2024-06-30"
-     },
-     "states": ["OPEN", "CLOSED", "APPROVED"]
+     }
     },
     "orderBy": ["START_ASC"] 
  }
@@ -371,17 +341,10 @@ mutation createTimeEntryByDuration ($input: TimeTracking_CreateTimeEntryByDurati
         serviceItem {
           id
         }
-        attachedFileCount {
-          attachmentCount
-          signatureCount
-        }
         employeeCompensation {
           id
         }
         billable
-        state
-        locked
-        lockedReasons
       }
     }
     ... on TimeTracking_CreateTimeEntryByDurationError {
@@ -389,7 +352,6 @@ mutation createTimeEntryByDuration ($input: TimeTracking_CreateTimeEntryByDurati
     }
   }
 }
-
 ```
 
 Required fields:
@@ -455,21 +417,21 @@ input TimeTracking_CreateTimeEntryByDurationInput {
  
 Sample Variables: 
 ``` 
-  {
+   {
  "input": {
-      "timeFor": { "id": 3, 
+      "timeFor": { "id": 4, 
       "entityType": "EMPLOYEE" 
        } ,
-      "startDate": "2024-06-12",
-      "duration": 30,
+      "startDate": "2024-07-29",
+      "duration": 28800,
       "timeAgainst": { 
-        "id": 1, 
-        "entityType": "CUSTOMER"
+        "id": 411939876,
+   	     "entityType": "PROJECT"
        },
-      "employeeCompensationId":null,
-      "serviceItemId": 2,
+      "employeeCompensationId": 623972114, 
+      "serviceItemId": 1,
       "billable": true,
-      "notes": "test note employee"
+      "notes": "test note vendor timeentry with project"
     }
  }
 
@@ -482,30 +444,25 @@ Sample response:
         "timeTrackingCreateTimeEntryByDuration": {
             "successCode": "SUCCESS",
             "timeEntry": {
-                "id": "666350208",
+                "id": "122533318",
                 "meta": {
-                    "updatedAt": "2024-06-17T05:00:24.000Z"
+                    "updatedAt": "2024-07-29T21:42:25.000Z"
                 },
                 "timeFor": {
-                    "id": "3"
+                    "id": "4"
                 },
                 "entryMethod": "DURATION",
-                "startDate": "2024-06-12",
+                "startDate": "2024-07-29",
                 "startTime": null,
                 "endTime": null,
-                "notes": "test note employee",
+                "notes": "test note vendor timeentry with project",
                 "serviceItem": {
-                    "id": "2"
+                    "id": "1"
                 },
-                "attachedFileCount": {
-                    "attachmentCount": 0,
-                    "signatureCount": 0
+                "employeeCompensation": {
+                    "id": "623972114"
                 },
-                "employeeCompensation": null,
-                "billable": true,
-                "state": "CLOSED",
-                "locked": false,
-                "lockedReasons": []
+                "billable": true
             }
         }
     }
@@ -551,18 +508,18 @@ Required field:
 
 Variables:
 ```
- {
+  {
   "input": {
-    "id": 666350208,
-     "duration": 40, 
+    "id": 122533318,
+     "duration": 28800, 
     "serviceItemId": 1,
-    "employeeCompensationId": null,
+    "employeeCompensationId": 623972114,
     "timeAgainst": {
-        "id": 1, 
-        "entityType": "CUSTOMER"
+        "id": 411939876, 
+        "entityType": "PROJECT"
         } ,
      "billable": true, 
-     "notes": "update mutation testing"
+     "notes": "update notes as time with employeeCompensation for employee"
   }
 }
  
@@ -576,15 +533,17 @@ Response:
         "timeTrackingUpdateTimeEntryByDuration": {
             "successCode": "SUCCESS",
             "timeEntry": {
-                "id": "666350208",
-                "startDate": "2024-06-12",
-                "duration": 40,
+                "id": "122533318",
+                "startDate": "2024-07-29",
+                "duration": 28800,
                 "billable": true,
                 "serviceItem": {
                     "id": "1"
                 },
                 "classValue": null,
-                "employeeCompensation": null
+                "employeeCompensation": {
+                    "id": "623972114"
+                }
             }
         }
     }
@@ -653,9 +612,7 @@ mutation timeTrackingDeleteTimesheet($input: TimeTracking_DeleteTimeEntryInput!)
                 timeTrackingDeleteTimeEntry (input: $input) {
                     ...on TimeTracking_DeleteTimeEntryPayload {
                         successCode
-                        timeEntry {
-                            id
-                        }
+                        deletedTimeEntryId
                     }
                     ... on TimeTracking_DeleteTimeEntryError {
                       errorCode
@@ -672,7 +629,7 @@ Variables:
 ``` 
 {
   "input": {
-    "id": 666350223
+    "id": 119043230
   }
 }
 ```
@@ -683,8 +640,7 @@ Response:
     "data": {
         "timeTrackingDeleteTimeEntry": {
             "successCode": "SUCCESS",
-            "timeEntry": {
-                "id": "666350208"
+                "deletedTimeEntryId": "119043230"
             }
         }
     }
