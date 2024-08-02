@@ -211,7 +211,7 @@ Response:
 """
 Input filter arguments for a timeTrackingTimeEntries query
 """
-input TimeTracking_TimeEntryInputFilter @tag(name: "qb") @tag(name: "qb-external") {
+input TimeTracking_TimeEntryInputFilter {
     """
     A list of time entry IDs to filter by. Example: "ids": [123, 456, 789]
     """
@@ -234,7 +234,7 @@ input TimeTracking_TimeEntryInputFilter @tag(name: "qb") @tag(name: "qb-external
 """
 Input filter arguments for the timeTrackingTimeEntries query to filter by the time against entities
 """
-input TimeTracking_TimeAgainstFilter @tag(name: "qb") @tag(name: "qb-external") {
+input TimeTracking_TimeAgainstFilter  {
     """
     A list of project IDs to filter by. Example: "ids": [123, 456, 789]
     """
@@ -653,7 +653,8 @@ Response:
 """
 Input arguments for deleting a time entry
 """
-input TimeTracking_DeleteTimeEntryInput @tag(name: "qb") @tag(name: "qb-external") {
+input TimeTracking_DeleteTimeEntryInput  {
+input TimeTracking_DeleteTimeEntryInput  {
     """
     The ID of the time entry to be deleted.
     """
