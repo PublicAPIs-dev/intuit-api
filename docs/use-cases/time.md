@@ -22,23 +22,21 @@ This page outlines -
 ![](/intuit-api/assets/images/Time.png)
 
 
-### Operations for Time Entry
+### Operations for Time Activity
 
-- [Read](../../schema-entities/timeentry/#query-time-entry) - Query (POST)
-- [Create](../../schema-entities/timeentry/#create-time-entry) - Mutation (POST)
-- [Update](../../schema-entities/timeentry/#update-time-entry) - Mutation (POST)
-- [Delete](../../schema-entities/timeentry/#delete-time-entry) - Mutation (POST)
+- [Query](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#query-a-timeactivity-object)
+- [Create](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#create-a-timeactivity-object)
+- [Update](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#full-update-a-timeactivity-object)
+- [Delete](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#delete-a-timeactivity-object)
 
-### API schema for Time entity
+### API schema for Time Activity
 
-- [Time API schema](../../schema-entities/timeentry/)
+- [Time Activity Object](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#the-timeactivity-object)
 
 ### Scopes
 
 -   payroll.compensation.read : Allows access to read Pay types (i.e. compensation) [Compensation data can only be queried for customers using QuickBooks Payroll]
 -   project-management.project : Allows access to read and write projects data
--   time-tracking.time-entry : Allows access to read and write timesheet data
--   time-tracking.time-entry.read : Allows access to read timesheet data
 -   com.intuit.quickbooks.accounting: For V3 Accounting REST API access [For Read only use cases]
 
 
@@ -71,62 +69,175 @@ Sample name value pair response for reference:
       }
 ```
 
-### Use Case 1: Create Timesheet with paytype and link it to a Project
+### Use Case 1: Create Time Activity with pay type and link it to a Project
 
 This use case is applicable for the customers who are enrolled to **QuickBooks Payroll** and have the **Projects enabled** in QuickBooks Online.
 
-##### Use [Create Time Entry(Mutation)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#create-time-entry) GraphQL API to create time entry by 
+##### Use [V3 Create TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#create-a-timeactivity-object) API to create time activity by 
 
-- Fetch `employee->id` from [V3 Accounting Employee Query](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/employee#query-an-employee)  & set it in `timeFor -> { id, entityType:"EMPLOYEE""}` time entry object. 
-- Use the above `employee->id` to fetch required `compensation ->id` from [Read EmployeeCompensation(Query)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/employeeCompensation/#sample-query-body) GraphQL API & set it in `employeeCompensationId` in time entry object.
-- Fetch `project -> Id` from [Read Project(Query)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#read-project) GraphQL API to read `project -> id` & set it in `timeAgainst->{id, entityType:"PROJECT""}` time entry object.
-- Fetch  `Item->id` from [V3 Accounting Query Item API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/item) & set it in `serviceItemId` time entry object
+- Fetching `employee->Id` by calling [V3 Accounting Employee Query](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/employee#query-an-employee)  & set it in `EmployeeRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object with `NameOf` field as `Employee`.
+- Filter by the `employee->Id` from above step to fetch the list of employee compensation Ids `compensation ->id` from [Read EmployeeCompensation(Query)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/employeeCompensation/#sample-query-body) GraphQL Query 
+  & set it in `PayrollItemRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object.
+- Fetch `project -> id` from [Read Project(Query)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#read-project) GraphQL Query to read `project -> id` & set it in `ProjectRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object.
+- Fetch `Customer -> id` from [V3 Accounting Customer Query API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/customer#query-a-customer) (optional) & set it in `CustomerRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object.
+- Fetch  `Item->id` from [V3 Accounting Query Item API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/item) & set it in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object.
 
-### Use Case 2: Create Time entry with paytype
+##### Sample request payload:
+
+```
+  {
+    "TxnDate": "2024-08-01T12:00:00Z",
+    "NameOf": "Employee",
+    "EmployeeRef": { "value": "1" },
+    "PayrollItemRef": {
+      "value": "626270109"
+    },
+    "CustomerRef": {
+        "value": "2"
+    },
+    "ProjectRef": {
+        "value":"416296152"
+    },
+    "ItemRef": { "value": "1" },
+    "Hours": 8,
+    "Minutes": 0,
+    "Description": "Construction:DailyWork"
+  }
+
+```
+
+### Use Case 2: Create Time Activity with pay type
 This use case is applicable for the customers who are enrolled to **QuickBooks Payroll** and **do not** have the **Projects** enabled in QuickBooks Online.
 
-##### Use [Create Time Entry(Mutation)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#create-time-entry) GraphQL API to create time entry by
+##### Use [V3 Create TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#create-a-timeactivity-object) API to create time activity by
 
-- Fetch `employee->id` from [V3 Accounting Employee Query](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/employee#query-an-employee)  & set it in `timeFor -> { id, entityType:"EMPLOYEE""}` time entry object. 
-- Fetching `compensation ->id` from [Read EmployeeCompensation(Query)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/employeeCompensation/#sample-query-body) GraphQL API & set it in `employeeCompensationId` in time entry object.
+- Fetch `employee->id` from [V3 Accounting Employee Query](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/employee#query-an-employee) & set it in `EmployeeRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object with `NameOf` field as `Employee`. 
+- Fetching `compensation ->id` from [Read EmployeeCompensation(Query)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/employeeCompensation/#sample-query-body) GraphQL API & set it in `PayrollItemRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object.
 
+##### Sample request payload:
 
-### Use Case 3: Create Time Entry and link to projects
+```
+  {
+    "TxnDate": "2024-08-01T12:00:00Z",
+    "NameOf": "Employee",
+    "EmployeeRef": { "value": "1" },
+    "PayrollItemRef": {
+      "value": "626270109"
+    },
+    "Hours": 8,
+    "Minutes": 0,
+    "Description": "Construction:TimeOff"
+  }
+
+```
+
+### Use Case 3: Create Time Activity and link to projects
 This use case is applicable for the customers who are **not** enrolled to **QuickBooks Payroll** and have the **Projects enabled** in QuickBooks Online.
 
-##### Use [Create Time Entry(Mutation)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#create-time-entry) GraphQL API to create time entry by 
+##### Use [V3 Create TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#create-a-timeactivity-object) API to create time activity by 
 
-- Fetching required `employee->id` from [V3 Accounting Employee Query](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/employee#query-an-employee)  & set it in `timeFor -> { id, entityType:"EMPLOYEE""}` time entry object.  
-- Fetch `Item->id` from [V3 Accounting Query Item API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/item)  & set it in `serviceItemId` time entry object. 
-- Fetch `project -> Id` from [Read Project(Query)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#read-project) GraphQL API to read `project -> id` & set it in `timeAgainst->{id, entityType:"PROJECT""}` time entry object.
+- Fetch `employee->Id` by calling [V3 Accounting Employee Query](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/employee#query-an-employee)  & set it in `EmployeeRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object with `NameOf` field as `Employee`.
+- Fetch  `Item->id` from [V3 Accounting Query Item API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/item) & set it in `ItemRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object.
+- Fetch `project -> Id` from [Read Project(Query)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#read-project) GraphQL API to read `project -> id` & set it in `ProjectRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object.
+- Fetch `Customer -> id` from [V3 Accounting Customer Query API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/customer#query-a-customer) (optional) & set it in `CustomerRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object.
+
+##### Sample request payload:
+
+```
+  {
+    "TxnDate": "2024-08-01T12:00:00Z",
+    "NameOf": "Employee",
+    "EmployeeRef": { "value": "1" },
+    "ItemRef": { "value": "1" },
+    "CustomerRef": {
+        "value": "2"
+    },
+    "ProjectRef": {
+        "value":"416296152"
+    },
+    "Hours": 8,
+    "Minutes": 0,
+    "Description": "Construction:DailyWork"
+  }
+
+```
 
 ### Use Case 4: Create Time Entry for employee
 
 This use case is applicable for the customers who are **not** enrolled to **QuickBooks Payroll** and do **not** have the **Projects enabled** in QuickBooks Online.
 
-#### Use [Create Time Entry(Mutation)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#create-time-entry) by 
+#### Use [V3 Create TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#create-a-timeactivity-object) API to create time activity by 
 
-- Fetch `employee->id` from [V3 Employee Query](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/employee#query-an-employee) & set `timeFor -> { id, entityType:"EMPLOYEE""}` time entry object 
-- Fetch `Item->id` from [V3 Accounting Query Item API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/item)& set it in `serviceItemId` time entry object
+- Read `employee->Id` by calling [V3 Accounting Employee Query](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/employee#query-an-employee)  & set it in `EmployeeRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object with `NameOf` as `Employee`.
+- Fetch  `Item->id` from [V3 Accounting Query Item API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/item) & set it in `ItemRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object.
 
+##### Sample request payload:
 
-### Use Case 5: Create Time Entry for contractor
+```
+  {
+    "TxnDate": "2024-08-01T12:00:00Z",
+    "NameOf": "Employee",
+    "EmployeeRef": { "value": "1" },
+    "ItemRef": { "value": "1" },
+    "Hours": 8,
+    "Minutes": 0,
+    "Description": "Construction:DailyWork"
+  }
+
+```
+
+### Use Case 5: Create Time Activity for contractor
 
 This use case is applicable to track time for contractors and for the customers who do **not** have the **Projects enabled** in QuickBooks Online.
 
-#### Use [Create Time Entry (Mutation)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#create-time-entry) by
-- Fetch `Vendor -> Id` from [V3 Accounting Vendor Query API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/vendor#query-a-vendor) & set it in `timeFor -> { id, entityType:"VENDOR""}` time entry object.
-- Fetch `Customer -> id` from [V3 Accounting Customer Query API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/customer#query-a-customer) (optional) & set it in `timeAgainst ->{ id, entityType:"CUSTOMER"}` time entry object.
-- Fetch `Item->id` from [V3 Accounting Query Item API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/item)  (optional) to set `serviceItemId` time entry object.
+#### Use [V3 Create TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#create-a-timeactivity-object) API to create time activity by
+- Fetch `Vendor -> Id` from [V3 Accounting Vendor Query API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/vendor#query-a-vendor) & set it in `VendorRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object with `NameOf` as `Vendor`.
+- Fetch  `Item->id` from [V3 Accounting Query Item API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/item) & set it in `ItemRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object.
 
-### Use Case 6: Create Time Entry for contractor and link it to projects
+##### Sample request payload:
+
+```
+  {
+    "TxnDate": "2024-08-01T12:00:00Z",
+    "NameOf": "Vendor",
+    "VendorRef": { "value": "5" },
+    "ItemRef": { "value": "1" },
+    "Hours": 8,
+    "Minutes": 0,
+    "Description": "Construction:DailyWork"
+  }
+
+```
+
+### Use Case 6: Create Time Activity for contractor and link it to projects
 This use case is applicable to track time for **contractors** and for customers who have the **Projects enabled** in QuickBooks Online.
 
-#### Use [Create Time Entry (Mutation)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/timeentry/#create-time-entry) by
+#### Use [V3 Create TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#create-a-timeactivity-object) API to create time activity by
 
-- Fetch `Vendor -> Id` from [V3 Accounting Vendor Query API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/vendor#query-a-vendor) & set it in `timeFor -> { id, entityType:"VENDOR""}` time entry object.
-- Fetch `project -> Id` from [Read Project(Query)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#read-project) GraphQL API to read `project -> id` & set it in `timeAgainst->{id, entityType:"PROJECT""}` time entry object.
+- Fetch `Vendor -> Id` from [V3 Accounting Vendor Query API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/vendor#query-a-vendor) & set it in `VendorRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object with `NameOf` as `Vendor`.
+- Fetch `project -> Id` from [Read Project(Query)](https://intuitdeveloper.github.io/intuit-api/docs/schema-entities/project/#read-project) GraphQL API to read `project -> id` & set it in `ProjectRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object.
+- Fetch `Customer -> id` from [V3 Accounting Customer Query API](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/customer#query-a-customer) (optional) & set it in `CustomerRef` in the [TimeActivity](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity) object.
 
+##### Sample request payload:
+
+```
+  {
+    "TxnDate": "2024-08-01T12:00:00Z",
+    "NameOf": "Vendor",
+    "VendorRef": { "value": "5" },
+    "CustomerRef": {
+        "value": "2"
+    },
+    "ProjectRef": {
+        "value":"416296152"
+    },
+    "ItemRef": { "value": "1" },
+    "Hours": 8,
+    "Minutes": 0,
+    "Description": "Construction:DailyWork"
+  }
+
+```
 
 ### Appendix
 
