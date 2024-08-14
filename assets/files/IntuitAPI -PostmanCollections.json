@@ -1,0 +1,3398 @@
+{
+	"info": {
+		"_postman_id": "10b3e97e-b347-408a-8d39-95a31d4c7d51",
+		"name": "Alpha API -Collections_PRD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35091101"
+	},
+	"item": [
+		{
+			"name": "EmployeeCompensation",
+			"item": [
+				{
+					"name": "queryEmployeeCompensation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query getEmployeeCompensations($filter: Payroll_EmployeeCompensationsFilter!) {\n  payrollEmployeeCompensations(filter: $filter ){\n  \tedges {\n    \tnode {\n      \t  id\n          active\n      \t  employerCompensation {\n        id\n           name\n           type {\n            key\n            description\n            value\n           }\n    \t  }\n  \t    }\n      }\n    }\n  }",
+								"variables": "{\n     \"filter\": {\n        \"employeeId\": \"1\", \n        \"active\": true\n    }\n }\n "
+							}
+						},
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CustomField",
+			"item": [
+				{
+					"name": "CF- QBOV3Transactions",
+					"item": [
+						{
+							"name": "Invoice-Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"TxnDate\": \"2024-07-24\",\n  \"Line\": [\n    {\n      \"Amount\": 100.00,\n      \"DetailType\": \"SalesItemLineDetail\",\n      \"SalesItemLineDetail\": {\n        \"ItemRef\": {\n          \"value\": \"1\",\n          \"name\": \"Services\"\n        }\n      }\n    }\n  ],\n  \"CustomerRef\": {\n    \"value\": \"2\"\n  },\n   \"CustomField\": [\n    {\n        \"DefinitionId\": \"507804\",\n        \"StringValue\": \"TestValue\"\n    }\n    ]\n}"
+								},
+								"url": {
+									"raw": "https://{{baseurl}}/v3/company/{{companyId}}/invoice?minorversion={{minorversion}}&include=enhancedAllCustomFields",
+									"protocol": "https",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"v3",
+										"company",
+										"{{companyId}}",
+										"invoice"
+									],
+									"query": [
+										{
+											"key": "minorversion",
+											"value": "{{minorversion}}"
+										},
+										{
+											"key": "include",
+											"value": "enhancedAllCustomFields"
+										}
+									]
+								},
+								"description": "Create an invoice object\nMethod : POST\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Invoice-ReadById",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "https://{{baseurl}}/v3/company/{{companyId}}/invoice/1?minorversion={{minorversion}}",
+									"protocol": "https",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"v3",
+										"company",
+										"{{companyId}}",
+										"invoice",
+										"1"
+									],
+									"query": [
+										{
+											"key": "minorversion",
+											"value": "{{minorversion}}"
+										}
+									]
+								},
+								"description": "Read an invoice object by Id\nMethod : POST\n"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create Custom Field Definition",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation AppFoundationsCreateCustomFieldDefinition($input: AppFoundations_CustomFieldDefinitionCreateInput!) {\n  appFoundationsCreateCustomFieldDefinition(input: $input) {\n    label\n    active\n    associations {\n      associatedEntity\n      active\n      validationOptions {\n        required\n      }\n      allowedOperations\n      associationCondition\n      subAssociations {\n        associatedEntity\n        active\n        allowedOperations\n      }\n    }\n    dataType\n    dropDownOptions {\n      value\n      active\n      order\n    }\n  }\n}",
+								"variables": "{\n  \"input\": {\n    \"label\": \"cf-02\",\n    \"associations\": [\n      {\n        \"validationOptions\": {\n        \"required\": false \n        },\n        \"associatedEntity\": \"/transactions/Transaction\" ,\n        \"active\": true,\n        \"allowedOperations\": [],\n        \"associationCondition\": \"INCLUDED\",\n        \"subAssociations\": [\n          {\n            \"associatedEntity\": \"SALE_INVOICE\",\n            \"active\": true,\n            \"allowedOperations\": []\n          }\n        ]\n      }\n    ],\n    \"dataType\": \"STRING\",\n    \"active\": true\n  }\n}"
+							}
+						},
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Custom Field Definition",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 03:02:50 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "a36fac13-93bb-f0a2-ecec-50d3f12466ae"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667cd658-66e60a2f4c7e147608e72fa4"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "2023"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667cd658-66e60a2f4c7e147608e72fa4"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667cd658-66e60a2f4c7e147608e72fa4"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsCreateCustomFieldDefinition\": {\n            \"id\": \"udcf_1\",\n            \"label\": \"cf-01\",\n            \"associations\": [\n                {\n                    \"associatedEntity\": \"/transactions/Transaction\",\n                    \"active\": true,\n                    \"validationOptions\": {\n                        \"required\": false\n                    },\n                    \"allowedOperations\": [],\n                    \"associationCondition\": \"INCLUDED\",\n                    \"subAssociations\": [\n                        {\n                            \"associatedEntity\": \"SALE_INVOICE\",\n                            \"active\": true,\n                            \"allowedOperations\": []\n                        }\n                    ]\n                }\n            ],\n            \"dataType\": \"STRING\",\n            \"dropDownOptions\": [],\n            \"active\": true\n        }\n    }\n}"
+						},
+						{
+							"name": "Create Custom Field Definition",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 03:15:02 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "fafd9b5f-aa74-7cbe-dfcc-271f6c808a50"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667cd936-2188ead01e1c56f55d4e3035"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "687"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667cd936-2188ead01e1c56f55d4e3035"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667cd936-2188ead01e1c56f55d4e3035"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsCreateCustomFieldDefinition\": {\n            \"id\": \"udcf_2\",\n            \"label\": \"cf-02\",\n            \"associations\": [\n                {\n                    \"associatedEntity\": \"/transactions/Transaction\",\n                    \"active\": true,\n                    \"validationOptions\": {\n                        \"required\": false\n                    },\n                    \"allowedOperations\": [],\n                    \"associationCondition\": \"INCLUDED\",\n                    \"subAssociations\": [\n                        {\n                            \"associatedEntity\": \"SALE_INVOICE\",\n                            \"active\": true,\n                            \"allowedOperations\": []\n                        }\n                    ]\n                }\n            ],\n            \"dataType\": \"STRING\",\n            \"dropDownOptions\": [],\n            \"active\": true\n        }\n    }\n}"
+						},
+						{
+							"name": "Create Custom Field Definition",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 16:34:46 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "dd475469-96ad-e906-6c79-7d76f5ad53d4"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667d94a5-1d766a5e51dda39b4542d298"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "657"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667d94a5-1d766a5e51dda39b4542d298"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667d94a5-1d766a5e51dda39b4542d298"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsCreateCustomFieldDefinition\": {\n            \"label\": \"cf-03\",\n            \"active\": true,\n            \"associations\": [\n                {\n                    \"associatedEntity\": \"/transactions/Transaction\",\n                    \"active\": true,\n                    \"validationOptions\": {\n                        \"required\": false\n                    },\n                    \"allowedOperations\": [],\n                    \"associationCondition\": \"INCLUDED\",\n                    \"subAssociations\": [\n                        {\n                            \"associatedEntity\": \"SALE_INVOICE\",\n                            \"active\": true,\n                            \"allowedOperations\": []\n                        }\n                    ]\n                }\n            ],\n            \"dataType\": \"STRING\",\n            \"dropDownOptions\": []\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Custom Field Definition with Vendor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation AppFoundationsCreateCustomFieldDefinition($input: AppFoundations_CustomFieldDefinitionCreateInput!) {\n  appFoundationsCreateCustomFieldDefinition(input: $input) {\n    id\n    label\n    associations {\n      associatedEntity\n      active\n      validationOptions {\n        required\n      }\n      allowedOperations\n      associationCondition\n      subAssociations {\n        associatedEntity\n        active\n        allowedOperations\n      }\n    }\n    dataType\n    dropDownOptions {\n      id\n      value\n      active\n      order\n    }\n    active\n  }\n}",
+								"variables": "{\n  \"input\": {\n    \"label\": \"CF-VendorType\",\n    \"associations\": [\n      {\n        \"validationOptions\": {\n        \"required\": false \n        },\n        \"associatedEntity\": \"/transactions/Transaction\" ,\n        \"active\": true,\n        \"allowedOperations\": [],\n        \"associationCondition\": \"INCLUDED\",\n        \"subAssociations\": [\n          {\n            \"associatedEntity\": \"SALE_INVOICE\",\n            \"active\": true,\n            \"allowedOperations\": []\n          }\n        ]\n      },\n      {\n        \"associatedEntity\": \"/network/Contact\",\n        \"active\": true,\n        \"validationOptions\": {\n            \"required\": false\n        },\n        \"allowedOperations\": [],\n        \"associationCondition\": \"INCLUDED\",\n        \"subAssociations\": [\n            {\n                \"associatedEntity\": \"VENDOR\",\n                \"active\": true,\n                \"allowedOperations\": []\n            }\n        ]\n    }  \n    ],\n    \"dataType\": \"STRING\",\n    \"active\": true\n  }\n}"
+							}
+						},
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Custom Field Definition with Vendor",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 03:24:12 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "edbaa16f-9565-e15f-684b-28de76327a31"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667cdb5a-1e38738d1684766b615d961b"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "2559"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667cdb5a-1e38738d1684766b615d961b"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667cdb5a-1e38738d1684766b615d961b"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsCreateCustomFieldDefinition\": {\n            \"id\": \"udcf_3\",\n            \"label\": \"CF-VendorType\",\n            \"associations\": [\n                {\n                    \"associatedEntity\": \"/transactions/Transaction\",\n                    \"active\": true,\n                    \"validationOptions\": {\n                        \"required\": false\n                    },\n                    \"allowedOperations\": [],\n                    \"associationCondition\": \"INCLUDED\",\n                    \"subAssociations\": [\n                        {\n                            \"associatedEntity\": \"SALE_INVOICE\",\n                            \"active\": true,\n                            \"allowedOperations\": []\n                        }\n                    ]\n                },\n                {\n                    \"associatedEntity\": \"/network/Contact\",\n                    \"active\": true,\n                    \"validationOptions\": {\n                        \"required\": false\n                    },\n                    \"allowedOperations\": [],\n                    \"associationCondition\": \"INCLUDED\",\n                    \"subAssociations\": [\n                        {\n                            \"associatedEntity\": \"VENDOR\",\n                            \"active\": true,\n                            \"allowedOperations\": []\n                        }\n                    ]\n                }\n            ],\n            \"dataType\": \"STRING\",\n            \"dropDownOptions\": [],\n            \"active\": true\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Custom Field Definition with Customer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation AppFoundationsCreateCustomFieldDefinition($input: AppFoundations_CustomFieldDefinitionCreateInput!) {\n  appFoundationsCreateCustomFieldDefinition(input: $input) {\n    label\n    active\n    associations {\n      associatedEntity\n      active\n      validationOptions {\n        required\n      }\n      allowedOperations\n      associationCondition\n      subAssociations {\n        associatedEntity\n        active\n        allowedOperations\n      }\n    }\n    dataType\n    dropDownOptions {\n      value\n      active\n      order\n    }\n  }\n}",
+								"variables": "{\n  \"input\": {\n    \"label\": \"CF-customerType2\",\n    \"associations\": [\n      {\n        \"validationOptions\": {\n        \"required\": false \n        },\n        \"associatedEntity\": \"/transactions/Transaction\" ,\n        \"active\": true,\n        \"allowedOperations\": [],\n        \"associationCondition\": \"INCLUDED\",\n        \"subAssociations\": [\n          {\n            \"associatedEntity\": \"SALE_INVOICE\",\n            \"active\": true,\n            \"allowedOperations\": []\n          }\n        ]\n      },\n      {\n        \"associatedEntity\": \"/network/Contact\",\n        \"active\": true,\n        \"validationOptions\": {\n            \"required\": false\n        },\n        \"allowedOperations\": [],\n        \"associationCondition\": \"INCLUDED\",\n        \"subAssociations\": [\n            {\n                \"associatedEntity\": \"CUSTOMER\",\n                \"active\": true,\n                \"allowedOperations\": []\n            }\n        ]\n    }  \n    ],\n    \"dataType\": \"STRING\",\n    \"active\": true\n  }\n}"
+							}
+						},
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Custom Field Definition with Customer",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 03:25:20 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "82dee6dc-2d2d-7134-5592-b6913889fae1"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667cdb9e-334864930e35af475e68f876"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "1806"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667cdb9e-334864930e35af475e68f876"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667cdb9e-334864930e35af475e68f876"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsCreateCustomFieldDefinition\": {\n            \"id\": \"udcf_4\",\n            \"label\": \"CF-customerType\",\n            \"associations\": [\n                {\n                    \"associatedEntity\": \"/transactions/Transaction\",\n                    \"active\": true,\n                    \"validationOptions\": {\n                        \"required\": false\n                    },\n                    \"allowedOperations\": [],\n                    \"associationCondition\": \"INCLUDED\",\n                    \"subAssociations\": [\n                        {\n                            \"associatedEntity\": \"SALE_INVOICE\",\n                            \"active\": true,\n                            \"allowedOperations\": []\n                        }\n                    ]\n                },\n                {\n                    \"associatedEntity\": \"/network/Contact\",\n                    \"active\": true,\n                    \"validationOptions\": {\n                        \"required\": false\n                    },\n                    \"allowedOperations\": [],\n                    \"associationCondition\": \"INCLUDED\",\n                    \"subAssociations\": [\n                        {\n                            \"associatedEntity\": \"CUSTOMER\",\n                            \"active\": true,\n                            \"allowedOperations\": []\n                        }\n                    ]\n                }\n            ],\n            \"dataType\": \"STRING\",\n            \"dropDownOptions\": [],\n            \"active\": true\n        }\n    }\n}"
+						},
+						{
+							"name": "Create Custom Field Definition with Customer",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 16:57:44 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "162dc839-f0f1-45fc-04de-81f302fb07ec"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667d9a06-12eb5bac1ce98b216ba848cf"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "1325"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667d9a06-12eb5bac1ce98b216ba848cf"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667d9a06-12eb5bac1ce98b216ba848cf"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsCreateCustomFieldDefinition\": {\n            \"label\": \"CF-customerType2\",\n            \"active\": true,\n            \"associations\": [\n                {\n                    \"associatedEntity\": \"/transactions/Transaction\",\n                    \"active\": true,\n                    \"validationOptions\": {\n                        \"required\": false\n                    },\n                    \"allowedOperations\": [],\n                    \"associationCondition\": \"INCLUDED\",\n                    \"subAssociations\": [\n                        {\n                            \"associatedEntity\": \"SALE_INVOICE\",\n                            \"active\": true,\n                            \"allowedOperations\": []\n                        }\n                    ]\n                },\n                {\n                    \"associatedEntity\": \"/network/Contact\",\n                    \"active\": true,\n                    \"validationOptions\": {\n                        \"required\": false\n                    },\n                    \"allowedOperations\": [],\n                    \"associationCondition\": \"INCLUDED\",\n                    \"subAssociations\": [\n                        {\n                            \"associatedEntity\": \"CUSTOMER\",\n                            \"active\": true,\n                            \"allowedOperations\": []\n                        }\n                    ]\n                }\n            ],\n            \"dataType\": \"STRING\",\n            \"dropDownOptions\": []\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Read Custom Field Definition",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  appFoundationsCustomFieldDefinitions {\n    edges {\n      node {\n        id\n        legacyIDV2\n        label\n        associations {\n          associatedEntity\n          active\n          validationOptions {\n            required\n          }\n          allowedOperations\n          associationCondition\n          subAssociations {\n            associatedEntity\n            active\n            allowedOperations\n          }\n        }\n        dataType\n        dropDownOptions {\n          id\n          value\n          active\n          order\n        }\n        active\n        customFieldDefinitionMetaModel {\n          suggested\n        }\n      }\n    }\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Read Custom Field Definition",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 03:01:52 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "386a0538-f8bd-6afb-d5ba-b9e8dea11229"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667cd620-70aab18d12c712c572daaba3"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "451"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667cd620-70aab18d12c712c572daaba3"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667cd620-70aab18d12c712c572daaba3"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsCustomFieldDefinitions\": {\n            \"edges\": []\n        }\n    }\n}"
+						},
+						{
+							"name": "Read Custom Field Definition",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 03:03:23 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "2be03862-3076-86d2-f0b7-90fd9c35ef20"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667cd67b-7862e1ce7111f3d8535b25c2"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "364"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667cd67b-7862e1ce7111f3d8535b25c2"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667cd67b-7862e1ce7111f3d8535b25c2"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsCustomFieldDefinitions\": {\n            \"edges\": [\n                {\n                    \"node\": {\n                        \"id\": \"udcf_1\",\n                        \"legacyID\": \"djQ6OTM0MTQ1MjU5OTA4NTI5MDovY29tbW9uL0N1c3RvbUZpZWxkRGVmaW5pdGlvbjo:1149549\",\n                        \"label\": \"cf-01\",\n                        \"associations\": [\n                            {\n                                \"associatedEntity\": \"/transactions/Transaction\",\n                                \"active\": true,\n                                \"validationOptions\": {\n                                    \"required\": false\n                                },\n                                \"allowedOperations\": [],\n                                \"associationCondition\": \"INCLUDED\",\n                                \"subAssociations\": [\n                                    {\n                                        \"associatedEntity\": \"SALE_INVOICE\",\n                                        \"active\": true,\n                                        \"allowedOperations\": []\n                                    }\n                                ]\n                            }\n                        ],\n                        \"dataType\": \"STRING\",\n                        \"dropDownOptions\": [],\n                        \"active\": true,\n                        \"customFieldDefinitionMetaModel\": {\n                            \"suggested\": null\n                        }\n                    }\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Read Custom Field Definition",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 03:10:33 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "bd1d3bc7-a079-b079-592b-db206df13abc"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667cd829-749f572e6d8296b2000963c5"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "435"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667cd829-749f572e6d8296b2000963c5"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667cd829-749f572e6d8296b2000963c5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsCustomFieldDefinitions\": {\n            \"edges\": [\n                {\n                    \"node\": {\n                        \"id\": \"udcf_1\",\n                        \"legacyIDV2\": \"1149549\",\n                        \"label\": \"cf-01\",\n                        \"associations\": [\n                            {\n                                \"associatedEntity\": \"/transactions/Transaction\",\n                                \"active\": true,\n                                \"validationOptions\": {\n                                    \"required\": false\n                                },\n                                \"allowedOperations\": [],\n                                \"associationCondition\": \"INCLUDED\",\n                                \"subAssociations\": [\n                                    {\n                                        \"associatedEntity\": \"SALE_INVOICE\",\n                                        \"active\": true,\n                                        \"allowedOperations\": []\n                                    }\n                                ]\n                            }\n                        ],\n                        \"dataType\": \"STRING\",\n                        \"dropDownOptions\": [],\n                        \"active\": true,\n                        \"customFieldDefinitionMetaModel\": {\n                            \"suggested\": null\n                        }\n                    }\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Read Custom Field Definition",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 03:13:50 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "e9007151-e6b2-055f-5380-be481c6946a7"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667cd8ee-7e6d6f6560347c6b38f4bc41"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "121"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667cd8ee-7e6d6f6560347c6b38f4bc41"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667cd8ee-7e6d6f6560347c6b38f4bc41"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsCustomFieldDefinitions\": {\n            \"edges\": [\n                {\n                    \"node\": {\n                        \"id\": \"udcf_1\",\n                        \"legacyIDV2\": \"1149549\",\n                        \"label\": \"cf-01\",\n                        \"associations\": [\n                            {\n                                \"associatedEntity\": \"/transactions/Transaction\",\n                                \"active\": false,\n                                \"validationOptions\": {\n                                    \"required\": false\n                                },\n                                \"allowedOperations\": [],\n                                \"associationCondition\": \"INCLUDED\",\n                                \"subAssociations\": [\n                                    {\n                                        \"associatedEntity\": \"SALE_INVOICE\",\n                                        \"active\": true,\n                                        \"allowedOperations\": []\n                                    },\n                                    {\n                                        \"associatedEntity\": \"SALE_ESTIMATE\",\n                                        \"active\": true,\n                                        \"allowedOperations\": []\n                                    }\n                                ]\n                            }\n                        ],\n                        \"dataType\": \"STRING\",\n                        \"dropDownOptions\": [],\n                        \"active\": false,\n                        \"customFieldDefinitionMetaModel\": {\n                            \"suggested\": null\n                        }\n                    }\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Read Custom Field Definition",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 03:15:24 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "db26165b-d466-d4e0-cc8c-2b96c14e1819"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667cd94b-54e75fea50c2f5615c7d3a55"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "152"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667cd94b-54e75fea50c2f5615c7d3a55"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667cd94b-54e75fea50c2f5615c7d3a55"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsCustomFieldDefinitions\": {\n            \"edges\": [\n                {\n                    \"node\": {\n                        \"id\": \"udcf_1\",\n                        \"legacyIDV2\": \"1149549\",\n                        \"label\": \"cf-01\",\n                        \"associations\": [\n                            {\n                                \"associatedEntity\": \"/transactions/Transaction\",\n                                \"active\": false,\n                                \"validationOptions\": {\n                                    \"required\": false\n                                },\n                                \"allowedOperations\": [],\n                                \"associationCondition\": \"INCLUDED\",\n                                \"subAssociations\": [\n                                    {\n                                        \"associatedEntity\": \"SALE_INVOICE\",\n                                        \"active\": true,\n                                        \"allowedOperations\": []\n                                    },\n                                    {\n                                        \"associatedEntity\": \"SALE_ESTIMATE\",\n                                        \"active\": true,\n                                        \"allowedOperations\": []\n                                    }\n                                ]\n                            }\n                        ],\n                        \"dataType\": \"STRING\",\n                        \"dropDownOptions\": [],\n                        \"active\": false,\n                        \"customFieldDefinitionMetaModel\": {\n                            \"suggested\": null\n                        }\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"udcf_2\",\n                        \"legacyIDV2\": \"1149550\",\n                        \"label\": \"cf-02\",\n                        \"associations\": [\n                            {\n                                \"associatedEntity\": \"/transactions/Transaction\",\n                                \"active\": true,\n                                \"validationOptions\": {\n                                    \"required\": false\n                                },\n                                \"allowedOperations\": [],\n                                \"associationCondition\": \"INCLUDED\",\n                                \"subAssociations\": [\n                                    {\n                                        \"associatedEntity\": \"SALE_INVOICE\",\n                                        \"active\": true,\n                                        \"allowedOperations\": []\n                                    }\n                                ]\n                            }\n                        ],\n                        \"dataType\": \"STRING\",\n                        \"dropDownOptions\": [],\n                        \"active\": true,\n                        \"customFieldDefinitionMetaModel\": {\n                            \"suggested\": null\n                        }\n                    }\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Read Custom Field Definition",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 16:35:02 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "924c63b9-3a25-848e-ef62-132c44801cb8"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667d94b6-39c485fa3d324b3b1f5094f7"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "148"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667d94b6-39c485fa3d324b3b1f5094f7"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667d94b6-39c485fa3d324b3b1f5094f7"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsCustomFieldDefinitions\": {\n            \"edges\": [\n                {\n                    \"node\": {\n                        \"id\": \"udcf_1\",\n                        \"legacyIDV2\": \"1149549\",\n                        \"label\": \"cf-01\",\n                        \"associations\": [\n                            {\n                                \"associatedEntity\": \"/transactions/Transaction\",\n                                \"active\": true,\n                                \"validationOptions\": {\n                                    \"required\": false\n                                },\n                                \"allowedOperations\": [],\n                                \"associationCondition\": \"INCLUDED\",\n                                \"subAssociations\": [\n                                    {\n                                        \"associatedEntity\": \"SALE_INVOICE\",\n                                        \"active\": true,\n                                        \"allowedOperations\": []\n                                    },\n                                    {\n                                        \"associatedEntity\": \"SALE_ESTIMATE\",\n                                        \"active\": true,\n                                        \"allowedOperations\": []\n                                    }\n                                ]\n                            }\n                        ],\n                        \"dataType\": \"STRING\",\n                        \"dropDownOptions\": [],\n                        \"active\": true,\n                        \"customFieldDefinitionMetaModel\": {\n                            \"suggested\": null\n                        }\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"udcf_2\",\n                        \"legacyIDV2\": \"1149550\",\n                        \"label\": \"cf-02\",\n                        \"associations\": [\n                            {\n                                \"associatedEntity\": \"/transactions/Transaction\",\n                                \"active\": true,\n                                \"validationOptions\": {\n                                    \"required\": false\n                                },\n                                \"allowedOperations\": [],\n                                \"associationCondition\": \"INCLUDED\",\n                                \"subAssociations\": [\n                                    {\n                                        \"associatedEntity\": \"SALE_INVOICE\",\n                                        \"active\": true,\n                                        \"allowedOperations\": []\n                                    }\n                                ]\n                            }\n                        ],\n                        \"dataType\": \"STRING\",\n                        \"dropDownOptions\": [],\n                        \"active\": true,\n                        \"customFieldDefinitionMetaModel\": {\n                            \"suggested\": null\n                        }\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"udcf_3\",\n                        \"legacyIDV2\": \"1149551\",\n                        \"label\": \"CF-VendorType\",\n                        \"associations\": [\n                            {\n                                \"associatedEntity\": \"/transactions/Transaction\",\n                                \"active\": true,\n                                \"validationOptions\": {\n                                    \"required\": false\n                                },\n                                \"allowedOperations\": [],\n                                \"associationCondition\": \"INCLUDED\",\n                                \"subAssociations\": [\n                                    {\n                                        \"associatedEntity\": \"SALE_INVOICE\",\n                                        \"active\": true,\n                                        \"allowedOperations\": []\n                                    }\n                                ]\n                            },\n                            {\n                                \"associatedEntity\": \"/network/Contact\",\n                                \"active\": true,\n                                \"validationOptions\": {\n                                    \"required\": false\n                                },\n                                \"allowedOperations\": [],\n                                \"associationCondition\": \"INCLUDED\",\n                                \"subAssociations\": [\n                                    {\n                                        \"associatedEntity\": \"VENDOR\",\n                                        \"active\": true,\n                                        \"allowedOperations\": []\n                                    }\n                                ]\n                            }\n                        ],\n                        \"dataType\": \"STRING\",\n                        \"dropDownOptions\": [],\n                        \"active\": true,\n                        \"customFieldDefinitionMetaModel\": {\n                            \"suggested\": null\n                        }\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"udcf_4\",\n                        \"legacyIDV2\": \"1149552\",\n                        \"label\": \"CF-customerType\",\n                        \"associations\": [\n                            {\n                                \"associatedEntity\": \"/transactions/Transaction\",\n                                \"active\": true,\n                                \"validationOptions\": {\n                                    \"required\": false\n                                },\n                                \"allowedOperations\": [],\n                                \"associationCondition\": \"INCLUDED\",\n                                \"subAssociations\": [\n                                    {\n                                        \"associatedEntity\": \"SALE_INVOICE\",\n                                        \"active\": true,\n                                        \"allowedOperations\": []\n                                    }\n                                ]\n                            },\n                            {\n                                \"associatedEntity\": \"/network/Contact\",\n                                \"active\": true,\n                                \"validationOptions\": {\n                                    \"required\": false\n                                },\n                                \"allowedOperations\": [],\n                                \"associationCondition\": \"INCLUDED\",\n                                \"subAssociations\": [\n                                    {\n                                        \"associatedEntity\": \"CUSTOMER\",\n                                        \"active\": true,\n                                        \"allowedOperations\": []\n                                    }\n                                ]\n                            }\n                        ],\n                        \"dataType\": \"STRING\",\n                        \"dropDownOptions\": [],\n                        \"active\": true,\n                        \"customFieldDefinitionMetaModel\": {\n                            \"suggested\": null\n                        }\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"udcf_5\",\n                        \"legacyIDV2\": \"1149622\",\n                        \"label\": \"cf-03\",\n                        \"associations\": [\n                            {\n                                \"associatedEntity\": \"/transactions/Transaction\",\n                                \"active\": true,\n                                \"validationOptions\": {\n                                    \"required\": false\n                                },\n                                \"allowedOperations\": [],\n                                \"associationCondition\": \"INCLUDED\",\n                                \"subAssociations\": [\n                                    {\n                                        \"associatedEntity\": \"SALE_INVOICE\",\n                                        \"active\": true,\n                                        \"allowedOperations\": []\n                                    }\n                                ]\n                            }\n                        ],\n                        \"dataType\": \"STRING\",\n                        \"dropDownOptions\": [],\n                        \"active\": true,\n                        \"customFieldDefinitionMetaModel\": {\n                            \"suggested\": null\n                        }\n                    }\n                }\n            ]\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Custom Field Definition",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation AppFoundationsUpdateCustomFieldDefinition($input: AppFoundations_CustomFieldDefinitionUpdateInput!) {\n  appFoundationsUpdateCustomFieldDefinition(input: $input) {\n    id\n    legacyIDV2\n    label\n    associations {\n      associatedEntity\n      active\n      validationOptions {\n        required\n      }\n      allowedOperations\n      associationCondition\n      subAssociations {\n        associatedEntity\n        active\n        allowedOperations\n      }\n    }\n    dataType\n    dropDownOptions {\n      id\n      value\n      active\n      order\n    }\n    active\n  }\n}",
+								"variables": "{\n  \"input\": {\n        \"id\": \"udcf_1\",\n        \"legacyIDV2\": \"1149549\",\n        \"label\": \"cf-01\",\n        \"active\": true,\n        \"associations\": [\n      {\n        \"validationOptions\": {\n        \"required\": true \n        },\n        \"associatedEntity\": \"/transactions/Transaction\" ,\n        \"active\": true,\n        \"allowedOperations\": [],\n        \"associationCondition\": \"INCLUDED\",\n        \"subAssociations\": [\n          {\n            \"associatedEntity\": \"SALE_INVOICE\",\n            \"active\": true,\n            \"allowedOperations\": []\n          },\n          {\n            \"associatedEntity\": \"SALE_ESTIMATE\",\n            \"active\": true,\n            \"allowedOperations\": []\n          }\n        ]\n      }\n    ]\n    }\n}"
+							}
+						},
+						"url": {
+							"raw": "https://qb.api.intuit.com/graphql",
+							"protocol": "https",
+							"host": [
+								"qb",
+								"api",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Custom Field Definition",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 03:06:30 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "0140d18c-0103-3349-7b86-53cd8cee85e3"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667cd736-59db00cc53f988bd68295bd6"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "82"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667cd736-59db00cc53f988bd68295bd6"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667cd736-59db00cc53f988bd68295bd6"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsUpdateCustomFieldDefinition\": null\n    },\n    \"errors\": [\n        {\n            \"message\": \"Field legacyIDV2 cannot be null or empty\",\n            \"path\": [\n                \"appFoundationsUpdateCustomFieldDefinition\"\n            ],\n            \"extensions\": {\n                \"errorCode\": {\n                    \"errorCode\": \"CES038\",\n                    \"errorMessage\": \"Field %s cannot be null or empty\",\n                    \"errorType\": \"VALIDATION_ERROR\"\n                },\n                \"cause\": \"Field legacyIDV2 cannot be null or empty\",\n                \"errorType\": \"UNKNOWN\"\n            }\n        }\n    ]\n}"
+						},
+						{
+							"name": "Update Custom Field Definition",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 03:13:27 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "c7299231-779d-e626-6db7-47c678cf37ed"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667cd8d6-0fe9065073c8f2d554f3333d"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "726"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667cd8d6-0fe9065073c8f2d554f3333d"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667cd8d6-0fe9065073c8f2d554f3333d"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsUpdateCustomFieldDefinition\": {\n            \"id\": \"udcf_1\",\n            \"legacyIDV2\": \"1149549\",\n            \"label\": \"cf-01\",\n            \"associations\": [\n                {\n                    \"associatedEntity\": \"/transactions/Transaction\",\n                    \"active\": false,\n                    \"validationOptions\": {\n                        \"required\": false\n                    },\n                    \"allowedOperations\": [],\n                    \"associationCondition\": \"INCLUDED\",\n                    \"subAssociations\": [\n                        {\n                            \"associatedEntity\": \"SALE_INVOICE\",\n                            \"active\": true,\n                            \"allowedOperations\": []\n                        },\n                        {\n                            \"associatedEntity\": \"SALE_ESTIMATE\",\n                            \"active\": true,\n                            \"allowedOperations\": []\n                        }\n                    ]\n                }\n            ],\n            \"dataType\": \"STRING\",\n            \"dropDownOptions\": [],\n            \"active\": false\n        }\n    }\n}"
+						},
+						{
+							"name": "Update Custom Field Definition",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 03:17:03 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "c36ec2f3-7383-714b-8114-cc5631152d55"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667cd9ad-6c1dbaa928e15ba1055eefd9"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "1737"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667cd9ad-6c1dbaa928e15ba1055eefd9"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667cd9ad-6c1dbaa928e15ba1055eefd9"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsUpdateCustomFieldDefinition\": null\n    },\n    \"errors\": [\n        {\n            \"message\": \"Validation failed\",\n            \"path\": [\n                \"appFoundationsUpdateCustomFieldDefinition\"\n            ],\n            \"extensions\": {\n                \"errorCode\": \"CUSTOMFIELDDEFN-86003\",\n                \"cause\": \"Unsupported entityCondition\",\n                \"type\": \"VALIDATION_ERROR\",\n                \"errorType\": \"UNKNOWN\"\n            }\n        }\n    ]\n}"
+						},
+						{
+							"name": "Update Custom Field Definition",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 03:19:29 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "dc7f47e1-7efb-5b7b-83de-3ec56faea8b3"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667cda3e-47aa3a78508142806f85c708"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "2305"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667cda3e-47aa3a78508142806f85c708"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667cda3e-47aa3a78508142806f85c708"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsUpdateCustomFieldDefinition\": {\n            \"id\": \"udcf_1\",\n            \"legacyIDV2\": \"1149549\",\n            \"label\": \"cf-01\",\n            \"associations\": [\n                {\n                    \"associatedEntity\": \"/transactions/Transaction\",\n                    \"active\": true,\n                    \"validationOptions\": {\n                        \"required\": false\n                    },\n                    \"allowedOperations\": [],\n                    \"associationCondition\": \"INCLUDED\",\n                    \"subAssociations\": [\n                        {\n                            \"associatedEntity\": \"SALE_INVOICE\",\n                            \"active\": true,\n                            \"allowedOperations\": []\n                        },\n                        {\n                            \"associatedEntity\": \"SALE_ESTIMATE\",\n                            \"active\": true,\n                            \"allowedOperations\": []\n                        }\n                    ]\n                }\n            ],\n            \"dataType\": \"STRING\",\n            \"dropDownOptions\": [],\n            \"active\": true\n        }\n    }\n}"
+						},
+						{
+							"name": "Update Custom Field Definition",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 27 Jun 2024 16:36:03 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-spanid",
+									"value": "554c9eb8-7bdd-95f2-6b75-768695ee0bc8"
+								},
+								{
+									"key": "x-amzn-trace-id",
+									"value": "Root=1-667d94f3-4a8399cf63960436234bb419"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "x-envoy-upstream-service-time",
+									"value": "665"
+								},
+								{
+									"key": "Server",
+									"value": "istio-envoy"
+								},
+								{
+									"key": "x-envoy-decorator-operation",
+									"value": "swimlane11graphqlorch-desired-service.platformrun-apiorch-swimlane11graphqlorch-usw2-prd.svc.cluster.local:8090/*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "intuit_tid",
+									"value": "1-667d94f3-4a8399cf63960436234bb419"
+								},
+								{
+									"key": "x-request-id",
+									"value": "1-667d94f3-4a8399cf63960436234bb419"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"appFoundationsUpdateCustomFieldDefinition\": {\n            \"id\": \"udcf_1\",\n            \"legacyIDV2\": \"1149549\",\n            \"label\": \"cf-01\",\n            \"associations\": [\n                {\n                    \"associatedEntity\": \"/transactions/Transaction\",\n                    \"active\": true,\n                    \"validationOptions\": {\n                        \"required\": false\n                    },\n                    \"allowedOperations\": [],\n                    \"associationCondition\": \"INCLUDED\",\n                    \"subAssociations\": [\n                        {\n                            \"associatedEntity\": \"SALE_INVOICE\",\n                            \"active\": true,\n                            \"allowedOperations\": []\n                        },\n                        {\n                            \"associatedEntity\": \"SALE_ESTIMATE\",\n                            \"active\": true,\n                            \"allowedOperations\": []\n                        }\n                    ]\n                }\n            ],\n            \"dataType\": \"STRING\",\n            \"dropDownOptions\": [],\n            \"active\": false\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Project",
+			"item": [
+				{
+					"name": "query",
+					"item": [
+						{
+							"name": "queryDateRange",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json;charset=UTF-8",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json;charset=UTF-8",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query projectManagementProjects(\n  $first: PositiveInt!,\n  $after: String,\n  $filter: ProjectManagement_ProjectFilter!,\n  $orderBy: [ProjectManagement_OrderBy!]\n) {\n  projectManagementProjects(\n    first: $first,\n    after: $after,\n    filter: $filter,\n    orderBy: $orderBy\n  ) {\n    edges {\n      node {\n        id,\n        name,\n        description,\n        type,\n        status,\n        dueDate,\n        startDate,\n        completedDate,\n        dueDate,\n        assignee{\n            id\n        },\n        priority,\n        customer{\n            id\n        },\n        account{\n            id\n        }\n    addresses {\n            streetAddressLine1,\n            streetAddressLine2,\n            streetAddressLine3\n            state,\n            postalCode\n        }   \n      }\n    }\n     pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n  }\n}\n",
+										"variables": "{\n  \"first\": 4,\n  \"after\": \"c2ltcGxlLWN1cnNvcjA=\",\n  \"filter\": {\n    \"dueDate\": {\n      \"between\": {\n        \"minDate\": \"2024-04-01T18:47:25.123456789-07:00\",\n        \"maxDate\": \"2024-12-05T18:47:25.123456789-07:00\"\n      }\n    }\n  },\n  \"orderBy\": [\"DUE_DATE_DESC\"]\n}\n"
+									}
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "queryByProjectID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json;charset=UTF-8",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json;charset=UTF-8",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query projectManagementProject($id: ID!) {\n  projectManagementProject(id: $id) {\n    name,\n    status,\n    description,\n    startDate,\n    dueDate,\n    account {\n        id\n    }\n    customer{\n        id\n    }\n  }\n}\n",
+										"variables": "{\n    \"id\" : 411372250\n}"
+									}
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "createMutation",
+					"item": [
+						{
+							"name": "createProject",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json;charset=UTF-8",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json;charset=UTF-8",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation ProjectManagementCreateProject($name: String!, \n    $description: String,\n    $startDate: DateTime,\n    $dueDate: DateTime!, \n    $status: ProjectManagement_Status,\n    $customer: ProjectManagement_CustomerInput,\n    $account: ProjectManagement_CompanyInput!,\n    $priority: Int,\n    $pinned: Boolean,\n    $completionRate: Decimal,\n    $emailAddress: [Qb_EmailAddressInput],\n    $addresses: [Qb_PostalAddressInput]\n) {\n  projectManagementCreateProject(input:{\n    name: $name,\n    description: $description,\n    startDate : $startDate,\n    dueDate : $dueDate,\n    status: $status\n    customer: $customer, \n    account: $account,\n    priority: $priority,\n    pinned: $pinned,\n    completionRate: $completionRate,\n    emailAddress: $emailAddress,\n    addresses: $addresses,\n  }\n    )\n    {\n           ... on ProjectManagement_Project {\n        id,\n        name,\n        description,\n        startDate,\n        dueDate,\n        status,\n        priority,\n        customer{\n            id\n        },\n        account{\n            id\n        },\n        priority,\n        pinned,\n        completionRate,\n        emailAddress {\n            email,\n            name\n        }\n        addresses {\n            streetAddressLine1,\n            streetAddressLine2,\n            streetAddressLine3\n            state,\n            postalCode\n        }   \n      }\n        }\n    }\n",
+										"variables": "{\n  \"name\": \"Demo Project\",\n  \"description\": \"Test Demo Project\",\n  \"startDate\": \"2024-07-29T00:00:00.000Z\",\n  \"dueDate\": \"2024-08-29T00:00:00.000Z\",\n  \"status\": \"OPEN\",\n  \"account\": {\n    \"id\": \"9341452811627568\"\n    },\n    \"customer\": {\n        \"id\":1\n    },\n\n   \"priority\": 1,\n   \"completionRate\": 99.00,\n   \"pinned\": false,\n   \"emailAddress\": [\n        {\n        \"email\":\"testproject@gmail.com\",\n        \"name\": \"Demo Client\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n        }\n    ],\n   \"addresses\": [\n       {\n        \"streetAddressLine1\": \"3000 17th street\",\n        \"postalCode\": \"94114\",\n        \"city\": \"San Francisco\",\n        \"state\": \"California\",\n        \"country\": \"USA\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n       }\n   ]\n  }"
+									}
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "updateMutation",
+					"item": [
+						{
+							"name": "updateProject",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json;charset=UTF-8",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json;charset=UTF-8",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation projectManagementUpdateProject($id: ID!,\n    $name: String,\n    $description: String,\n    $status: ProjectManagement_Status,\n    $startDate: DateTime,\n    $dueDate: DateTime,\n    $customer: ProjectManagement_CustomerInput,\n    $account: ProjectManagement_CompanyInput,\n    $priority: Int,\n    $completionRate: Decimal,\n    $pinned: Boolean,\n)\n{\n    projectManagementUpdateProject(input:{\n        id: $id,\n        name: $name,\n        description : $description,\n        status: $status,\n        startDate:$startDate,\n        dueDate: $dueDate,\n        customer:$customer\n        account: $account,\n        priority: $priority,\n        completionRate: $completionRate,\n        pinned: $pinned\n    })\n\n    {\n    ... on ProjectManagement_Project {\n            id,\n            name,\n            description,\n             status,\n            startDate,\n            dueDate,\n            customer{\n                id\n            },\n            account{\n                id\n            },\n            priority,\n            completionRate,\n            pinned\n        }\n    }\n}",
+										"variables": "{\n\"id\": 412057097,\n  \"name\": \"Demo Project new\",\n  \"description\": \"Test DemoProject Description New\",\n  \"startDate\": \"2024-07-25T00:00:00.000Z\",\n  \"dueDate\": \"2024-07-31T00:00:00.000Z\",\n   \"status\": \"IN_PROGRESS\",\n  \"account\": {\n    \"id\": \"9341452781483658\"\n    },\n    \"customer\": {\n        \"id\":1\n    },\n\n   \"priority\": 1,\n   \"completionRate\": 99.00,\n   \"pinned\": false\n  }"
+									}
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateProjectName",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json;charset=UTF-8",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json;charset=UTF-8",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation projectManagementUpdateName($id: ID!, \n    $name: String!)\n{\n    projectManagementUpdateName(input:{\n        id: $id,\n        name: $name,\n    })\n\n    {\n    ... on ProjectManagement_Project {\n            name, \n            id,\n            description\n        }\n    }\n}",
+										"variables": "{\n  \"id\": 408577546,\n  \"name\": \"Demo Project Update\",\n  \"description\": \"Project Description Updated\",\n  \"startDate\": \"2024-06-27T00:00:00.000Z\",\n  \"dueDate\": \"2024-07-25T00:00:00.000Z\",\n  \"status\": \"IN_PROGRESS\",\n  \"account\": {\n    \"id\": \"9341452164365778\"\n    },\n   \"type\": \"CONTACT\",\n   \"priority\": 3,\n   \"completionRate\": 70.00,\n   \"pinned\": true,\n   \"emailAddress\": [\n        {\n        \"email\":\"jacobsolis123@gmail.com\",\n        \"name\": \"Jacob Solis\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n        }\n    ],\n   \"addresses\": [\n       {\n        \"streetAddressLine1\": \"3000 17th street\",\n        \"postalCode\": \"94114\",\n        \"city\": \"San Francisco\",\n        \"state\": \"California\",\n        \"country\": \"USA\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n       }\n   ]\n  }"
+									}
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteProject",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json;charset=UTF-8",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json;charset=UTF-8",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation projectManagementDeleteProject($id: ID!\n    )\n{\n    projectManagementDeleteProject(input:{\n        id: $id,\n    })\n\n    {\n    ... on ProjectManagement_Project {\n            id,\n            deleted\n        }\n    }\n}",
+										"variables": "{\n  \"id\": 408577546,\n  \"name\": \"Test Project\",\n  \"description\": \"A sample project\",\n  \"startDate\": \"2024-07-01T00:00:00.000Z\",\n  \"dueDate\": \"2024-07-31T00:00:00.000Z\",\n  \"status\": \"OPEN\",\n  \"account\": {\n    \"id\": \"9130357863496756\"\n    },\n   \"customer\":{\n     \"id\":\"2\"\n   },\n   \"type\": \"CONTACT\",\n   \"priority\": 1,\n   \"completionRate\": 95.00,\n   \"pinned\": false,\n   \"emailAddress\": [\n        {\n        \"email\":\"testgmail@gmail.com\",\n        \"name\": \"Test Client\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n        }\n    ],\n   \"addresses\": [\n       {\n        \"streetAddressLine1\": \"3000 17th street\",\n        \"postalCode\": \"94114\",\n        \"city\": \"San Francisco\",\n        \"state\": \"California\",\n        \"country\": \"USA\",\n        \"variation\": {\n            \"purpose\": \"BILLING\",\n            \"usage\": \"HOME\",\n            \"Common_Ordinal\": \"PRIMARY\"\n        }\n       }\n   ]\n  }"
+									}
+								},
+								"url": {
+									"raw": "https://qb.api.intuit.com/graphql",
+									"protocol": "https",
+									"host": [
+										"qb",
+										"api",
+										"intuit",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Project- QBOV3Transactions",
+					"item": [
+						{
+							"name": "Invoice-Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"TxnDate\": \"2024-07-24\",\n    \"CurrencyRef\": {\n        \"value\": \"USD\",\n        \"name\": \"United States Dollar\"\n    },\n    \"LinkedTxn\": [],\n    \"Line\": [\n        {\n            \"Id\": \"1\",\n            \"LineNum\": 1,\n            \"Description\": \"Test1\",\n            \"Amount\": 50.99,\n            \"DetailType\": \"SalesItemLineDetail\",\n            \"SalesItemLineDetail\": {\n                \"ItemRef\": {\n                    \"value\": \"2\",\n                    \"name\": \"Hours\"\n                },\n                \"UnitPrice\": 50.99,\n                \"Qty\": 1,\n                \"ItemAccountRef\": {\n                    \"value\": \"5\",\n                    \"name\": \"Sales\"\n                },\n                \"TaxCodeRef\": {\n                    \"value\": \"NON\"\n                }\n            }\n        },\n        {\n            \"Amount\": 50.99,\n            \"DetailType\": \"SubTotalLineDetail\",\n            \"SubTotalLineDetail\": {}\n        }\n    ],\n    \"Tag\": [],\n    \"ProjectRef\": {\n        \"value\": \"412057097\"\n    },\n    \"CustomerRef\": {\n        \"value\": \"2\",\n        \"name\": \"Customer One\"\n    },\n    \"BillAddr\": {\n        \"Id\": \"4\",\n        \"Lat\": \"INVALID\",\n        \"Long\": \"INVALID\"\n    },\n    \"FreeFormAddress\": false,\n    \"SalesTermRef\": {\n        \"value\": \"3\",\n        \"name\": \"Net 30\"\n    },\n    \"TotalAmt\": 50.99,\n    \"ApplyTaxAfterDiscount\": false,\n    \"Balance\": 50.99\n}"
+								},
+								"url": {
+									"raw": "https://{{baseurl}}/v3/company/{{companyId}}/invoice?minorversion={{minorversion}}",
+									"protocol": "https",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"v3",
+										"company",
+										"{{companyId}}",
+										"invoice"
+									],
+									"query": [
+										{
+											"key": "minorversion",
+											"value": "{{minorversion}}"
+										}
+									]
+								},
+								"description": "Create an invoice object\nMethod : POST\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Invoice-Query",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "Select * \nfrom invoice \nstartposition 1 maxresults 5",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{baseurl}}/v3/company/{{companyId}}/query?minorversion={{minorversion}}",
+									"protocol": "https",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"v3",
+										"company",
+										"{{companyId}}",
+										"query"
+									],
+									"query": [
+										{
+											"key": "minorversion",
+											"value": "{{minorversion}}"
+										}
+									]
+								},
+								"description": "Read all invoice objects using the 'Query' endpoint\nMethod : POST\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Invoice-ReadById",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{baseurl}}/v3/company/{{companyId}}/invoice/1?minorversion={{minorversion}}",
+									"protocol": "https",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"v3",
+										"company",
+										"{{companyId}}",
+										"invoice",
+										"1"
+									],
+									"query": [
+										{
+											"key": "minorversion",
+											"value": "{{minorversion}}"
+										}
+									]
+								},
+								"description": "Read an invoice object by Id\nMethod : POST\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Bill-Query",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "Select * from Bill startposition 1 maxresults 5",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{baseurl}}/v3/company/{{companyId}}/query?minorversion={{minorversion}}",
+									"protocol": "https",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"v3",
+										"company",
+										"{{companyId}}",
+										"query"
+									],
+									"query": [
+										{
+											"key": "minorversion",
+											"value": "{{minorversion}}"
+										}
+									]
+								},
+								"description": "Retrieve all bills using generic 'Query' endpoint\nContent-Type:application/text\nMethod - POST\n\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Bill-Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"DueDate\": \"2024-08-22\",\n    \"VendorAddr\": {\n        \"Id\": \"6\",\n        \"Lat\": \"INVALID\",\n        \"Long\": \"INVALID\"\n    },\n    \"Balance\": 150.00,\n    \"domain\": \"QBO\",\n    \"sparse\": false,\n    \"SyncToken\": \"0\",\n    \"TxnDate\": \"2024-07-01\",\n    \"CurrencyRef\": {\n        \"value\": \"USD\",\n        \"name\": \"United States Dollar\"\n    },\n   \n    \"Line\": [\n        {\n            \"Id\": \"1\",\n            \"LineNum\": 1,\n            \"Description\": \"Test bill postman line 1\",\n            \"Amount\": 75,\n            \n            \"DetailType\": \"AccountBasedExpenseLineDetail\",\n            \"AccountBasedExpenseLineDetail\": {\n                \"CustomerRef\": {\n                    \"value\": \"1\",\n                    \"name\": \"Test Customer\"\n                },\n                \"AccountRef\": {\n                    \"value\": \"10\",\n                    \"name\": \"Advertising & marketing\"\n                },\n                \"BillableStatus\": \"Billable\",\n                \"TaxCodeRef\": {\n                    \"value\": \"NON\"\n                }\n            },\n            \"ProjectRef\": {\n                \"value\": \"411372250\"\n            }\n        },\n\n        {\n            \"Id\": \"2\",\n            \"LineNum\": 2,\n            \"Description\": \"Test Line 2\",\n            \"Amount\": 75.00,\n            \n            \"DetailType\": \"AccountBasedExpenseLineDetail\",\n            \"AccountBasedExpenseLineDetail\": {\n                \"CustomerRef\": {\n                    \"value\": \"1\",\n                    \"name\": \"Test Customer\"\n                },\n                \"AccountRef\": {\n                    \"value\": \"11\",\n                    \"name\": \"Building & property rent\"\n                },\n                \"BillableStatus\": \"Billable\",\n                \"TaxCodeRef\": {\n                    \"value\": \"NON\"\n                }\n            },\n            \"ProjectRef\": {\n                \"value\": \"411372250\"\n            }\n        }\n    ],\n    \"Tag\": [],\n    \"VendorRef\": {\n        \"value\": \"4\",\n        \"name\": \"Test Vendor\"\n    },\n    \"APAccountRef\": {\n        \"value\": \"1150040000\",\n        \"name\": \"Accounts Payable (A/P)\"\n    },\n    \"TotalAmt\": 200.00\n}"
+								},
+								"url": {
+									"raw": "https://{{baseurl}}/v3/company/{{companyId}}/bill?minorversion={{minorversion}}",
+									"protocol": "https",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"v3",
+										"company",
+										"{{companyId}}",
+										"bill"
+									],
+									"query": [
+										{
+											"key": "minorversion",
+											"value": "{{minorversion}}"
+										}
+									]
+								},
+								"description": "Create a bill\nContent-Type:application/json\nMethod - POST"
+							},
+							"response": []
+						},
+						{
+							"name": "Bill-GetById",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{baseurl}}/v3/company/{{companyId}}/bill/5?minorversion={{minorversion}}",
+									"protocol": "https",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"v3",
+										"company",
+										"{{companyId}}",
+										"bill",
+										"5"
+									],
+									"query": [
+										{
+											"key": "minorversion",
+											"value": "{{minorversion}}"
+										}
+									]
+								},
+								"description": "Retrieve a bill by Id\nAccept:application/json\nMethod - GET"
+							},
+							"response": []
+						},
+						{
+							"name": "Purchase-Query",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "select * from purchase startposition 1 maxresults 5"
+								},
+								"url": {
+									"raw": "https://{{baseurl}}/v3/company/{{companyId}}/query?minorversion={{minorversion}}",
+									"protocol": "https",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"v3",
+										"company",
+										"{{companyId}}",
+										"query"
+									],
+									"query": [
+										{
+											"key": "minorversion",
+											"value": "{{minorversion}}"
+										}
+									]
+								},
+								"description": "Read all purchase objects using the 'Query' endpoint\nMethod : POST\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Purchase-Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"AccountRef\": {\n        \"value\": \"1150040001\",\n        \"name\": \"Cash\"\n    },\n    \"PaymentType\": \"Cash\",\n    \"EntityRef\": {\n        \"value\": \"1\",\n        \"name\": \"Test\",\n        \"type\": \"Customer\"\n    },\n    \"TotalAmt\": 2000.00,\n    \"PurchaseEx\": {\n        \"any\": [\n            {\n                \"name\": \"{http://schema.intuit.com/finance/v3}NameValue\",\n                \"declaredType\": \"com.intuit.schema.finance.v3.NameValue\",\n                \"scope\": \"javax.xml.bind.JAXBElement$GlobalScope\",\n                \"value\": {\n                    \"Name\": \"TxnType\",\n                    \"Value\": \"54\"\n                },\n                \"nil\": false,\n                \"globalScope\": true,\n                \"typeSubstituted\": false\n            }\n        ]\n    },\n    \"domain\": \"QBO\",\n    \"sparse\": false,\n    \"SyncToken\": \"0\",\n    \"TxnDate\": \"2024-07-22\",\n    \"CurrencyRef\": {\n        \"value\": \"USD\",\n        \"name\": \"United States Dollar\"\n    },\n    \n    \"Line\": [\n        {\n            \"Id\": \"1\",\n            \"Description\": \"Customer\",\n            \"Amount\": 1000,\n            \n            \"DetailType\": \"AccountBasedExpenseLineDetail\",\n            \"AccountBasedExpenseLineDetail\": {\n                \"CustomerRef\": {\n                    \"value\": \"1\",\n                    \"name\": \"Test\"\n                },\n                \"AccountRef\": {\n                    \"value\": \"10\",\n                    \"name\": \"Advertising & marketing\"\n                },\n                \"BillableStatus\": \"Billable\",\n                \"TaxCodeRef\": {\n                    \"value\": \"NON\"\n                }\n            }\n        },\n        {\n            \"Id\": \"2\",\n            \"Description\": \"Project\",\n            \"Amount\": 1000,\n            \n            \"DetailType\": \"AccountBasedExpenseLineDetail\",\n            \"AccountBasedExpenseLineDetail\": {\n                \"CustomerRef\": {\n                    \"value\": \"1\",\n                    \"name\": \"Test Customer\"\n                },\n                \"AccountRef\": {\n                    \"value\": \"11\",\n                    \"name\": \"Building & property rent\"\n                },\n                \"BillableStatus\": \"Billable\",\n                \"TaxCodeRef\": {\n                    \"value\": \"NON\"\n                }\n            },\n            \"ProjectRef\": {\n                \"value\": \"411372250\"\n            }\n        }\n    ]\n}"
+								},
+								"url": {
+									"raw": "https://{{baseurl}}/v3/company/{{companyId}}/purchase?minorversion={{minorversion}}",
+									"protocol": "https",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"v3",
+										"company",
+										"{{companyId}}",
+										"purchase"
+									],
+									"query": [
+										{
+											"key": "minorversion",
+											"value": "{{minorversion}}"
+										}
+									]
+								},
+								"description": "Create a puchase object\nMethod : POST\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Purchase-ReadById",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{baseurl}}/v3/company/{{companyId}}/purchase/11?minorversion={{minorversion}}",
+									"protocol": "https",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"v3",
+										"company",
+										"{{companyId}}",
+										"purchase",
+										"11"
+									],
+									"query": [
+										{
+											"key": "minorversion",
+											"value": "{{minorversion}}"
+										}
+									]
+								},
+								"description": "Read a puchase object by Id\nMethod : POST\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Create PCE",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"domain\": \"QBO\",\n    \"sparse\": false,\n    \"SyncToken\": \"0\",\n    \"CustomField\": [],\n    \"TxnDate\": \"2024-07-22\",\n    \"CurrencyRef\": {\n        \"value\": \"CAD\",\n        \"name\": \"Canadian Dollar\"\n    },\n    \"ExchangeRate\": 0.73,\n    \"TxnStatus\": \"Pending\",\n    \"Line\": [\n        {\n            \"Id\": \"1\",\n            \"LineNum\": 1,\n            \"Description\": \"new schema test\",\n            \"Amount\": 80.00,\n            \"DetailType\": \"SalesItemLineDetail\",\n            \"SalesItemLineDetail\": {\n                \"ItemRef\": {\n                    \"value\": \"2\",\n                    \"name\": \"Hours\"\n                },\n                \"UnitPrice\": 80,\n                \"UnitCostPrice\": 80,\n                \"Qty\": 1,\n                \"ItemAccountRef\": {\n                    \"value\": \"5\",\n                    \"name\": \"Sales\"\n                },\n                \"TaxCodeRef\": {\n                    \"value\": \"NON\"\n                }\n            },\n            \"CostAmount\": 80.00,\n            \"HomeCostAmount\": 80.00\n        },\n        {\n            \"Amount\": 80.00,\n            \"DetailType\": \"SubTotalLineDetail\",\n            \"SubTotalLineDetail\": {}\n        }\n    ],\n    \"Tag\": [],\n    \"ProjectRef\": {\n        \"value\": \"411372250\"\n    },\n    \"TotalCostAmount\": -80.00,\n    \"HomeTotalCostAmount\": -80.00,\n    \"CustomerRef\": {\n        \"value\": \"1\",\n        \"name\": \"Test Customer\"\n    },\n    \"BillAddr\": {\n        \"Id\": \"37\",\n        \"Line1\": \"project_cad\",\n        \"Line2\": \"Custome_CAD\"\n    },\n    \"ShipAddr\": {\n        \"Id\": \"38\",\n        \"Line1\": \"project_cad\",\n        \"Line2\": \"Custome_CAD\"\n    },\n    \"FreeFormAddress\": true,\n    \"TotalAmt\": 80.00,\n    \"HomeTotalAmt\": 80,\n    \"ApplyTaxAfterDiscount\": false,\n    \"PrintStatus\": \"NotSet\",\n    \"EmailStatus\": \"NotSet\"\n}"
+								},
+								"url": {
+									"raw": "https://{{baseurl}}/v3/company/{{companyId}}/estimate?minorversion={{minorversion}}",
+									"protocol": "https",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"v3",
+										"company",
+										"{{companyId}}",
+										"estimate"
+									],
+									"query": [
+										{
+											"key": "minorversion",
+											"value": "{{minorversion}}"
+										}
+									]
+								},
+								"description": "Create an Estimate object\nMethod : POST\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Query PCE",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "Select * \nfrom invoice \n",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{baseurl}}/v3/company/{{companyId}}/query?minorversion={{minorversion}}",
+									"protocol": "https",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"v3",
+										"company",
+										"{{companyId}}",
+										"query"
+									],
+									"query": [
+										{
+											"key": "minorversion",
+											"value": "{{minorversion}}"
+										}
+									]
+								},
+								"description": "Read all invoice objects using the 'Query' endpoint\nMethod : POST\n"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "TimeActivity",
+			"item": [
+				{
+					"name": "TimeActivity-Create",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..dgT0i4NBZG2HMBsejZ5UAA.h-g_24jMacdF26qSEcmbRglshLe82cRgf40D2P6A1QP6j-fo590Yt1GBKUYNH-bMRsVIs1F9b6bzynDC6urERHLDQ5l2dpcKViajG6LE1NpbzX2X4-A7vFGQ-fSvQxo09e-DJxBHWseVTo0rzx7N1KOaH3wjwfAOHPGrIVq5YWx15d0fzqvcfz9wby9A8lcK8YcERKGHh4WDKQCD4ss9I5wkroJ38g5onratXpUi6so8bwUwPRSyLRWzFHxZnSlp9rFCU-fTfFQ1S4vRuo6o2KLayrUXxrgyZjhzLNeCwH-du5U_7TsRlsWN_dmW-RukjesL3VFqQ5BrgRkBpa1-0sc8rf2MfkEjjDMc9h4jtaHubZXO20VOE2ngjj8uuBoZPC_zj3jE_WdsokrcE5gRHfcvYh7kNBe4YN6sTCipLV7iEal5u6hKNJxmiJmK5ui2h9PNr6HGDA87z-CtIkPQ7fyI8S3mmR2SxpOmHR5FctxvJberECUOkCoFDBIeDH-oUzQm-8-d3vZ3uiDLTdk4CNpQragf5KruPSJJQBlJf3Tm7HjwKqOx0nRkWCEtBYBZoaz5GbMD5tGEgtp_zxpTrIYu9XV2ABubhBfH8m2vN_Djf9L6licsnqtF-kYQchL48X50jgJkHIuETpv0_g69Nh1HCxl0sx-4Y5egF18b7wIJbTrBcIoQ_m3Cpn7BkzSE.yxbHaI0lgQ8gKfy_I9HPIA",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "{{UserAgent}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"TxnDate\": \"2024-08-01T12:00:00Z\",\n    \"NameOf\": \"Employee\",\n    \"EmployeeRef\": { \"value\": \"1\" },\n    \"CustomerRef\": {\n        \"value\": \"2\"\n    },\n    \"ItemRef\": { \"value\": \"1\" },\n    \"Hours\": 8,\n    \"Minutes\": 0,\n    \"Description\": \"Construction:DailyWork\"\n  }"
+						},
+						"url": {
+							"raw": "https://{{baseurl}}/v3/company/{{companyid}}/timeactivity?minorversion={{minorversion}}",
+							"protocol": "https",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"v3",
+								"company",
+								"{{companyid}}",
+								"timeactivity"
+							],
+							"query": [
+								{
+									"key": "minorversion",
+									"value": "{{minorversion}}",
+									"description": "69"
+								}
+							]
+						},
+						"description": "Create a term object\nMethod : POST\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "TimeActivity-Create With PayType",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..dgT0i4NBZG2HMBsejZ5UAA.h-g_24jMacdF26qSEcmbRglshLe82cRgf40D2P6A1QP6j-fo590Yt1GBKUYNH-bMRsVIs1F9b6bzynDC6urERHLDQ5l2dpcKViajG6LE1NpbzX2X4-A7vFGQ-fSvQxo09e-DJxBHWseVTo0rzx7N1KOaH3wjwfAOHPGrIVq5YWx15d0fzqvcfz9wby9A8lcK8YcERKGHh4WDKQCD4ss9I5wkroJ38g5onratXpUi6so8bwUwPRSyLRWzFHxZnSlp9rFCU-fTfFQ1S4vRuo6o2KLayrUXxrgyZjhzLNeCwH-du5U_7TsRlsWN_dmW-RukjesL3VFqQ5BrgRkBpa1-0sc8rf2MfkEjjDMc9h4jtaHubZXO20VOE2ngjj8uuBoZPC_zj3jE_WdsokrcE5gRHfcvYh7kNBe4YN6sTCipLV7iEal5u6hKNJxmiJmK5ui2h9PNr6HGDA87z-CtIkPQ7fyI8S3mmR2SxpOmHR5FctxvJberECUOkCoFDBIeDH-oUzQm-8-d3vZ3uiDLTdk4CNpQragf5KruPSJJQBlJf3Tm7HjwKqOx0nRkWCEtBYBZoaz5GbMD5tGEgtp_zxpTrIYu9XV2ABubhBfH8m2vN_Djf9L6licsnqtF-kYQchL48X50jgJkHIuETpv0_g69Nh1HCxl0sx-4Y5egF18b7wIJbTrBcIoQ_m3Cpn7BkzSE.yxbHaI0lgQ8gKfy_I9HPIA",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "{{UserAgent}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"TxnDate\": \"2024-08-01T12:00:00Z\",\n    \"NameOf\": \"Employee\",\n    \"EmployeeRef\": { \"value\": \"1\" },\n    \"PayrollItemRef\": {\n      \"value\": \"626270109\"\n    },\n    \"CustomerRef\": {\n        \"value\": \"2\"\n    },\n    \"ItemRef\": { \"value\": \"1\" },\n    \"Hours\": 8,\n    \"Minutes\": 0,\n    \"Description\": \"Construction:DailyWork\"\n  }"
+						},
+						"url": {
+							"raw": "https://{{baseurl}}/v3/company/{{companyid}}/timeactivity?minorversion={{minorversion}}",
+							"protocol": "https",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"v3",
+								"company",
+								"{{companyid}}",
+								"timeactivity"
+							],
+							"query": [
+								{
+									"key": "minorversion",
+									"value": "{{minorversion}}",
+									"description": "69"
+								}
+							]
+						},
+						"description": "Create a term object\nMethod : POST\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "TimeActivity-Create WithPaytypeToProject",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..dgT0i4NBZG2HMBsejZ5UAA.h-g_24jMacdF26qSEcmbRglshLe82cRgf40D2P6A1QP6j-fo590Yt1GBKUYNH-bMRsVIs1F9b6bzynDC6urERHLDQ5l2dpcKViajG6LE1NpbzX2X4-A7vFGQ-fSvQxo09e-DJxBHWseVTo0rzx7N1KOaH3wjwfAOHPGrIVq5YWx15d0fzqvcfz9wby9A8lcK8YcERKGHh4WDKQCD4ss9I5wkroJ38g5onratXpUi6so8bwUwPRSyLRWzFHxZnSlp9rFCU-fTfFQ1S4vRuo6o2KLayrUXxrgyZjhzLNeCwH-du5U_7TsRlsWN_dmW-RukjesL3VFqQ5BrgRkBpa1-0sc8rf2MfkEjjDMc9h4jtaHubZXO20VOE2ngjj8uuBoZPC_zj3jE_WdsokrcE5gRHfcvYh7kNBe4YN6sTCipLV7iEal5u6hKNJxmiJmK5ui2h9PNr6HGDA87z-CtIkPQ7fyI8S3mmR2SxpOmHR5FctxvJberECUOkCoFDBIeDH-oUzQm-8-d3vZ3uiDLTdk4CNpQragf5KruPSJJQBlJf3Tm7HjwKqOx0nRkWCEtBYBZoaz5GbMD5tGEgtp_zxpTrIYu9XV2ABubhBfH8m2vN_Djf9L6licsnqtF-kYQchL48X50jgJkHIuETpv0_g69Nh1HCxl0sx-4Y5egF18b7wIJbTrBcIoQ_m3Cpn7BkzSE.yxbHaI0lgQ8gKfy_I9HPIA",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "{{UserAgent}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"TxnDate\": \"2024-08-01T12:00:00Z\",\n    \"NameOf\": \"Employee\",\n    \"EmployeeRef\": { \"value\": \"1\" },\n    \"PayrollItemRef\": {\n      \"value\": \"626270109\"\n    },\n    \"CustomerRef\": {\n        \"value\": \"2\"\n    },\n    \"ProjectRef\": {\n        \"value\":\"416296152\"\n    },\n    \"ItemRef\": { \"value\": \"1\" },\n    \"Hours\": 8,\n    \"Minutes\": 0,\n    \"Description\": \"Construction:DailyWork\"\n  }"
+						},
+						"url": {
+							"raw": "https://{{baseurl}}/v3/company/{{companyid}}/timeactivity?minorversion={{minorversion}}",
+							"protocol": "https",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"v3",
+								"company",
+								"{{companyid}}",
+								"timeactivity"
+							],
+							"query": [
+								{
+									"key": "minorversion",
+									"value": "{{minorversion}}",
+									"description": "69"
+								}
+							]
+						},
+						"description": "Create a term object\nMethod : POST\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "TimeActivity-Create-Contractor(Vendor)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..dgT0i4NBZG2HMBsejZ5UAA.h-g_24jMacdF26qSEcmbRglshLe82cRgf40D2P6A1QP6j-fo590Yt1GBKUYNH-bMRsVIs1F9b6bzynDC6urERHLDQ5l2dpcKViajG6LE1NpbzX2X4-A7vFGQ-fSvQxo09e-DJxBHWseVTo0rzx7N1KOaH3wjwfAOHPGrIVq5YWx15d0fzqvcfz9wby9A8lcK8YcERKGHh4WDKQCD4ss9I5wkroJ38g5onratXpUi6so8bwUwPRSyLRWzFHxZnSlp9rFCU-fTfFQ1S4vRuo6o2KLayrUXxrgyZjhzLNeCwH-du5U_7TsRlsWN_dmW-RukjesL3VFqQ5BrgRkBpa1-0sc8rf2MfkEjjDMc9h4jtaHubZXO20VOE2ngjj8uuBoZPC_zj3jE_WdsokrcE5gRHfcvYh7kNBe4YN6sTCipLV7iEal5u6hKNJxmiJmK5ui2h9PNr6HGDA87z-CtIkPQ7fyI8S3mmR2SxpOmHR5FctxvJberECUOkCoFDBIeDH-oUzQm-8-d3vZ3uiDLTdk4CNpQragf5KruPSJJQBlJf3Tm7HjwKqOx0nRkWCEtBYBZoaz5GbMD5tGEgtp_zxpTrIYu9XV2ABubhBfH8m2vN_Djf9L6licsnqtF-kYQchL48X50jgJkHIuETpv0_g69Nh1HCxl0sx-4Y5egF18b7wIJbTrBcIoQ_m3Cpn7BkzSE.yxbHaI0lgQ8gKfy_I9HPIA",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "{{UserAgent}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": " {\n    \"TxnDate\": \"2024-08-01T12:00:00Z\",\n    \"NameOf\": \"Vendor\",\n    \"VendorRef\": { \"value\": \"5\" },\n    \"ItemRef\": { \"value\": \"1\" },\n    \"Hours\": 8,\n    \"Minutes\": 0,\n    \"Description\": \"Construction:DailyWork\"\n  }\n"
+						},
+						"url": {
+							"raw": "https://{{baseurl}}/v3/company/{{companyid}}/timeactivity?minorversion={{minorversion}}",
+							"protocol": "https",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"v3",
+								"company",
+								"{{companyid}}",
+								"timeactivity"
+							],
+							"query": [
+								{
+									"key": "minorversion",
+									"value": "{{minorversion}}",
+									"description": "69"
+								}
+							]
+						},
+						"description": "Create a term object\nMethod : POST\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "TimeActivity-Create-Contractor(Vendor)ToProject",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..dgT0i4NBZG2HMBsejZ5UAA.h-g_24jMacdF26qSEcmbRglshLe82cRgf40D2P6A1QP6j-fo590Yt1GBKUYNH-bMRsVIs1F9b6bzynDC6urERHLDQ5l2dpcKViajG6LE1NpbzX2X4-A7vFGQ-fSvQxo09e-DJxBHWseVTo0rzx7N1KOaH3wjwfAOHPGrIVq5YWx15d0fzqvcfz9wby9A8lcK8YcERKGHh4WDKQCD4ss9I5wkroJ38g5onratXpUi6so8bwUwPRSyLRWzFHxZnSlp9rFCU-fTfFQ1S4vRuo6o2KLayrUXxrgyZjhzLNeCwH-du5U_7TsRlsWN_dmW-RukjesL3VFqQ5BrgRkBpa1-0sc8rf2MfkEjjDMc9h4jtaHubZXO20VOE2ngjj8uuBoZPC_zj3jE_WdsokrcE5gRHfcvYh7kNBe4YN6sTCipLV7iEal5u6hKNJxmiJmK5ui2h9PNr6HGDA87z-CtIkPQ7fyI8S3mmR2SxpOmHR5FctxvJberECUOkCoFDBIeDH-oUzQm-8-d3vZ3uiDLTdk4CNpQragf5KruPSJJQBlJf3Tm7HjwKqOx0nRkWCEtBYBZoaz5GbMD5tGEgtp_zxpTrIYu9XV2ABubhBfH8m2vN_Djf9L6licsnqtF-kYQchL48X50jgJkHIuETpv0_g69Nh1HCxl0sx-4Y5egF18b7wIJbTrBcIoQ_m3Cpn7BkzSE.yxbHaI0lgQ8gKfy_I9HPIA",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "{{UserAgent}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": " {\n    \"TxnDate\": \"2024-08-01T12:00:00Z\",\n    \"NameOf\": \"Vendor\",\n    \"VendorRef\": { \"value\": \"5\" },\n    \"CustomerRef\": {\n        \"value\": \"2\"\n    },\n    \"ProjectRef\": {\n        \"value\":\"416296152\"\n    },\n    \"ItemRef\": { \"value\": \"1\" },\n    \"Hours\": 8,\n    \"Minutes\": 0,\n    \"Description\": \"Construction:DailyWork\"\n  }"
+						},
+						"url": {
+							"raw": "https://{{baseurl}}/v3/company/{{companyid}}/timeactivity?minorversion={{minorversion}}",
+							"protocol": "https",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"v3",
+								"company",
+								"{{companyid}}",
+								"timeactivity"
+							],
+							"query": [
+								{
+									"key": "minorversion",
+									"value": "{{minorversion}}",
+									"description": "69"
+								}
+							]
+						},
+						"description": "Create a term object\nMethod : POST\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "TimeActivity-Update",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..dgT0i4NBZG2HMBsejZ5UAA.h-g_24jMacdF26qSEcmbRglshLe82cRgf40D2P6A1QP6j-fo590Yt1GBKUYNH-bMRsVIs1F9b6bzynDC6urERHLDQ5l2dpcKViajG6LE1NpbzX2X4-A7vFGQ-fSvQxo09e-DJxBHWseVTo0rzx7N1KOaH3wjwfAOHPGrIVq5YWx15d0fzqvcfz9wby9A8lcK8YcERKGHh4WDKQCD4ss9I5wkroJ38g5onratXpUi6so8bwUwPRSyLRWzFHxZnSlp9rFCU-fTfFQ1S4vRuo6o2KLayrUXxrgyZjhzLNeCwH-du5U_7TsRlsWN_dmW-RukjesL3VFqQ5BrgRkBpa1-0sc8rf2MfkEjjDMc9h4jtaHubZXO20VOE2ngjj8uuBoZPC_zj3jE_WdsokrcE5gRHfcvYh7kNBe4YN6sTCipLV7iEal5u6hKNJxmiJmK5ui2h9PNr6HGDA87z-CtIkPQ7fyI8S3mmR2SxpOmHR5FctxvJberECUOkCoFDBIeDH-oUzQm-8-d3vZ3uiDLTdk4CNpQragf5KruPSJJQBlJf3Tm7HjwKqOx0nRkWCEtBYBZoaz5GbMD5tGEgtp_zxpTrIYu9XV2ABubhBfH8m2vN_Djf9L6licsnqtF-kYQchL48X50jgJkHIuETpv0_g69Nh1HCxl0sx-4Y5egF18b7wIJbTrBcIoQ_m3Cpn7BkzSE.yxbHaI0lgQ8gKfy_I9HPIA",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "{{UserAgent}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"TxnDate\": \"2024-08-01\",\n    \"NameOf\": \"Employee\",\n    \"EmployeeRef\": {\n      \"value\": \"1\"\n    },\n    \"ItemRef\": {\n      \"value\": \"2\",\n      \"name\": \"Hours\"\n    },\n    \"BillableStatus\": \"NotBillable\",\n    \"Taxable\": false,\n    \"HourlyRate\": 0,\n    \"StartTime\": \"2024-08-01T09:00:00-07:00\",\n    \"EndTime\": \"2024-08-01T18:00:00-07:00\",\n    \"domain\": \"QBO\",\n    \"sparse\": false,\n    \"Id\": \"6\",\n    \"SyncToken\": \"0\"\n  }"
+						},
+						"url": {
+							"raw": "https://{{baseurl}}/v3/company/{{companyid}}/timeactivity?minorversion={{minorversion}}",
+							"protocol": "https",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"v3",
+								"company",
+								"{{companyid}}",
+								"timeactivity"
+							],
+							"query": [
+								{
+									"key": "minorversion",
+									"value": "{{minorversion}}"
+								}
+							]
+						},
+						"description": "Update a term object\nMethod : POST\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "TimeActivity-ReadById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..dgT0i4NBZG2HMBsejZ5UAA.h-g_24jMacdF26qSEcmbRglshLe82cRgf40D2P6A1QP6j-fo590Yt1GBKUYNH-bMRsVIs1F9b6bzynDC6urERHLDQ5l2dpcKViajG6LE1NpbzX2X4-A7vFGQ-fSvQxo09e-DJxBHWseVTo0rzx7N1KOaH3wjwfAOHPGrIVq5YWx15d0fzqvcfz9wby9A8lcK8YcERKGHh4WDKQCD4ss9I5wkroJ38g5onratXpUi6so8bwUwPRSyLRWzFHxZnSlp9rFCU-fTfFQ1S4vRuo6o2KLayrUXxrgyZjhzLNeCwH-du5U_7TsRlsWN_dmW-RukjesL3VFqQ5BrgRkBpa1-0sc8rf2MfkEjjDMc9h4jtaHubZXO20VOE2ngjj8uuBoZPC_zj3jE_WdsokrcE5gRHfcvYh7kNBe4YN6sTCipLV7iEal5u6hKNJxmiJmK5ui2h9PNr6HGDA87z-CtIkPQ7fyI8S3mmR2SxpOmHR5FctxvJberECUOkCoFDBIeDH-oUzQm-8-d3vZ3uiDLTdk4CNpQragf5KruPSJJQBlJf3Tm7HjwKqOx0nRkWCEtBYBZoaz5GbMD5tGEgtp_zxpTrIYu9XV2ABubhBfH8m2vN_Djf9L6licsnqtF-kYQchL48X50jgJkHIuETpv0_g69Nh1HCxl0sx-4Y5egF18b7wIJbTrBcIoQ_m3Cpn7BkzSE.yxbHaI0lgQ8gKfy_I9HPIA",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "{{UserAgent}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{baseurl}}/v3/company/{{companyid}}/timeactivity/<timeactivityId>?minorversion={{minorversion}}",
+							"protocol": "https",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"v3",
+								"company",
+								"{{companyid}}",
+								"timeactivity",
+								"<timeactivityId>"
+							],
+							"query": [
+								{
+									"key": "minorversion",
+									"value": "{{minorversion}}"
+								}
+							]
+						},
+						"description": "Read a term object by Id\nMethod : GET\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "TimeActivity-Delete",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..dgT0i4NBZG2HMBsejZ5UAA.h-g_24jMacdF26qSEcmbRglshLe82cRgf40D2P6A1QP6j-fo590Yt1GBKUYNH-bMRsVIs1F9b6bzynDC6urERHLDQ5l2dpcKViajG6LE1NpbzX2X4-A7vFGQ-fSvQxo09e-DJxBHWseVTo0rzx7N1KOaH3wjwfAOHPGrIVq5YWx15d0fzqvcfz9wby9A8lcK8YcERKGHh4WDKQCD4ss9I5wkroJ38g5onratXpUi6so8bwUwPRSyLRWzFHxZnSlp9rFCU-fTfFQ1S4vRuo6o2KLayrUXxrgyZjhzLNeCwH-du5U_7TsRlsWN_dmW-RukjesL3VFqQ5BrgRkBpa1-0sc8rf2MfkEjjDMc9h4jtaHubZXO20VOE2ngjj8uuBoZPC_zj3jE_WdsokrcE5gRHfcvYh7kNBe4YN6sTCipLV7iEal5u6hKNJxmiJmK5ui2h9PNr6HGDA87z-CtIkPQ7fyI8S3mmR2SxpOmHR5FctxvJberECUOkCoFDBIeDH-oUzQm-8-d3vZ3uiDLTdk4CNpQragf5KruPSJJQBlJf3Tm7HjwKqOx0nRkWCEtBYBZoaz5GbMD5tGEgtp_zxpTrIYu9XV2ABubhBfH8m2vN_Djf9L6licsnqtF-kYQchL48X50jgJkHIuETpv0_g69Nh1HCxl0sx-4Y5egF18b7wIJbTrBcIoQ_m3Cpn7BkzSE.yxbHaI0lgQ8gKfy_I9HPIA",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "{{UserAgent}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Id\": \"6\",\n    \"SyncToken\": \"1\"\n}"
+						},
+						"url": {
+							"raw": "https://{{baseurl}}/v3/company/{{companyid}}/timeactivity?operation=delete",
+							"protocol": "https",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"v3",
+								"company",
+								"{{companyid}}",
+								"timeactivity"
+							],
+							"query": [
+								{
+									"key": "operation",
+									"value": "delete"
+								}
+							]
+						},
+						"description": "Delete a time-activity object by Id\nMethod : POST\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "TimeActivity-ReadAll",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "{{UserAgent}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "select * from timeactivity startposition 1 maxresults 5"
+						},
+						"url": {
+							"raw": "https://{{baseurl}}/v3/company/{{companyid}}/query?minorversion={{minorversion}}",
+							"protocol": "https",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"v3",
+								"company",
+								"{{companyid}}",
+								"query"
+							],
+							"query": [
+								{
+									"key": "minorversion",
+									"value": "{{minorversion}}"
+								}
+							]
+						},
+						"description": "Read all timeactivity objects using the 'Query' endpoint\nMethod : POST\n"
+					},
+					"response": []
+				}
+			],
+			"description": "https://developer.intuit.com/docs/api/accounting/timeactivity\n\nThe TimeActivity object represents a record of time worked by a vendor or employee.\n\n"
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "client_authentication",
+				"value": "body",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "Token",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "{{clientsecret-prd-alphademo}}",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "{{clientid-prd-alphademo}}",
+				"type": "string"
+			},
+			{
+				"key": "scope",
+				"value": "{{Scope_AllAphaScope}}",
+				"type": "string"
+			},
+			{
+				"key": "state",
+				"value": "{{$guid}}",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "{{token_endpoint}}",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "{{auth_endpoint}}",
+				"type": "string"
+			},
+			{
+				"key": "useBrowser",
+				"value": true,
+				"type": "boolean"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -1,0 +1,63 @@
+{
+	"id": "0b331d27-aa75-4f8a-ac2f-098f0f9e6de3",
+	"name": "QBO_Environment_PROD",
+	"values": [
+		{
+			"key": "ClientId",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "ClientSecret",
+			"value": "",
+			"type": "secret",
+			"enabled": true
+		},
+		{
+			"key": "Scope_AllAphaScope",
+			"value": "com.intuit.quickbooks.accounting project-management.project payroll.compensation.read app-foundations.custom-field-definitions",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "auth_endpoint",
+			"value": "https://appcenter.intuit.com/connect/oauth2",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "token_endpoint",
+			"value": "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "baseurl",
+			"value": "quickbooks.api.intuit.com",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "companyId",
+			"value": "9341452598184808",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "baseGQLUrl",
+			"value": "qb.api.intuit.com",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "minorversion",
+			"value": "73",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2024-08-14T20:29:55.382Z",
+	"_postman_exported_using": "Postman/10.4.6"
+}
