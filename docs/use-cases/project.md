@@ -20,7 +20,6 @@ These include a few transactions like -
 
 - Supported sales Transactions for your customers -
     - Estimate
-    - Project Cost Estimate
     - Invoice
     - Invoice payment
     - Sales Receipt
