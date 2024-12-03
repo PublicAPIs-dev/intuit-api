@@ -106,6 +106,35 @@ input ProjectManagement_UserInput {
 
 ### Qb_EmailAddressInput
 
+````
+input Qb_EmailAddressInput  {
+    """
+    full email address
+    """
+    email: String! #@pattern(regex: ".+@.+\\..+")
+    """
+    the name before @
+    """
+    name: String
+    """
+    domain address, part after @
+    """
+    domain: String
+    """
+    How this email address is used
+    """
+    variation: Common_ContactVariationInput
+    """
+    email verification
+    """
+    verification: Common_VerificationInput
+}
+
+````
+
+
+### Qb_PostalAddressInput
+
 ```
 
 input Qb_PostalAddressInput { 
