@@ -7,7 +7,7 @@ parent: Schema Entities
 
 ## Project
 
-The APIs related to the Project entity allow you to manage and track projects. The Project API provides support for create, read, update, delete, and recover operations. You can also add transactions to your project by configuring the ID for the project while creating the transaction.
+The APIs related to the Project entity allow you to manage and track projects. The Project API provides support for create, read, update, delete operations. You can also add transactions to your project by configuring the ID for the project while creating the transaction.
 
 ### Operations supported for Project                
                                               
