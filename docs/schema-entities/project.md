@@ -30,6 +30,8 @@ To do this you can make use of the "ProjectRef" field in the V3 entity which is 
 - Credit Memo
 - Refund Receipt
 - Sales Receipt
+- Vendor Credit
+- Journal Entry
                                                                                                                            
 ### ProjectRef                                                                                                                       
 Developer docs for reference: https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/invoice 
@@ -70,7 +72,6 @@ enum ProjectManagement_Status {
     BLOCKED
     CANCELED
     COMPLETE
-    OTHER
 }
 ```
  

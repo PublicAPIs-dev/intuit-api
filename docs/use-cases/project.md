@@ -25,6 +25,8 @@ These include a few transactions like -
     - Sales Receipt
     - Refund Receipt
     - Credit Memo
+    - Vendor Credit
+    - Journal Entry
    
 - Supported purchase transactions for your vendors -     
     - Bill
@@ -234,6 +236,258 @@ Response:
     "time": "2024-06-26T09:20:16.310-07:00"
 }
 ```
+Sample Vendor Credit creation with "ProjectRef" at line level:
+```
+{
+  "TotalAmt": 90.0, 
+  "TxnDate": "2025-1-23", 
+  "Line": [
+    {
+      "DetailType": "AccountBasedExpenseLineDetail", 
+      "Amount": 90.0, 
+      "ProjectRef": {
+        "value": "435514740"
+      }, 
+      "Id": "1", 
+      "AccountBasedExpenseLineDetail": {
+        "TaxCodeRef": {
+          "value": "TAX"
+        }, 
+        "AccountRef": {
+      
+          "value": "2"
+        }, 
+        "BillableStatus": "Billable", 
+        "CustomerRef": {
+    
+          "value": "1"
+        }
+      }
+    }
+  ], 
+  "APAccountRef": {
+    "name": "Accounts Payable (A/P)", 
+    "value": "1150040000"
+  }, 
+  "VendorRef": {
 
+    "value": "5"
+  }
+}
+```
+Response:
+```
+{
+    "VendorCredit": {
+        "VendorAddr": {
+            "Id": "6"
+        },
+        "Balance": 90.00,
+        "domain": "QBO",
+        "sparse": false,
+        "Id": "16",
+        "SyncToken": "0",
+        "MetaData": {
+            "CreateTime": "2025-04-16T09:53:41-07:00",
+            "LastUpdatedTime": "2025-04-16T09:53:41-07:00"
+        },
+        "TxnDate": "2025-04-16",
+        "CurrencyRef": {
+            "value": "USD",
+            "name": "United States Dollar"
+        },
+        "LinkedTxn": [
+            {
+                "TxnId": "17",
+                "TxnType": "ReimburseCharge"
+            }
+        ],
+        "Line": [
+            {
+                "Id": "1",
+                "LineNum": 1,
+                "Amount": 90.00,
+                "LinkedTxn": [
+                    {
+                        "TxnId": "17",
+                        "TxnType": "ReimburseCharge"
+                    }
+                ],
+                "DetailType": "AccountBasedExpenseLineDetail",
+                "AccountBasedExpenseLineDetail": {
+                    "CustomerRef": {
+                        "value": "1",
+                        "name": "Test Customer"
+                    },
+                    "AccountRef": {
+                        "value": "2",
+                        "name": "Uncategorized Expense"
+                    },
+                    "BillableStatus": "Billable",
+                    "TaxCodeRef": {
+                        "value": "TAX"
+                    }
+                }
+            }
+        ],
+        "VendorRef": {
+            "value": "5",
+            "name": "Test Vendor"
+        },
+        "APAccountRef": {
+            "value": "1150040000",
+            "name": "AP"
+        },
+        "TotalAmt": 90.00
+    },
+    "time": "2025-04-16T09:53:40.894-07:00"
+}
+```
 
+Sample Journal Entry creation with ProjectRef at line Level:
+```
+{
+  "Line": [ 
+    {
+      "JournalEntryLineDetail": {
+        "PostingType": "Credit", 
+        "AccountRef": {
+          "name": "Uncategorized Asset", 
+          "value": "4"
+        }, 
+      "Entity": {
+            "Type": "Customer", 
+            "EntityRef": {
+              "value": "1"
+        }
+      }
+      },
+      "ProjectRef": {
+          "value": "435515005"
+        },
+      "DetailType": "JournalEntryLineDetail", 
+      "Amount": 100.0, 
+      "Description": "nov portion of rider insurance"
+    },
+    {
+      "JournalEntryLineDetail": {
+        "PostingType": "Debit", 
+        "AccountRef": {
+          "name": "Uncategorized Expense", 
+          "value": "3"
+        }, 
+        "Entity": {
+            "Type": "Customer", 
+            "EntityRef": {
+              "value": "1"
+        }
+      }
+    },
+    "ProjectRef": {
+          "value": "435515005"
+        },
+      "DetailType": "JournalEntryLineDetail", 
+      "Amount": 200.0, 
+      "Id": "0", 
+      "Description": "nov portion of rider insurance"
+    }, 
+    {
+      "JournalEntryLineDetail": {
+        "PostingType": "Credit", 
+        "AccountRef": {
+          "name": "Uncategorized Asset", 
+          "value": "4"
+        }, 
+      "Entity": {
+            "Type": "Customer", 
+            "EntityRef": {
+
+              "value": "1"
+        }
+      }
+      },
+      "ProjectRef": {
+          "value": "435515005"
+        },
+      "DetailType": "JournalEntryLineDetail", 
+      "Amount": 100.0, 
+      "Description": "nov portion of rider insurance"
+    }
+  ]
+}
+```
+
+Response:
+```
+{
+    "JournalEntry": {
+        "Adjustment": false,
+        "TotalAmt": 0,
+        "domain": "QBO",
+        "sparse": false,
+        "Id": "18",
+        "SyncToken": "0",
+        "MetaData": {
+            "CreateTime": "2025-04-16T10:36:10-07:00",
+            "LastUpdatedTime": "2025-04-16T10:36:10-07:00"
+        },
+        "TxnDate": "2025-04-16",
+        "CurrencyRef": {
+            "value": "USD",
+            "name": "United States Dollar"
+        },
+        "Line": [
+            {
+                "Id": "0",
+                "Description": "nov portion of rider insurance",
+                "Amount": 100.00,
+                "DetailType": "JournalEntryLineDetail",
+                "JournalEntryLineDetail": {
+                    "PostingType": "Credit",
+                    "AccountRef": {
+                        "value": "4",
+                        "name": "Billable Expense Income"
+                    }
+                },
+                "ProjectRef": {
+                    "value": "435515005"
+                }
+            },
+            {
+                "Id": "1",
+                "Description": "nov portion of rider insurance",
+                "Amount": 200.00,
+                "DetailType": "JournalEntryLineDetail",
+                "JournalEntryLineDetail": {
+                    "PostingType": "Debit",
+                    "AccountRef": {
+                        "value": "3",
+                        "name": "Uncategorized Asset"
+                    }
+                },
+                "ProjectRef": {
+                    "value": "435515005"
+                }
+            },
+            {
+                "Id": "2",
+                "Description": "nov portion of rider insurance",
+                "Amount": 100.00,
+                "DetailType": "JournalEntryLineDetail",
+                "JournalEntryLineDetail": {
+                    "PostingType": "Credit",
+                    "AccountRef": {
+                        "value": "4",
+                        "name": "Billable Expense Income"
+                    }
+                },
+                "ProjectRef": {
+                    "value": "435515005"
+                }
+            }
+        ]
+    },
+    "time": "2025-04-16T10:36:09.960-07:00"
+}
+```
 
