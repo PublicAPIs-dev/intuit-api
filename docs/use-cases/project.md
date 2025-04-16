@@ -94,8 +94,8 @@ Refer to the [V3 developer docs](https://developer.intuit.com/app/developer/qbo/
          
 ![](/intuit-api/assets/images/ProjectRef.png) 
 
-
-Sample Invoice creation using "ProjectRef" (from minorVersion=69):
+Sample Request/Response payloads
+1. Invoice creation using "ProjectRef" (from minorVersion=69):
 
 ```
 {
@@ -236,7 +236,7 @@ Response:
     "time": "2024-06-26T09:20:16.310-07:00"
 }
 ```
-Sample Vendor Credit creation with "ProjectRef" at line level:
+2. Sample Vendor Credit creation with "ProjectRef" at line level:
 ```
 {
   "TotalAmt": 90.0, 
@@ -344,7 +344,7 @@ Response:
 }
 ```
 
-Sample Journal Entry creation with ProjectRef at line Level:
+3. Sample Journal Entry creation with ProjectRef at line Level:
 ```
 {
   "Line": [ 
