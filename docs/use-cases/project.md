@@ -94,7 +94,7 @@ Refer to the [V3 developer docs](https://developer.intuit.com/app/developer/qbo/
          
 ![](/intuit-api/assets/images/ProjectRef.png) 
 
-Sample Request/Response payloads
+##### Sample Request/Response payloads:
 1. Invoice creation using "ProjectRef" (from minorVersion=69):
 
 ```
