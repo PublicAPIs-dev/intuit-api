@@ -61,6 +61,8 @@ Developer docs for reference: https://developer.intuit.com/app/developer/qbo/doc
 | pinned            | Boolean                                    | No            | Pinned is used to tell if a project should be shown at the top of the projects list above those that are not pinned.                    |
 | emailAddress      | [Qb_EmailAddressInput]                     | No            | The email address of the project.                                                                                                       |
 | addresses         | [Qb_PostalAddressInput]                    | No            | The addresses of the project.                                                                                                           |
+| externalReferences         | ProjectManagement_ExternalReferenceInput                    | No            | The external reference associated with a project the user wants to navigate to or take an action on   |
+
 
 ### ProjectManagement_Status
 ```
@@ -229,6 +231,21 @@ input Qb_PostalAddressInput {
     Capture the intention of this postal address
     """
     variation: Common_ContactVariationInput
+}
+
+```
+
+
+### ProjectManagement_ExternalReferenceInput
+
+```
+input ProjectManagement_ExternalReferenceInput {
+   """ Identifies the external reference """
+    externalReferenceId: ID
+     """ A constant key the external reference can be identified with. For custom field values externalKey = CUSTOM_FIELDS """
+    externalKey: String
+    """ Any additional information related to the external reference. Will contain the custom field values in json format if externalKey = CUSTOM_FIELDS """
+    externalBlob: JSON
 }
 
 ```
@@ -957,7 +974,8 @@ mutation ProjectManagementCreateProject($name: String!,
     $pinned: Boolean,
     $completionRate: Decimal,
     $emailAddress: [Qb_EmailAddressInput],
-    $addresses: [Qb_PostalAddressInput]
+    $addresses: [Qb_PostalAddressInput],
+    $externalReferences: [ProjectManagement_ExternalReferenceInput]
 ) {
   projectManagementCreateProject(input:{
     name: $name,
@@ -972,6 +990,7 @@ mutation ProjectManagementCreateProject($name: String!,
     completionRate: $completionRate,
     emailAddress: $emailAddress,
     addresses: $addresses,
+    externalReferences: $externalReferences
   }
     )
     {
@@ -1002,9 +1021,14 @@ mutation ProjectManagementCreateProject($name: String!,
             streetAddressLine3
             state,
             postalCode
-        }   
-      }
         }
+        externalReferences {       
+            externalReferenceId,
+            externalKey,  
+            externalBlob     
+        }  
+      }
+     }
     }
 }
 ```
@@ -1051,7 +1075,15 @@ Sample Variables:
             "Common_Ordinal": "PRIMARY"
         }
        }
-   ]
+   ],
+    "externalReferences": {
+    "externalKey": "CUSTOM_FIELDS",
+    "externalBlob": {
+      "QBO": {
+        "udcf_1000000008": "testing"
+      }
+    }
+  },
   }
   
 ```
@@ -1095,6 +1127,17 @@ Sample response:
                     "streetAddressLine3": null,
                     "state": "California",
                     "postalCode": "94114"
+                }
+            ],
+            "externalReferences": [
+                {
+                    "externalReferenceId": "456282863",
+                    "externalKey": "CUSTOM_FIELDS",
+                    "externalBlob": {
+                        "QBO": {
+                            "udcf_1000000008": "testing"
+                        }
+                    }
                 }
             ]
         }
